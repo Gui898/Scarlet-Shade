@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "Osake";
+    src: url("../assets/fonts/osake/Osake.otf");
+}
+
+:root{
+    --button-color: #800000;
+    --secondary-color: #b22222;
+    --border-color: #4b0000;
+    --text-color: #0f0f0f;
+    --text-shadow: 5px 10px 10px rgba(59, 59, 59, 0.8);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Osake", sans-serif;
+    height: 100vh;
+}
+
+@keyframes fogAnimation {
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fade {
+  0%   { opacity: 0; transform: scale(1.05); }
+  10%  { opacity: 1; transform: scale(1); }
+  30%  { opacity: 1; }
+  40%  { opacity: 0; transform: scale(0.98); }
+}
