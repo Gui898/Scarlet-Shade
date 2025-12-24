@@ -1,3 +1,4 @@
+### Spring ###
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -30,3 +31,22 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Node ###
+frontend/scarlet_shade/node_modules
+
+### Output ###
+frontend/scarlet_shade/.output
+frontend/scarlet_shade/.vercel
+frontend/scarlet_shade/.netlify
+frontend/scarlet_shade/.wrangler
+frontend/scarlet_shade/.svelte-kit
+frontend/scarlet_shade/build
+
+### Vite ###
+frontend/scarlet_shade/vite.config.js.timestamp-*
+frontend/scarlet_shade/vite.config.ts.timestamp-*
+
+### Operational System ###
+.DS_Store
+Thumbs.db

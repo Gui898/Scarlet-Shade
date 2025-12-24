@@ -1,0 +1,11 @@
+{
+  "name": "scalet-shade",
+
+  "private": true,
+  
+  "scripts": {
+    "dev": "npm run dev --prefix frontend/scarlet_shade",
+    "build": "npm run build --prefix frontend/scarlet_shade",
+    "preview": "npm run preview --prefix frontend/scarlet_shade"
+  }
+}

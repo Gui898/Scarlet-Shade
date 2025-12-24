@@ -1,37 +1,49 @@
-@import url("./commum.css");
 
 body {
-    background-image: url("/frontend/assets/images/backgroundImages/back.PNG");
+    background-image: url("$assets/images/backgroundImages/back.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     font-size: 3rem;
+
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: stretch; 
     padding: 1em 1.5em;
     overflow: hidden;
     box-shadow: inset 0 10px 10px 5px rgba(0, 0, 0, 0.4);
+    min-height: 100vh; 
 }
 
 .title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-shadow: var(--text-shadow);
+    position: absolute;
+    top: 10%;               
+    left: 35%;
+    transform: translateX(-50%); 
+    text-align: center;
+    z-index: 10;           
 }
 
-h1 {
+.title h1 {
     color: var(--text-color);
-    font-size: 6rem;
+    font-size: 9rem;       
     font-weight: 600;
+    text-shadow: var(--text-shadow);
+    margin: 0;
+    line-height: 1;
 }
 
 .left_side {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end; 
+    align-items: flex-start;   
+    flex: 0 0 auto; 
+    max-width: 40%; 
+    padding: 3em;              
+    box-sizing: border-box;
+    height: 100%;              
+    z-index: 20;               
 }
 
 .options {
@@ -39,10 +51,11 @@ h1 {
     flex-direction: column;
     gap: 1em;
     margin-top: 1em;
+    width: 100%; 
 }
 
 .main_buttons {
-    background-image: url("../assets/images/textures/crack.png");
+    background-image: url("$assets/images/textures/crack.png");
     background-size: cover;
     background-repeat: repeat-x;
     background-position: center;
@@ -54,6 +67,12 @@ h1 {
     font-size: 2.5rem;
     transition: 0.3s ease-in-out;
     text-shadow: 5px 10px 10px rgba(15, 15, 15, 0.8);
+    width: 100%; 
+    text-align: center;
+    padding: 0.6em 1.5em;      
+    font-size: 3.5rem;         
+    min-width: 350px;          
+    cursor: pointer;
 }
 
 .main_buttons:hover {
@@ -65,28 +84,24 @@ h1 {
 
 .right_side {
     position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    width: 40%; 
+    height: 100%; 
+    overflow: visible; 
 }
 
 .samurai__Image {
     position: absolute;
-    inset: 0;
-    /* mesma posição exata */
-    top: 0;
-    left: 3%;
+    bottom: -8%;       
+    right: 3%;       
+    width: 12em;
     object-fit: cover;
     opacity: 0;
-    width: 12em;
-    margin-left: 3em;
-    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    mask-image: linear-gradient(to top, transparent 58%, black 80%, transparent 150%);
+    filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.5));
     animation: fade 15s infinite;
+    mask-image: linear-gradient(to top, black 0%, black 100%);
 }
 
 .img1 {
-    mask-image: linear-gradient(to top, transparent 36%, black 80%, transparent 150%);
     animation-delay: 0s;
 }
 

@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Osake";
-    src: url("../assets/fonts/osake/Osake.otf");
+    src: url("$assets/fonts/osake/Osake.otf");
 }
 
 :root{
