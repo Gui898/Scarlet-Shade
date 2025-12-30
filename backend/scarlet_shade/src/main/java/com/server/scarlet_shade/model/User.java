@@ -1,5 +1,8 @@
 package com.server.scarlet_shade.model;
 
+import com.server.scarlet_shade.model.controls.GamepadControls;
+import com.server.scarlet_shade.model.controls.KeyboardControls;
+import com.server.scarlet_shade.model.player.Slot;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -31,25 +36,36 @@ public class User {
     private String password;
 
     @Column(name = "soundtrack", nullable = false)
-    private BigDecimal soundtrack;
+    private BigDecimal soundtrack = BigDecimal.valueOf(0.3);
 
     @Column(name = "sound_effect", nullable = false)
-    private BigDecimal soundEffects;
+    private BigDecimal soundEffects = BigDecimal.valueOf(0.5);
 
-    public User(String username, String email, String password, BigDecimal soundtrack, BigDecimal soundEffects){
+    @OneToOne(mappedBy = "user")
+    private KeyboardControls keyboardControls;
+
+    @OneToOne(mappedBy = "user")
+    private GamepadControls gamepadControls;
+
+    @OneToMany(mappedBy = "user")
+    private List<Slot> slots = new ArrayList<>();
+
+    public User(String username, String email, String password, BigDecimal soundtrack, BigDecimal soundEffects, KeyboardControls keyboardControls, GamepadControls gamepadControls) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.soundtrack = soundtrack;
         this.soundEffects = soundEffects;
+        this.keyboardControls = keyboardControls;
+        this.gamepadControls = gamepadControls;
     }
 
     public User(String username, String email, String password){
         this.username = username;
         this.email = email;
         this.password = password;
-        this.soundtrack = BigDecimal.valueOf(0.3);
-        this.soundEffects = BigDecimal.valueOf(0.5);
+        this.keyboardControls = new KeyboardControls();
+        this.gamepadControls = new GamepadControls();
     }
 
 }
