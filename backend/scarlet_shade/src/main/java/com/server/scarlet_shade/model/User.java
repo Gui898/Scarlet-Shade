@@ -36,12 +36,20 @@ public class User {
     @Column(name = "sound_effect", nullable = false)
     private BigDecimal soundEffects;
 
-    public User(String username, String email, String password, BigDecimal soundtrack, BigDecimal soundEffects){
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private KeyboardControls keyboardControls;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private GamepadControls gamepadControls;
+
+    public User(String username, String email, String password, BigDecimal soundtrack, BigDecimal soundEffects, KeyboardControls keyboardControls, GamepadControls gamepadControls) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.soundtrack = soundtrack;
         this.soundEffects = soundEffects;
+        this.keyboardControls = keyboardControls;
+        this.gamepadControls = gamepadControls;
     }
 
     public User(String username, String email, String password){
@@ -50,6 +58,8 @@ public class User {
         this.password = password;
         this.soundtrack = BigDecimal.valueOf(0.3);
         this.soundEffects = BigDecimal.valueOf(0.5);
+        this.keyboardControls = new KeyboardControls();
+        this.gamepadControls = new GamepadControls();
     }
 
 }
