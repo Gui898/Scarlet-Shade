@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.model;
+package com.server.scarlet_shade.model.player;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,9 +22,12 @@ public class Yokai {
     @Column(name = "name_yokai", nullable = false)
     private String nameYokai;
 
-    //private Slot slot;
+    @ManyToOne
+    @JoinColumn(name = "id_slot")
+    private Slot slot;
 
-    public Yokai(String nameYokai) {
+    public Yokai(String nameYokai, Slot slot) {
         this.nameYokai = nameYokai;
+        this.slot = slot;
     }
 }

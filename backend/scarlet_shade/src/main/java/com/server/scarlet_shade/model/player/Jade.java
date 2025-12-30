@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.model;
+package com.server.scarlet_shade.model.player;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,10 +22,12 @@ public class Jade {
     @Column(name = "name_jade", nullable = false)
     private String nameJade;
 
-    //private Slot slot;
+    @ManyToOne
+    @JoinColumn(name = "id_slot")
+    private Slot slot;
 
-
-    public Jade(String nameJade) {
+    public Jade(String nameJade, Slot slot) {
         this.nameJade = nameJade;
+        this.slot = slot;
     }
 }

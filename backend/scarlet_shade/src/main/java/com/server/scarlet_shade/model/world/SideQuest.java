@@ -1,5 +1,6 @@
-package com.server.scarlet_shade.model;
+package com.server.scarlet_shade.model.world;
 
+import com.server.scarlet_shade.model.player.Slot;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +26,13 @@ public class SideQuest {
     @Column(name = "status_side_quest", nullable = false)
     private String statusSideQuest;
 
-    //private Slot slot
+    @ManyToOne
+    @JoinColumn(name = "id_slot")
+    private Slot slot;
 
-    public SideQuest(String nameSideQuest, String statusSideQuest) {
+    public SideQuest(String nameSideQuest, String statusSideQuest, Slot slot) {
         this.nameSideQuest = nameSideQuest;
         this.statusSideQuest = statusSideQuest;
+        this.slot = slot;
     }
 }

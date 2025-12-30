@@ -1,5 +1,6 @@
-package com.server.scarlet_shade.model;
+package com.server.scarlet_shade.model.controls;
 
+import com.server.scarlet_shade.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
