@@ -1,3 +1,4 @@
+@import url("commum.css");
 
 body {
     background-image: url("$assets/images/backgroundImages/back.png");
@@ -15,18 +16,13 @@ body {
     min-height: 100vh; 
 }
 
-.title {
-    position: absolute;
-    top: 10%;               
-    left: 35%;
-    transform: translateX(-50%); 
+.title{
     text-align: center;
-    z-index: 10;           
 }
 
 .title h1 {
     color: var(--text-color);
-    font-size: 9rem;       
+    font-size: 8rem;       
     font-weight: 600;
     text-shadow: var(--text-shadow);
     margin: 0;
@@ -36,19 +32,18 @@ body {
 .left_side {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; 
-    align-items: flex-start;   
-    flex: 0 0 auto; 
+    justify-content: center;
+    align-items: center;   
     max-width: 40%; 
-    padding: 3em;              
-    box-sizing: border-box;
-    height: 100%;              
+    padding: 2em;              
+    box-sizing: border-box;             
     z-index: 20;               
 }
 
 .options {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1em;
     margin-top: 1em;
     width: 100%; 
@@ -59,19 +54,17 @@ body {
     background-size: cover;
     background-repeat: repeat-x;
     background-position: center;
-    padding: 0.5em 1em;
+    width: fit-content;
+    min-width: 350px;
     background-color: var(--button-color);
     border: 4px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 16px;
     font-family: "Osake", sans-serif;
     font-size: 2.5rem;
     transition: 0.3s ease-in-out;
-    text-shadow: 5px 10px 10px rgba(15, 15, 15, 0.8);
-    width: 100%; 
+    text-shadow: 5px 10px 10px rgba(15, 15, 15, 0.8); 
     text-align: center;
-    padding: 0.6em 1.5em;      
-    font-size: 3.5rem;         
-    min-width: 350px;          
+    padding: 0.6em 1.5em;              
     cursor: pointer;
 }
 
@@ -91,9 +84,9 @@ body {
 
 .samurai__Image {
     position: absolute;
-    bottom: -8%;       
+    bottom: -10%;       
     right: 3%;       
-    width: 12em;
+    width: 9em;
     object-fit: cover;
     opacity: 0;
     filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.5));
