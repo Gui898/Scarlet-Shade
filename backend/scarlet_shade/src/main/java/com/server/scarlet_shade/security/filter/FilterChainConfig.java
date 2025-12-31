@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.security;
+package com.server.scarlet_shade.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,6 +11,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.server.scarlet_shade.security.token.JWTUserData;
+import com.server.scarlet_shade.security.token.TokenConfig;
 
 import java.io.IOException;
 import java.util.List;

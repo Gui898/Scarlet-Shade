@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.security;
+package com.server.scarlet_shade.security.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.security;
+package com.server.scarlet_shade.security.filter;
 
 import lombok.RequiredArgsConstructor;
 

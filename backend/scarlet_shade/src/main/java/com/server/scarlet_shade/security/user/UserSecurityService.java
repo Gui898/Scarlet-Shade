@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.security;
+package com.server.scarlet_shade.security.user;
 
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.repository.UserRepository;

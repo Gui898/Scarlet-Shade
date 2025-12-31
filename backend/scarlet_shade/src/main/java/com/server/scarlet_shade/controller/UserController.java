@@ -7,8 +7,8 @@ import com.server.scarlet_shade.dto.requests.UserRegisterRequest;
 import com.server.scarlet_shade.dto.responses.UserResponse;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.repository.UserRepository;
-import com.server.scarlet_shade.security.TokenConfig;
-import com.server.scarlet_shade.security.UserSecurity;
+import com.server.scarlet_shade.security.token.TokenConfig;
+import com.server.scarlet_shade.security.user.UserSecurity;
 
 import lombok.RequiredArgsConstructor;
 
