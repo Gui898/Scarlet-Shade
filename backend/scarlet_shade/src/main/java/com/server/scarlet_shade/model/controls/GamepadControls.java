@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "gamepad_control")
 public class GamepadControls extends Controls {
