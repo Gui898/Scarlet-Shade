@@ -1,7 +1,7 @@
 package com.server.scarlet_shade.model.item;
 
 import com.server.scarlet_shade.model.player.Slot;
-import com.server.scarlet_shade.utils.TypeItem;
+import com.server.scarlet_shade.utils.enumerator.TypeItem;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

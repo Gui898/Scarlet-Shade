@@ -1,6 +1,13 @@
 package com.server.scarlet_shade.model.player;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,24 +27,24 @@ public class Player {
     private Long id;
 
     @Column(name = "damage", nullable = false)
-    private Integer damage;
+    private Integer damage = 5;
 
     @Column(name = "speed", nullable = false)
-    private Integer speed;
+    private Integer speed = 5;
 
     @Column(name = "life", nullable = false)
-    private Integer life;
+    private Integer life = 100;
 
     @Column(name = "max_life", nullable = false)
-    private Integer maxLife;
+    private Integer maxLife = 100;
 
     @Column(name = "money", nullable = false)
-    private Integer money;
+    private Integer money = 0;
 
-    @Column(name = "element", nullable = false)
+    @Column(name = "element")
     private String element;
 
-    @Column(name = "current_yokai", nullable = false)
+    @Column(name = "current_yokai")
     private String currentYokai;
 
     @OneToOne
@@ -53,5 +60,15 @@ public class Player {
         this.element = element;
         this.currentYokai = currentYokai;
         this.slot = slot;
+    }
+
+    public Player(Integer damage, Integer speed, Integer life, Integer maxLife, Integer money, String element, String currentYokai) {
+        this.damage = damage;
+        this.speed = speed;
+        this.life = life;
+        this.maxLife = maxLife;
+        this.money = money;
+        this.element = element;
+        this.currentYokai = currentYokai;
     }
 }

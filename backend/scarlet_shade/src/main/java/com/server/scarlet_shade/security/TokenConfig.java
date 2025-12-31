@@ -17,12 +17,16 @@ public class TokenConfig {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${spring.application.name}")
+    private String serverName;
+
     public String generateToken(User user){
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
         return JWT.create()
                 .withClaim("userId", user.getId())
+                .withIssuer(serverName)
                 .withSubject(user.getUsername())
                 .withExpiresAt(Instant.now().plusSeconds(864000))
                 .withIssuedAt(Instant.now())
@@ -33,16 +37,15 @@ public class TokenConfig {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            DecodedJWT decode = JWT.require(algorithm).build().verify(token);
+            DecodedJWT decode = JWT.require(algorithm)
+                .withIssuer(serverName).build().verify(token);
 
             return Optional.of(JWTUserData.builder()
                     .userId(decode.getClaim("userId").asLong())
                     .username(decode.getSubject()).build());
-        }catch (JWTVerificationException e){
+        }
+        catch (JWTVerificationException e){
             return Optional.empty();
         }
     }
-
-
-
 }

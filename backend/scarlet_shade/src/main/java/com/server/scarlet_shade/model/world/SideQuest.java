@@ -1,7 +1,18 @@
 package com.server.scarlet_shade.model.world;
 
 import com.server.scarlet_shade.model.player.Slot;
-import jakarta.persistence.*;
+import com.server.scarlet_shade.utils.enumerator.StatusSideQuest;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,16 +34,22 @@ public class SideQuest {
     @Column(name = "name_side_quest", nullable = false)
     private String nameSideQuest;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status_side_quest", nullable = false)
-    private String statusSideQuest;
+    private StatusSideQuest statusSideQuest = StatusSideQuest.PROGRESS;
 
     @ManyToOne
     @JoinColumn(name = "id_slot")
     private Slot slot;
 
-    public SideQuest(String nameSideQuest, String statusSideQuest, Slot slot) {
+    public SideQuest(String nameSideQuest, StatusSideQuest statusSideQuest, Slot slot) {
         this.nameSideQuest = nameSideQuest;
         this.statusSideQuest = statusSideQuest;
         this.slot = slot;
+    }
+
+    public SideQuest(String nameSideQuest, StatusSideQuest statusSideQuest) {
+        this.nameSideQuest = nameSideQuest;
+        this.statusSideQuest = statusSideQuest;
     }
 }

@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.utils;
+package com.server.scarlet_shade.utils.enumerator;
 
 public enum TypeItem {
     SWORD,

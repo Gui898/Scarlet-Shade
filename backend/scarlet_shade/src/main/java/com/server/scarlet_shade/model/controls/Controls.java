@@ -1,7 +1,14 @@
 package com.server.scarlet_shade.model.controls;
 
 import com.server.scarlet_shade.model.User;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -81,5 +88,22 @@ public abstract class Controls {
         this.selectItem = selectItem;
         this.useItem = useItem;
         this.user = user;
+    }
+
+    public Controls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveOTwo, String menuAccess, String selectItem, String useItem) {
+        this.moveUp = moveUp;
+        this.moveDown = moveDown;
+        this.moveLeft = moveLeft;
+        this.moveRight = moveRight;
+        this.jump = jump;
+        this.dash = dash;
+        this.crouch = crouch;
+        this.attack = attack;
+        this.spinAttack = spinAttack;
+        this.especialMoveOne = especialMoveOne;
+        this.especialMoveOTwo = especialMoveOTwo;
+        this.menuAccess = menuAccess;
+        this.selectItem = selectItem;
+        this.useItem = useItem;
     }
 }

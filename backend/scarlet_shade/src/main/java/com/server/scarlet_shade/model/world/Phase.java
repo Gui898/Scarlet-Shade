@@ -1,6 +1,6 @@
 package com.server.scarlet_shade.model.world;
 
-import com.server.scarlet_shade.utils.StatusPhase;
+import com.server.scarlet_shade.utils.enumerator.StatusPhase;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
