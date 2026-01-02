@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.exception;
+package com.server.scarlet_shade.exception.user;
 
 public class UserInvalidValuesException extends RuntimeException {
 
