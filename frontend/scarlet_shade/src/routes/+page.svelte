@@ -42,13 +42,12 @@
     }
 
     function animateButtons(changeForm){
-        buttonRegister.style.transform = "translateX(5000px)";
-        buttonRegister.style.transition = "4s ease-in-out";
-        
+        buttonRegister.style.setProperty("--tx", "5000px");
+        buttonRegister.style.setProperty("--t", "4s");
         
         setTimeout(() => {
-            buttonLogin.style.transform = "translateX(5000px)";
-            buttonLogin.style.transition = "3.8s ease-in-out";
+            buttonLogin.style.setProperty("--tx", "5000px");
+            buttonLogin.style.setProperty("--t", "4s");
         }, 200);
 
         setTimeout(() => {
@@ -63,8 +62,10 @@
         optionLogin.style.display = "none";
         optionRegister.style.display = "none";
         optionButton.style.display = "flex";
-        buttonLogin.style.transform = "translateX(0)";
-        buttonRegister.style.transform = "translateX(0)";
+        buttonLogin.style.setProperty("--tx", "0px");
+        buttonRegister.style.setProperty("--tx", "0px");
+        buttonLogin.style.setProperty("--t", "0.4s");
+        buttonRegister.style.setProperty("--t", "0.4s");
     }
 
 </script>

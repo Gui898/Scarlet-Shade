@@ -119,11 +119,14 @@ button {
     margin: 0.3em;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+    --tx: 0px;
+    --t: 0.4s;
+    transform: translateX(var(--tx)) scale(1);
+    transition: transform var(--t) ease-in-out;
 }
 
 button:hover {
-    transform: scale(1.5);
-    transition: 0.4s ease-in-out;
+    transform: translateX(var(--tx)) scale(1.5);
     color: #800000;
 }
 

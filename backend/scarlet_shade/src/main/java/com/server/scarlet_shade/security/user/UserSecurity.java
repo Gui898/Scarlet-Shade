@@ -15,11 +15,6 @@ public class UserSecurity implements UserDetails {
     private final User user;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
     public String getPassword() {
         return user.getPassword();
     }
@@ -29,6 +24,11 @@ public class UserSecurity implements UserDetails {
         return user.getUsername();
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+    
     @Override
     public boolean isAccountNonExpired() {
         return true;
