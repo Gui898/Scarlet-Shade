@@ -1,0 +1,150 @@
+@import url("../style.css");
+
+body {
+    background-image: var(--inital-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 3rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 1em 1.5em 0em 1.5em;
+    overflow: hidden;
+    box-shadow: inset 0 10px 10px 5px rgba(0, 0, 0, 0.4);
+    min-height: 100vh;
+}
+
+.back_arrow {
+    position: absolute;
+    top: -0.2em;
+    left: 0.2em;
+    font-size: 5rem;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    text-shadow: var(--text-shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.back_arrow:hover {
+    transform: scale(1.5);
+    color: var(--carmin-color);
+}
+
+
+.title {
+    text-align: start;
+}
+
+.title h1 {
+    color: var(--carmin-color);
+    font-size: 8rem;
+    font-weight: 600;
+    text-shadow: var(--text-shadow);
+    margin: 0;
+    line-height: 1;
+}
+
+.left_side {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    max-width: 40%;
+    padding: 1em;
+    box-sizing: border-box;
+    z-index: 20;
+}
+
+.content_area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6em;
+    width: 100%;
+    margin-left: 1em;
+}
+
+.options.buttons,
+.options.login,
+.options.register {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    width: 100%;
+}
+
+.options.buttons {
+    top: 60%;
+    transform: translateY(-50%);
+}
+
+input {
+    
+    background-color: transparent;
+    background-image: var(--crack-texture);
+    background-size: cover;
+    background-repeat: repeat-x;
+    background-position: right;
+    width: 100%;
+    padding: 0.5em;
+    border: none;
+    border-bottom: 2px solid var(--border-color);
+    font-size: 1.2rem;
+    font-family: var(--text-family);
+    transition: 0.3s ease-in-out;
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--border-color);
+    transform: scale(1.1);
+    transition: 0.3s ease-in-out;
+}
+
+input::placeholder {
+    color: var(--text-color);
+    opacity: 0.9;
+    text-align: start;
+}
+
+.right_side {
+    position: relative;
+    width: 40%;
+    height: 100%;
+    overflow: visible;
+}
+
+.samurai_image {
+    position: absolute;
+    bottom: -10%;
+    right: 3%;
+    width: 12em;
+    object-fit: cover;
+    opacity: 0;
+    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    animation: fade 15s infinite;
+    mask-image: linear-gradient(to top, black 0%, black 100%);
+}
+
+.samurai_image_1 {
+    animation-delay: 0s;
+}
+
+.samurai_image_2 {
+    animation-delay: 5s;
+}
+
+.samurai_image_3 {
+    animation-delay: 10s;
+}

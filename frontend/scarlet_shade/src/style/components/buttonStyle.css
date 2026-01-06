@@ -1,0 +1,60 @@
+@import url("../style.css");
+
+.button {
+  
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  background: transparent;
+  border: none;
+
+  font-family: var(--text-family);
+  font-size: 2.5rem;
+  font-weight: 600;
+
+  color: var(--text-color);
+  text-shadow: var(--text-shadow);
+
+  padding: 10px 16px 10px 1.5em;
+  margin: 0.3em;
+
+  cursor: pointer;
+
+  --tx: 0px;
+  --t: 0.4s;
+
+  transform: translateX(var(--tx)) scale(1);
+  transition: transform var(--t) ease-in-out, color 0.3s ease;
+}
+
+.button:hover {
+    
+  transform: translateX(var(--tx)) scale(1.5);
+  color: var(--carmin-color);
+}
+
+.arrow {
+    
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3.5rem;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transform: translateY(-50%) translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover .arrow {
+    
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.button_offscreen {
+  --tx: 5000px;
+  --t: 2s;
+}

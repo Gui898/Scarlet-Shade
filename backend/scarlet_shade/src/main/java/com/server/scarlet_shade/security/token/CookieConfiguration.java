@@ -15,13 +15,13 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class CookieConfig {
+public class CookieConfiguration {
 
     @Value("${jwt.token.expiration}")
     private int expiration;
 
     private final AuthenticationManager authenticationManager;
-    private final TokenConfig tokenConfig;
+    private final TokenConfiguration tokenConfig;
 
     public void authCreateCookie(String username, String password, HttpServletResponse httpServletResponse) {
 

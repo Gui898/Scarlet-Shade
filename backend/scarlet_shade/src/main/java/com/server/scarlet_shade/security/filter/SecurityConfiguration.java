@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final FilterChainConfig filterChainConfig;
+    private final FilterChainConfiguration filterChainConfig;
     private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean

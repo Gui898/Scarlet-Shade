@@ -8,6 +8,7 @@ import com.server.scarlet_shade.model.controls.GamepadControls;
 import com.server.scarlet_shade.model.controls.KeyboardControls;
 import com.server.scarlet_shade.model.player.Slot;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,13 +50,13 @@ public class User {
     @Column(name = "sound_effect", nullable = false)
     private BigDecimal soundEffects = BigDecimal.valueOf(0.5);
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private KeyboardControls keyboardControls;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private GamepadControls gamepadControls;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Slot> slots = new ArrayList<>();
 
     public User(String username, String email, String password, BigDecimal soundtrack, BigDecimal soundEffects, KeyboardControls keyboardControls, GamepadControls gamepadControls) {

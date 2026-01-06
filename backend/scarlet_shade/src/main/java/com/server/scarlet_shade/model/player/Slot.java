@@ -10,6 +10,7 @@ import com.server.scarlet_shade.model.item.UsableItem;
 import com.server.scarlet_shade.model.world.SideQuest;
 import com.server.scarlet_shade.model.world.WorldProgress;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,28 +49,29 @@ public class Slot {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToOne(mappedBy = "slot")
+    @OneToOne(mappedBy = "slot", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private WorldProgress worldProgress;
 
-    @OneToOne(mappedBy = "slot")
+    // Possibilidade de ter PERSIST por causa do equipamento básico; 
+    @OneToOne(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private EquipedItem equipedItem;
 
-    @OneToOne(mappedBy = "slot")
+    @OneToOne(mappedBy = "slot", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Player player;
 
-    @OneToMany(mappedBy = "slot")
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private List<InventoryItem> inventoryItem = new ArrayList<>();
 
-    @OneToMany(mappedBy = "slot")
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private List<UsableItem> usableItem = new ArrayList<>();
 
-    @OneToMany(mappedBy = "slot")
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private List<SideQuest> sideQuests = new ArrayList<>();
 
-    @OneToMany(mappedBy = "slot")
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private List<Yokai> yokais = new ArrayList<>();
 
-    @OneToMany(mappedBy = "slot")
+    @OneToMany(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private List<Jade> jades = new ArrayList<>();
 
     public Slot(Integer numberSlot, Boolean gameCompleted, User user, Player player) {

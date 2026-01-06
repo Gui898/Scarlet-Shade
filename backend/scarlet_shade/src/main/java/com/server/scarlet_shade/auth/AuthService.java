@@ -5,32 +5,26 @@ import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.auth.dto.UserLoginRequest;
 import com.server.scarlet_shade.auth.dto.UserRegisterRequest;
-import com.server.scarlet_shade.model.User;
-import com.server.scarlet_shade.repository.UserRepository;
-import com.server.scarlet_shade.security.token.CookieConfig;
+import com.server.scarlet_shade.security.token.CookieConfiguration;
+import com.server.scarlet_shade.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     
-    public final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final CookieConfig cookieConfig;
+    private final CookieConfiguration cookieConfig;
 
-    @Transactional
     public void authRegister(UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse) {
 
-        User user = new User(
-            userRegisterRequest.username(),
-            userRegisterRequest.email(),
-            passwordEncoder.encode(userRegisterRequest.password())
-        );
-
-        userRepository.save(user);
+        userService.createUser(
+            userRegisterRequest.username(), 
+            userRegisterRequest.email(), 
+            passwordEncoder.encode(userRegisterRequest.password()));
 
         cookieConfig.authCreateCookie(
             userRegisterRequest.username(),

@@ -1,78 +1,37 @@
 <script>
-    import "$style/styles.css";
 
-    import katana from "$assets/images/arrow-katana.png";
-    import initialSamurai from "$assets/images/initialSamurai.png";
-    import samurai1 from "$assets/images/samurai1.png";
-    import samurai3 from "$assets/images/samurai3.png";
-    import fog from "$assets/images/fog.png";
+    import "$style/pages/homeStyle.css";
+    import "$style/components/buttonStyle.css";
+    import "$style/components/fogStyle.css";
+
+    import samuraiImage1 from "$assets/images/samurai/initialSamuraiImage1.png";
+    import samuraiImage2 from "$assets/images/samurai/initialSamuraiImage2.png";
+    import samuraiImage3 from "$assets/images/samurai/initialSamuraiImage3.png";
+    import arrowButton from "$assets/images/arrowButtonImage.png";
+    import fogImage from "$assets/textures/fogTexture.png";
 
     let username = "";
     let email = "";
     let password = "";
 
-    let buttonLogin;
-    let buttonRegister;
+    let screen = "options";
 
-    let optionButton;
-    let optionLogin;
-    let optionRegister;
-
-    let hoverLogin = false;
-    let hoverRegister = false;
-
-    let canBack = false;
-
-    function butLogin() {
-        animateButtons(optionLogin);
-        showLogin = true;
-        showRegister = false;
+    function goLogin() {
+        screen = "login";
     }
 
-    function butRegister(){
-        animateButtons(optionRegister);
+    function goRegister() {
+        screen = "register";
     }
 
-    function butLoginFetch() {
-        //fetch here
+    function back() {
+        screen = "options";
     }
-
-    function butRegisterFetch(){
-        //fetch here
-    }
-
-    function animateButtons(changeForm){
-        buttonRegister.style.setProperty("--tx", "5000px");
-        buttonRegister.style.setProperty("--t", "4s");
-        
-        setTimeout(() => {
-            buttonLogin.style.setProperty("--tx", "5000px");
-            buttonLogin.style.setProperty("--t", "4s");
-        }, 200);
-
-        setTimeout(() => {
-            optionButton.style.display = "none";
-            changeForm.style.display = "flex";
-            canBack = true;
-        }, 1500);
-    }
-
-    function back(){
-        canBack = false;
-        optionLogin.style.display = "none";
-        optionRegister.style.display = "none";
-        optionButton.style.display = "flex";
-        buttonLogin.style.setProperty("--tx", "0px");
-        buttonRegister.style.setProperty("--tx", "0px");
-        buttonLogin.style.setProperty("--t", "0.4s");
-        buttonRegister.style.setProperty("--t", "0.4s");
-    }
-
 </script>
 
 <div class="left_side">
 
-    {#if canBack}
+    {#if screen !== "options"}
         <button 
             onclick={back}
             class="back_arrow">
@@ -81,57 +40,71 @@
     {/if}
     
     <div class="title">
-        <h1>Scarlet <br />Shade</h1>
+        <h1>Scarlet <br/>Shade</h1>
     </div>
 
-    <div class="options buttons" bind:this={optionButton}>
-        <button onclick={butLogin}
-            class="main_buttons" 
-            bind:this={buttonLogin}>
-            <img src={katana} alt="" class="arrow_katana">
-            Login
-        </button>
+    <div class="content_area">
 
-        <button onclick={butRegister} 
-            bind:this={buttonRegister} 
-            class="main_buttons">
-            <img src={katana} alt="" class="arrow_katana">
-            Register
-        </button>
+        <div class="options buttons">
+            <button 
+                class="button" 
+                class:button_offscreen={screen !== 'options'}
+                onclick={goLogin}>
+                    
+                <img src={arrowButton} alt="" class="arrow">
+                Login
+            </button>
+
+            <button 
+                class="button"
+                class:button_offscreen={screen !== 'options'}
+                onclick={goRegister}>
+
+                <img src={arrowButton} alt="" class="arrow">
+                Register
+            </button>
+        </div>
+        
+        {#if screen === "login"}
+
+            <form method="POST" action="?/login" class="options login">
+                
+                <input name="username" type="text" placeholder="Username" bind:value={username}>
+                <input name="password" type="password" placeholder="Password" bind:value={password}>
+                
+                <button type="submit" class="button">
+                    <img src={arrowButton} alt="" class="arrow">
+                    Login
+                </button>
+            </form>
+        {/if}
+
+        {#if screen === "register"}
+            
+            <form method="POST" action="?/register" class="options register">
+                
+                <input name="username" type="text" placeholder="Username" bind:value={username}>
+                <input name="email" type="email" placeholder="Email" bind:value={email}>
+                <input name="password" type="password" placeholder="Password" bind:value={password}>
+                
+                <button type="submit" class="button">
+                    <img src={arrowButton} alt="" class="arrow">
+                    Register
+                </button>
+            </form>
+        {/if}
     </div>
-    
-    <form class="options login" bind:this={optionLogin}>
-        <input type="text" placeholder="Username" bind:value={username}>
-        <input type="password" placeholder="Password" bind:value={password}>
-        <button 
-            type="submit"
-            onclick={butLogin} 
-            class="login_but">
-            <img src={katana} alt="" class="arrow_katana">
-            Login
-        </button>
-    </form>
-
-    <form class="options register" bind:this={optionRegister}>
-        <input type="text" placeholder="Username" bind:value={username}>
-        <input type="email" placeholder="Email" bind:value={email}>
-        <input type="password" placeholder="Password" bind:value={password}>
-        <button 
-            type="submit"
-            onclick={butRegister} 
-            class="register_but">
-            <img src={katana} alt="" class="arrow_katana">
-            Register
-        </button>
-    </form>
 </div>
 
 <div class="right_side">
-    <img class="samurai__Image img1" src={initialSamurai} alt="samurai with sword" />
-    <img class="samurai__Image img2" src={samurai1} alt="brave samurai" />
-    <img class="samurai__Image img3" src={samurai3} alt="samurai with armor" />
+
+    <!-- Using all images. If use more, create a For loop in Svelte -->
+    <img class="samurai_image samurai_image_1" src={samuraiImage1} alt="samurai"/>
+    <img class="samurai_image samurai_image_2" src={samuraiImage2} alt="samurai"/>
+    <img class="samurai_image samurai_image_3" src={samuraiImage3} alt="samurai"/>
 </div>
 
-{#each Array(5) as fogImage, i}
-    <img src={fog} alt="" class="fog" style="--i:{i + 1}" />
+{#each Array(5) as fog, i}
+
+    <img src={fogImage} alt="" class="fog" style="--i:{i + 1}" />
 {/each}

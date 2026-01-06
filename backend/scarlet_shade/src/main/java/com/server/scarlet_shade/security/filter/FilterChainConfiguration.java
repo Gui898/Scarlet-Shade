@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.server.scarlet_shade.security.token.JWTUserData;
-import com.server.scarlet_shade.security.token.TokenConfig;
+import com.server.scarlet_shade.security.token.TokenConfiguration;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,9 +22,9 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class FilterChainConfig extends OncePerRequestFilter {
+public class FilterChainConfiguration extends OncePerRequestFilter {
 
-    private final TokenConfig tokenConfig;
+    private final TokenConfiguration tokenConfig;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain filterChain) throws ServletException, IOException {

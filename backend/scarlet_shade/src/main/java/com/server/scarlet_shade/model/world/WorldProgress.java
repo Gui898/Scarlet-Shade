@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.server.scarlet_shade.model.player.Slot;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class WorldProgress {
     @JoinColumn(name = "id_slot")
     private Slot slot;
 
-    @OneToMany(mappedBy = "worldProgress")
+    @OneToMany(mappedBy = "worldProgress", cascade = CascadeType.REMOVE)
     private List<Phase> phases = new ArrayList<>();
 
     public WorldProgress(String currentPhase, Slot slot) {

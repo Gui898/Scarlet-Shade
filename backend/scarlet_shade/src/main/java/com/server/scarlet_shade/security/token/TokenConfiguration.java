@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 @Component
-public class TokenConfig {
+public class TokenConfiguration {
 
     @Value("${jwt.secret}")
     private String secret;

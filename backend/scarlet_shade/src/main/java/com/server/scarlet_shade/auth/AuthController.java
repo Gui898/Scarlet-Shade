@@ -11,6 +11,7 @@ import com.server.scarlet_shade.auth.dto.UserLoginRequest;
 import com.server.scarlet_shade.auth.dto.UserRegisterRequest;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@RequestBody UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse){
+    public ResponseEntity<Void> createUser(@RequestBody @Valid UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse){
 
         authService.authRegister(userRegisterRequest, httpServletResponse);
 
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<Void> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
         
         authService.authLogin(userLoginRequest, httpServletResponse);
 
