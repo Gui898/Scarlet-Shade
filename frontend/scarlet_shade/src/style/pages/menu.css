@@ -1,0 +1,123 @@
+@import url("../style.css");
+
+body {
+    background-image: var(--inital-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 3rem;
+
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    text-align: start;
+    margin-top: -1em;
+}
+
+.title h1 {
+    color: var(--carmin-color);
+    font-size: 7rem;
+    font-weight: 600;
+    text-shadow: var(--text-shadow);
+    line-height: 1;
+}
+
+.slots{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 3rem;
+}
+
+.slot_container{
+    position: relative;
+    height: fit-content;
+}
+
+.slot_style {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
+    font-family: var(--text-family);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--carmin-color);
+
+    width: 8em;
+    height: 4em;
+    padding: 0.2em 1.5em;
+
+    border: 2px solid black;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+
+    background: none;
+    transition: 0.3s ease-in-out;
+}
+
+.slot_style::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: url("$assets/backgroundImages/finalizedGame.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(0.5px);
+    transform: scale(1.15);
+}
+
+.slot_style::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(56, 56, 56, 0.3);
+    z-index: -1;
+}
+
+.slot_container:hover{
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.trash{
+    position: absolute;
+    right: -5%;
+    bottom: -10%;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.icons{
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+}
+
+.icons button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.icons button:hover{
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+}
