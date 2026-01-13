@@ -41,7 +41,7 @@ body {
 
 .title h1 {
     color: var(--carmin-color);
-    font-size: 6.5rem;
+    font-size: 8rem;
     font-weight: 600;
     text-shadow: var(--text-shadow);
     margin: 0;
@@ -79,7 +79,7 @@ body {
 .options.login,
 .options.register {
     position: absolute;
-    top: 20%;
+    top: 5%;
     left: 0;
     width: 100%;
 }
