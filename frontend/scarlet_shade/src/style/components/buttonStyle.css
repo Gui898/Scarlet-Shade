@@ -23,14 +23,15 @@
 
   --tx: 0px;
   --t: 0.4s;
+  --t-return: 1s;
 
   transform: translateX(var(--tx)) scale(1);
-  transition: transform var(--t) ease-in-out, color 0.3s ease;
+  transition: transform var(--t-return, 0.4s) ease-in-out, color 0.3s ease;
 }
 
 .button:hover {
-    
   transform: translateX(var(--tx)) scale(1.5);
+  transition: 0.4s ease-in-out;
   color: var(--carmin-color);
 }
 

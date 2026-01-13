@@ -41,7 +41,7 @@ body {
 
 .title h1 {
     color: var(--carmin-color);
-    font-size: 8rem;
+    font-size: 6.5rem;
     font-weight: 600;
     text-shadow: var(--text-shadow);
     margin: 0;
@@ -129,7 +129,7 @@ input::placeholder {
     position: absolute;
     bottom: -10%;
     right: 3%;
-    width: 12em;
+    width: 10em;
     object-fit: cover;
     opacity: 0;
     filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
