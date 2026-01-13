@@ -3,6 +3,11 @@
     src: url("$assets/fonts/osake/OsakeFont.otf");
 }
 
+@font-face {
+    font-family: "Jansina";
+    src: url("$assets/fonts/jansina/JANSINA.ttf");
+}
+
 :root{
     
     --carmin-color: #960018;
@@ -10,6 +15,7 @@
     --border-color: #4b0000;
 
     --text-family: "Osake", sans-serif;
+    --text-input-family: "Jansina", cursive;
     --text-color: #0f0f0f;
     --text-shadow: 5px 10px 10px rgba(59, 59, 59, 0.8);
 
