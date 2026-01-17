@@ -11,7 +11,7 @@ body {
     min-height: 100vh;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -31,14 +31,14 @@ body {
     line-height: 1;
 }
 
-.slots{
+.slots {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3rem 5rem;
     margin-top: -4%;
 }
 
-.slot_container{
+.slot_container {
     position: relative;
     height: fit-content;
 
@@ -98,12 +98,12 @@ body {
     z-index: -1;
 }
 
-.slot_container:hover{
+.slot_container:hover {
     transform: scale(1.2);
     transition: transform 0.3s ease-in-out;
 }
 
-.trash{
+.trash {
     position: absolute;
     right: -5%;
     bottom: -10%;
@@ -124,17 +124,17 @@ body {
     height: 2rem;
 }
 
-.icons{
+.icons {
     position: absolute;
     right: 5%;
     bottom: 2%;
 }
 
-.icons button{
+.icons button {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out; 
+    transition: transform 0.3s ease-in-out;
 }
 
 .icons button img {
@@ -144,7 +144,36 @@ body {
     object-fit: cover;
 }
 
-.icons button:hover{
+.icons button:hover {
     transform: scale(1.4);
     transition: transform 0.3s ease-in-out;
+}
+
+@media (min-width: 1281px) {
+
+    .icons {
+        bottom: -2.5%;
+    }
+
+}
+
+@media (max-width: 1280px) {
+
+    .title h1 {
+        font-size: 5.5rem;
+        line-height: 1.2;
+    }
+
+    .slot_style {
+        width: 15rem;
+        height: 8rem;
+        padding: 0.2rem 1.5rem;
+    }
+
+    .icons {
+        gap: 20px;
+        position: absolute;
+        bottom: -1%;
+    }
+
 }
