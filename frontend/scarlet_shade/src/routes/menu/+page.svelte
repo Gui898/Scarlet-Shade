@@ -4,11 +4,11 @@
 
     import arrowButton from "$assets/images/arrowButtonImage.png";
     import fogImage from "$assets/textures/fogTexture.png";
-    import trash from "$assets/images/menu_icons/trash.png";
-    import config from "$assets/images/menu_icons/config.png";
-    import controls from "$assets/images/menu_icons/controls.png";
-    import volume from "$assets/images/menu_icons/volume.png";
-    import leave from "$assets/images/menu_icons/leave.png";
+    import trash from "$assets/icons/trash.svg";
+    import config from "$assets/icons/configuration.svg";
+    import controls from "$assets/icons/controls.svg";
+    import volume from "$assets/icons/volume.svg";
+    import leave from "$assets/icons/logout.svg";
 
 </script>
 
@@ -20,9 +20,9 @@
     <div class="slots">
         {#each Array(4) as slot, i}
             <div class="slot_container">
-                <button class="slot_style">
-                    Slot {i + 1}
-                </button>
+                <h4 class="slot_title"> Slot {i + 1} </h4>
+                <!-- svelte-ignore a11y_consider_explicit_label -->
+                <button class="slot_style"></button>
                 <button class="trash">
                     <img src={trash} alt="">
                 </button>
@@ -31,9 +31,9 @@
     </div>
 
     <div class="icons">
-        <button><img src={config} alt=""></button>
-        <button><img src={controls} alt=""></button>
         <button><img src={volume} alt=""></button>
+        <button><img src={controls} alt=""></button>
+        <button><img src={config} alt=""></button>
         <button><img src={leave} alt=""></button> 
     </div>
 
