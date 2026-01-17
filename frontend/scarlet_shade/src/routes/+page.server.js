@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 
 export const actions = {
 
-	login: async ({ request, fetch }) => {
+	login: async ({ request, fetch, cookies }) => {
 
 		const formData = await request.formData();
 
@@ -14,7 +14,6 @@ export const actions = {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			credentials: 'include',
 			body: JSON.stringify({
 				username,
 				password
@@ -24,6 +23,24 @@ export const actions = {
 		if (!res.ok) {
 			return fail(401, {error: 'Invalid Login'});
 		}
+
+		const setCookie = res.headers.get('set-cookie');
+		
+		const cookiesHeader = res.headers.getSetCookie(); 
+		const tokenValue = cookiesHeader
+			.find(c => c.includes('access_token='))
+			?.split('access_token=')[1]
+			?.split(';')[0];
+
+		if (tokenValue) {
+            cookies.set('access_token', tokenValue, {
+                path: '/',
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: false, 
+                maxAge: 259200
+            });
+        }
 
 		throw redirect(303, '/menu');
 	},
@@ -41,7 +58,6 @@ export const actions = {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			credentials: 'include',
 			body: JSON.stringify({
 				username,
 				email,
@@ -52,6 +68,25 @@ export const actions = {
 		if (!res.ok) {
 			return fail(400, {error: 'Invalid Register'});
 		}
+
+		const setCookie = res.headers.get('set-cookie');
+
+		const cookiesHeader = res.headers.getSetCookie();
+		const tokenValue = cookiesHeader
+			.find(c => c.includes('access_token='))
+			?.split('access_token=')[1]
+			?.split(';')[0];
+
+
+		if (tokenValue) {
+            cookies.set('access_token', tokenValue, {
+                path: '/',
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: false, 
+                maxAge: 259200
+            });
+        }
 
 		throw redirect(303, '/menu');
 	}

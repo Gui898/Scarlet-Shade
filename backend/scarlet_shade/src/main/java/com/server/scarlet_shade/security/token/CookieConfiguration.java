@@ -34,8 +34,8 @@ public class CookieConfiguration {
         ResponseCookie cookie = ResponseCookie
             .from("access_token", token)
             .httpOnly(true)
-            .secure(true)           
-            .sameSite("Strict")     
+            .secure(false)           
+            .sameSite("Lax")     
             .path("/")
             .maxAge(expiration)
             .build();
@@ -48,7 +48,8 @@ public class CookieConfiguration {
         ResponseCookie cookie = ResponseCookie
         .from("access_token", "")
         .httpOnly(true)
-        .secure(true)
+        .secure(false)
+        .sameSite("Lax")
         .path("/")
         .maxAge(0)
         .build();
