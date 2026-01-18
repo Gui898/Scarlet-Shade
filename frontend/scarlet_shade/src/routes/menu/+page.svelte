@@ -10,6 +10,11 @@
     import volume from "$assets/icons/volume.svg";
     import leave from "$assets/icons/logout.svg";
 
+    import Modal from "./Modal.svelte";
+
+    let openModalConfig = false;
+    let openModalControls = false;
+    let openModalVolume = false;
 </script>
 
 <main class="container">
@@ -20,27 +25,52 @@
     <div class="slots">
         {#each Array(4) as slot, i}
             <div class="slot_container">
-                <h4 class="slot_title"> Slot {i + 1} </h4>
+                <h4 class="slot_title">Slot {i + 1}</h4>
                 <!-- svelte-ignore a11y_consider_explicit_label -->
                 <button class="slot_style"></button>
                 <button class="trash">
-                    <img src={trash} alt="">
+                    <img src={trash} alt="" />
                 </button>
             </div>
         {/each}
     </div>
 
     <div class="icons">
-        
-        <button><img src={volume} alt=""></button>
-        <button><img src={controls} alt=""></button>
-        <button><img src={config} alt=""></button>
-        
+        <!-- Volume button -->
+        <button on:click={() => (openModalVolume = true)}>
+            <img src={volume} alt="" />
+        </button>
+
+        <Modal open={openModalVolume} close={() => (openModalVolume = false)}>
+            <h2>Volume</h2>
+            <p>Estado do modal: {openModalVolume}</p>
+        </Modal>
+
+        <!-- Controls button -->
+        <button on:click={() => (openModalControls = true)}>
+            <img src={controls} alt="" />
+        </button>
+
+        <Modal open={openModalControls} close={() => (openModalControls = false)}>
+            <h2>Controls</h2>
+            <p>Estado do modal: {openModalControls}</p>
+        </Modal>
+
+        <!-- Configuration button -->
+        <button on:click={() => (openModalConfig = true)}>
+            <img src={config} alt="" />
+        </button>
+
+        <Modal open={openModalConfig} close={() => (openModalConfig = false)}>
+            <h2>Configurations</h2>
+            <p>Estado do modal: {openModalConfig}</p>
+        </Modal>
+
+        <!-- Logout button -->
         <form method="POST" action="?/logout">
-            <button><img src={leave} alt=""></button> 
+            <button><img src={leave} alt="" /></button>
         </form>
     </div>
-
 </main>
 
 {#each Array(5) as fog, i}
