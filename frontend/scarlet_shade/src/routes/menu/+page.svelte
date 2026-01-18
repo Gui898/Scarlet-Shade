@@ -31,10 +31,14 @@
     </div>
 
     <div class="icons">
+        
         <button><img src={volume} alt=""></button>
         <button><img src={controls} alt=""></button>
         <button><img src={config} alt=""></button>
-        <button><img src={leave} alt=""></button> 
+        
+        <form method="POST" action="?/logout">
+            <button><img src={leave} alt=""></button> 
+        </form>
     </div>
 
 </main>
