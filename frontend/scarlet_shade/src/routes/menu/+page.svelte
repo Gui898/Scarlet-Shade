@@ -43,7 +43,22 @@
 
         <Modal open={openModalVolume} close={() => (openModalVolume = false)}>
             <h2>Volume</h2>
-            <p>Estado do modal: {openModalVolume}</p>
+            <label for="soundtrack">Soundtrack</label>
+            <input
+                type="range"
+                name="soundtrack"
+                id="soundtrack"
+                min="0"
+                max="100"
+            />
+            <label for="sound_effect">Sound Effect</label>
+            <input
+                type="range"
+                name="sound_effect"
+                id="sound_effect"
+                min="0"
+                max="100"
+            />
         </Modal>
 
         <!-- Controls button -->
@@ -51,7 +66,10 @@
             <img src={controls} alt="" />
         </button>
 
-        <Modal open={openModalControls} close={() => (openModalControls = false)}>
+        <Modal
+            open={openModalControls}
+            close={() => (openModalControls = false)}
+        >
             <h2>Controls</h2>
             <p>Estado do modal: {openModalControls}</p>
         </Modal>

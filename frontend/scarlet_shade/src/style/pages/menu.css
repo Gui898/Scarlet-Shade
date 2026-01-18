@@ -99,7 +99,7 @@ body {
 }
 
 .slot_container:hover {
-    transform: scale(1.2);
+    transform: scale(1.15);
     transition: transform 0.3s ease-in-out;
 }
 
@@ -152,10 +152,69 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+/* BASE */
+    input[type="range"] {
+        width: 70%;
+        height: 6px;
+        background: transparent;
+        cursor: pointer;
+        appearance: none;
+    }
+
+    /* TRACK (bar background) */
+    input[type="range"]::-webkit-slider-runnable-track {
+        height: 6px;
+        background: #444;
+        border-radius: 3px;
+    }
+    input[type="range"]::-moz-range-track {
+        height: 6px;
+        background: #444;
+        border-radius: 3px;
+    }
+
+    /* THUMB (the ball) */
+    input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        height: 16px;
+        width: 16px;
+        background: #ffffff;
+        border-radius: 50%;
+        border: 2px solid #222;
+        margin-top: -5px;
+        transition: 0.15s;
+    }
+    input[type="range"]::-moz-range-thumb {
+        height: 16px;
+        width: 16px;
+        background: #fff;
+        border-radius: 50%;
+        border: 2px solid #222;
+        transition: 0.15s;
+    }
+
+    /* HOVER */
+    input[type="range"]:hover::-webkit-slider-thumb {
+        background: #ddd;
+    }
+    input[type="range"]:hover::-moz-range-thumb {
+        background: #ddd;
+    }
+
+    /* ACTIVE (click) */
+    input[type="range"]:active::-webkit-slider-thumb {
+        transform: scale(1.2);
+        background: #fff;
+    }
+    input[type="range"]:active::-moz-range-thumb {
+        transform: scale(1.2);
+        background: #fff;
+    }
+
 @media (min-width: 1281px) {
 
     .icons {
-        bottom: -2.5%;
+        bottom: -1%;
     }
 
 }
