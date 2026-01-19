@@ -204,8 +204,8 @@
             <button><img src={leave} alt="" /></button>
         </form>
     </div>
-</main>
 
-{#each Array(5) as fog, i}
-    <img src={fogImage} alt="" class="fog" style="--i:{i + 1}" />
-{/each}
+    {#each Array(5) as fog, i}
+        <img src={fogImage} alt="" class="fog" style="--i:{i + 1}" />
+    {/each}
+</main>

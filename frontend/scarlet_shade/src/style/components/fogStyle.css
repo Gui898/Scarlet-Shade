@@ -20,7 +20,7 @@
     mask-image: linear-gradient(to right, transparent 0%, black 80%, transparent 100%);
     position: absolute;
     left: 0;
-    z-index: 0;
+    z-index: 1;
     width: 100vw !important;
     pointer-events: none;
     animation: fogAnimation calc(8s * var(--i)) linear infinite;
