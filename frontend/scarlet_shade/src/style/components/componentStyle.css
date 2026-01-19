@@ -1,0 +1,42 @@
+@import url("../style.css");
+
+.overlay {
+
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 5;
+}
+
+.modal {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--modal-menu-color);
+    color: var(--text-modal-color);
+    padding: 20px;
+    border-radius: 12px;
+    min-width: 300px;
+    z-index: 10;
+}
+
+.buttons {
+
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 0;
+}
+
+img {
+    padding: 0 !important;
+}

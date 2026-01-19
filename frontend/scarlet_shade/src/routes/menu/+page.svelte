@@ -1,6 +1,9 @@
 <script>
     import "$style/pages/menu.css";
     import "$style/components/fogStyle.css";
+    import "$style/components/configurationStyle.css";
+    import "$style/components/controlStyle.css";
+    import "$style/components/volumeStyle.css";
 
     import arrowButton from "$assets/images/arrowButtonImage.png";
     import fogImage from "$assets/textures/fogTexture.png";
@@ -11,9 +14,9 @@
     import leave from "$assets/icons/logout.svg";
 
     import { onMount } from "svelte";
-    import windBlow from "$assets/audios/windBlow.mp3";
+    import soundtrackSound from "$assets/soundtrack/menuSoundtrack.mp3";
 
-    import Modal from "./Modal.svelte";
+    import Modal from "./Component.svelte";
 
     //Modal variables
     let openModalConfig = false;
@@ -59,7 +62,7 @@
     let soundtrack;
     let soundtrackVol = 0;
     onMount(() => {
-        soundtrack = new Audio(windBlow);
+        soundtrack = new Audio(soundtrackSound);
         soundtrack.loop = true;
         soundtrack.volume = soundtrackVol;
         soundtrack.play();
@@ -70,18 +73,18 @@
     let soundEffectVol = 0;
 
     onMount(() => {
-        soundEffect = new Audio(windBlow);
+        soundEffect = new Audio(soundtrackSound);
         soundEffect.loop = true;
         soundEffect.volume = soundEffectVol;
         soundEffect.play();
     });
 
     function soundtrackVolume(value) {
-        soundtrack.volume = value / 100;
+        soundtrack.volume = value;
     }
 
     function soundEffectVolume(value) {
-        soundEffect.volume = value / 100;
+        soundEffect.volume = value;
     }
 </script>
 
@@ -117,7 +120,8 @@
                 name="soundtrack"
                 id="soundtrack"
                 min="0"
-                max="100"
+                max="1"
+                step="0.01"
                 bind:value={soundtrackVol}
                 on:input={() => soundtrackVolume(soundtrackVol)}
             />
@@ -127,7 +131,8 @@
                 name="sound_effect"
                 id="sound_effect"
                 min="0"
-                max="100"
+                max="1"
+                step="0.01"
                 bind:value={soundEffectVol}
                 on:input={() => soundEffectVolume(soundEffectVol)}
             />
