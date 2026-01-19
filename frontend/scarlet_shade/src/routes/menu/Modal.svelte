@@ -1,4 +1,7 @@
 <script>
+  import backImg from "$assets/icons/back.svg";
+  import okImg from "$assets/icons/ok.svg";
+
   export let open = false;
   export let close = () => {};
 </script>
@@ -14,9 +17,13 @@
     <slot></slot>
 
     <div class="buttons">
-      <button class="close" on:click={close}> Fechar </button>
+      <button class="close" on:click={close}> 
+        <img src={backImg} alt="Back" />
+      </button>
 
-      <button class="save"> Save </button>
+      <button class="save">
+        <img src={okImg} alt="OK" />
+      </button>
     </div>
   </div>
 {/if}
@@ -44,6 +51,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background: var(--modal-menu-color);
+    color: var(--text-modal-color);
     padding: 20px;
     border-radius: 12px;
     min-width: 300px;
@@ -55,19 +63,11 @@
     justify-content: space-between;
     width: 100%;
     margin-top: 20px;
+    margin-left: 0;
   }
 
-  .close, .save {
-    background-color: var(--secondary-color);
-    color: white;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    padding: 10px 20px;
-  }
-
-  .save{
-    background-color: var(--save-color);
+  img {
+    padding: 0 !important;
   }
 
 </style>

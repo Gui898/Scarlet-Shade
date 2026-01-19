@@ -10,11 +10,44 @@
     import volume from "$assets/icons/volume.svg";
     import leave from "$assets/icons/logout.svg";
 
+    import { onMount } from "svelte";
+    import windBlow from "$assets/audios/windBlow.mp3";
+
     import Modal from "./Modal.svelte";
 
+    //Modal variables
     let openModalConfig = false;
     let openModalControls = false;
     let openModalVolume = false;
+
+    //Soundtrack variables and methods
+    let soundtrack;
+    let soundtrackVol = 0;
+    onMount(() => {
+        soundtrack = new Audio(windBlow);
+        soundtrack.loop = true;
+        soundtrack.volume = soundtrackVol;
+        soundtrack.play();
+    });
+
+    function soundtrackVolume(value) {
+        soundtrack.volume = value / 100;
+    }
+
+    //Sound effect variables and methods
+    let soundEffect;
+    let soundEffectVol = 0;
+
+    onMount(() => {
+        soundEffect = new Audio(windBlow);
+        soundEffect.loop = true;
+        soundEffect.volume = soundEffectVol;
+        soundEffect.play();
+    });
+
+    function soundEffectVolume(value) {
+        soundEffect.volume = value / 100;
+    }
 </script>
 
 <main class="container">
@@ -50,6 +83,8 @@
                 id="soundtrack"
                 min="0"
                 max="100"
+                bind:value={soundtrackVol}
+                on:input={() => soundtrackVolume(soundtrackVol)}
             />
             <label for="sound_effect">Sound Effect</label>
             <input
@@ -58,6 +93,8 @@
                 id="sound_effect"
                 min="0"
                 max="100"
+                bind:value={soundEffectVol}
+                on:input={() => soundEffectVolume(soundEffectVol)}
             />
         </Modal>
 
@@ -71,7 +108,6 @@
             close={() => (openModalControls = false)}
         >
             <h2>Controls</h2>
-            <p>Estado do modal: {openModalControls}</p>
         </Modal>
 
         <!-- Configuration button -->
@@ -81,7 +117,13 @@
 
         <Modal open={openModalConfig} close={() => (openModalConfig = false)}>
             <h2>Configurations</h2>
-            <p>Estado do modal: {openModalConfig}</p>
+            <div class="configurations">
+                <input type="text" placeholder="Username"/>
+                <input type="text" placeholder="Email" />
+                <input type="text" placeholder="Password" />
+
+                <button class="delete"> Delete User </button>
+            </div>
         </Modal>
 
         <!-- Logout button -->

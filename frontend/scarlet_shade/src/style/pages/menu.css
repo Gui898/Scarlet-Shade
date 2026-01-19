@@ -31,6 +31,10 @@ body {
     line-height: 1;
 }
 
+h2{
+    margin: 20px 0;
+}
+
 .slots {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -43,6 +47,7 @@ body {
     height: fit-content;
 
     font-size: 2rem;
+    transition: 0.3s ease-in-out;
 }
 
 .slot_title {
@@ -152,64 +157,116 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+.configurations {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+}
+
+.configurations input {
+    width: 70%;
+    font-size: 1.5rem;
+    font-family: var(--text-input-family);
+    border-radius: 12px;
+    border: 8px solid var(--border-color);
+    outline: none;
+    transition: transform 0.5s, border-color 0.5s;
+    padding: 10px;
+}
+
+.configurations input:hover{
+    border-color: var(--carmin-color);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.configurations input:focus{
+    border-color: var(--carmin-color);
+    transform: scale(1.1);
+}
+
+.configurations input::placeholder {
+    color: #888;
+    font-family: var(--text-input-family);
+}
+
+.configurations button{
+    font-size: 2rem;
+    font-family: var(--text-family);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--carmin-color);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
 /* BASE */
-    input[type="range"] {
-        width: 70%;
-        height: 6px;
-        background: transparent;
-        cursor: pointer;
-        appearance: none;
-    }
+input[type="range"] {
+    width: 70%;
+    height: 10px;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+}
 
-    /* TRACK (bar background) */
-    input[type="range"]::-webkit-slider-runnable-track {
-        height: 6px;
-        background: #444;
-        border-radius: 3px;
-    }
-    input[type="range"]::-moz-range-track {
-        height: 6px;
-        background: #444;
-        border-radius: 3px;
-    }
+/* TRACK (bar background) */
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 15px;
+    background: #444;
+    border-radius: 8px;
+}
 
-    /* THUMB (the ball) */
-    input[type="range"]::-webkit-slider-thumb {
-        appearance: none;
-        height: 16px;
-        width: 16px;
-        background: #ffffff;
-        border-radius: 50%;
-        border: 2px solid #222;
-        margin-top: -5px;
-        transition: 0.15s;
-    }
-    input[type="range"]::-moz-range-thumb {
-        height: 16px;
-        width: 16px;
-        background: #fff;
-        border-radius: 50%;
-        border: 2px solid #222;
-        transition: 0.15s;
-    }
+input[type="range"]::-moz-range-track {
+    height: 15px;
+    background: #444;
+    border-radius: 8px;
+}
 
-    /* HOVER */
-    input[type="range"]:hover::-webkit-slider-thumb {
-        background: #ddd;
-    }
-    input[type="range"]:hover::-moz-range-thumb {
-        background: #ddd;
-    }
+/* THUMB (the ball) */
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    height: 24px;
+    width: 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 2px solid #222;
+    margin-top: -5px;
+    transition: 0.15s;
+}
 
-    /* ACTIVE (click) */
-    input[type="range"]:active::-webkit-slider-thumb {
-        transform: scale(1.2);
-        background: #fff;
-    }
-    input[type="range"]:active::-moz-range-thumb {
-        transform: scale(1.2);
-        background: #fff;
-    }
+input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border-radius: 50%;
+    border: 2px solid #222;
+    transition: 0.15s;
+}
+
+/* HOVER */
+input[type="range"]:hover::-webkit-slider-thumb {
+    background: #ddd;
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+    background: #ddd;
+}
+
+/* ACTIVE (click) */
+input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    background: #fff;
+}
+
+input[type="range"]:active::-moz-range-thumb {
+    transform: scale(1.2);
+    background: #fff;
+}
 
 @media (min-width: 1281px) {
 
@@ -236,6 +293,10 @@ body {
         gap: 20px;
         position: absolute;
         bottom: -1%;
+    }
+
+    .configurations {
+        gap: 25px;
     }
 
 }

@@ -14,11 +14,12 @@
     --secondary-color: #b22222;
     --border-color: #4b0000;
     --save-color: rgb(13, 149, 13);
-    --modal-menu-color: rgb(249, 201, 111);
+    --modal-menu-color: rgba(0, 0, 0, 0.6);
 
     --text-family: "Osake", sans-serif;
     --text-input-family: "Jansina", cursive;
     --text-color: #0f0f0f;
+    --text-modal-color: #ffffff;
     --text-shadow: 5px 10px 10px rgba(59, 59, 59, 0.8);
 
     --inital-background-image: url("$assets/backgroundImages/initialBackground.png");
