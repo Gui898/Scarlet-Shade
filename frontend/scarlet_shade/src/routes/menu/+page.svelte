@@ -6,7 +6,7 @@
     import fogImage from "$assets/textures/fogTexture.png";
     import trash from "$assets/icons/trash.svg";
     import config from "$assets/icons/configuration.svg";
-    import controls from "$assets/icons/controls.svg";
+    import controlsIcon from "$assets/icons/controls.svg";
     import volume from "$assets/icons/volume.svg";
     import leave from "$assets/icons/logout.svg";
 
@@ -20,7 +20,42 @@
     let openModalControls = false;
     let openModalVolume = false;
 
-    //Soundtrack variables and methods
+    //Control variables
+    let controls = {
+        moveUp: "W",
+        moveDown: "S",
+        moveLeft: "A",
+        moveRight: "D",
+        interact: "E",
+        sprint: "Shift",
+        inventory: "I",
+        leave: "Esc",
+        dash: "W",
+        crouch: "S",
+        especial1: "A",
+        especial2: "D",
+        talk: "E",
+        xixi: "Shift",
+        bunda: "I",
+        coco: "Esc",
+    };
+
+    let waiting = null;
+
+    function startRebind(action) {
+        waiting = action;
+        window.addEventListener("keydown", onKeyPress);
+    }
+
+    function onKeyPress(event) {
+        if (!waiting) return;
+
+        controls[waiting] = event.key;
+        waiting = null;
+        window.removeEventListener("keydown", onKeyPress);
+    }
+
+    //Soundtrack variables
     let soundtrack;
     let soundtrackVol = 0;
     onMount(() => {
@@ -30,11 +65,7 @@
         soundtrack.play();
     });
 
-    function soundtrackVolume(value) {
-        soundtrack.volume = value / 100;
-    }
-
-    //Sound effect variables and methods
+    //Sound effect variables
     let soundEffect;
     let soundEffectVol = 0;
 
@@ -44,6 +75,10 @@
         soundEffect.volume = soundEffectVol;
         soundEffect.play();
     });
+
+    function soundtrackVolume(value) {
+        soundtrack.volume = value / 100;
+    }
 
     function soundEffectVolume(value) {
         soundEffect.volume = value / 100;
@@ -100,7 +135,7 @@
 
         <!-- Controls button -->
         <button on:click={() => (openModalControls = true)}>
-            <img src={controls} alt="" />
+            <img src={controlsIcon} alt="" />
         </button>
 
         <Modal
@@ -108,6 +143,44 @@
             close={() => (openModalControls = false)}
         >
             <h2>Controls</h2>
+
+            <div class="controls_box">
+                <h5>Keyboard</h5>
+                <div class="controls_container">
+                    {#each Object.keys(controls) as action, i}
+                        <!-- svelte-ignore a11y_click_events_have_key_events -->
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
+                        <div
+                            on:click={() => startRebind(action)}
+                            class="control_item"
+                        >
+                            {#if waiting === action}
+                                Pressione...
+                            {:else}
+                                {@html `${action}: <br><span class="control_value">${controls[action]}</span>`}
+                            {/if}
+                        </div>
+                    {/each}
+                </div>
+
+                <h5>Gamepad</h5>
+                <div class="controls_container">
+                    {#each Object.keys(controls) as action, i}
+                        <!-- svelte-ignore a11y_click_events_have_key_events -->
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
+                        <div
+                            on:click={() => startRebind(action)}
+                            class="control_item"
+                        >
+                            {#if waiting === action}
+                                Pressione...
+                            {:else}
+                                {@html `${action}: <br><span class="control_value">${controls[action]}</span>`}
+                            {/if}
+                        </div>
+                    {/each}
+                </div>
+            </div>
         </Modal>
 
         <!-- Configuration button -->
@@ -118,7 +191,7 @@
         <Modal open={openModalConfig} close={() => (openModalConfig = false)}>
             <h2>Configurations</h2>
             <div class="configurations">
-                <input type="text" placeholder="Username"/>
+                <input type="text" placeholder="Username" />
                 <input type="text" placeholder="Email" />
                 <input type="text" placeholder="Password" />
 

@@ -32,7 +32,13 @@ body {
 }
 
 h2{
-    margin: 20px 0;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h5{
+    margin: 0;
+    color: var(--carmin-color);
 }
 
 .slots {
@@ -205,6 +211,39 @@ h2{
     transition: background-color 0.3s, transform 0.3s;
 }
 
+.controls_box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.controls_container{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5rem;
+    gap: 30px;
+    padding: 0 50px;
+}
+
+.control_item{
+    background: rgba(34, 34, 34, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.control_value{
+    color: var(--carmin-color);
+}
+
 /* BASE */
 input[type="range"] {
     width: 70%;
@@ -279,8 +318,8 @@ input[type="range"]:active::-moz-range-thumb {
 @media (max-width: 1280px) {
 
     .title h1 {
-        font-size: 5.5rem;
-        line-height: 1.2;
+        font-size: 6rem;
+        line-height: 1;
     }
 
     .slot_style {
