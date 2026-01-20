@@ -14,9 +14,12 @@
     import leave from "$assets/icons/logout.svg";
 
     import { onMount } from "svelte";
-    import soundtrackSound from "$assets/soundtrack/menuSoundtrack.mp3";
+    import menuSoundtrack from "$assets/soundtrack/menuSoundtrack.mp3";
+    import menuEffect from "$assets/soundEffect/windBlow.mp3";
 
     import Modal from "./Component.svelte";
+
+    export let data;
 
     //Modal variables
     let openModalConfig = false;
@@ -60,9 +63,9 @@
 
     //Soundtrack variables
     let soundtrack;
-    let soundtrackVol = 0;
+    let soundtrackVol = data.soundtrack;
     onMount(() => {
-        soundtrack = new Audio(soundtrackSound);
+        soundtrack = new Audio(menuSoundtrack);
         soundtrack.loop = true;
         soundtrack.volume = soundtrackVol;
         soundtrack.play();
@@ -70,10 +73,9 @@
 
     //Sound effect variables
     let soundEffect;
-    let soundEffectVol = 0;
-
+    let soundEffectVol = data.soundEffect;
     onMount(() => {
-        soundEffect = new Audio(soundtrackSound);
+        soundEffect = new Audio(menuEffect);
         soundEffect.loop = true;
         soundEffect.volume = soundEffectVol;
         soundEffect.play();
@@ -112,7 +114,7 @@
             <img src={volume} alt="" />
         </button>
 
-        <Modal open={openModalVolume} close={() => (openModalVolume = false)}>
+        <Modal open={openModalVolume} close={() => (openModalVolume = false)} action="volume">
             <h2>Volume</h2>
             <label for="soundtrack">Soundtrack</label>
             <input
@@ -146,6 +148,7 @@
         <Modal
             open={openModalControls}
             close={() => (openModalControls = false)}
+            action="control"
         >
             <h2>Controls</h2>
 
@@ -193,7 +196,7 @@
             <img src={config} alt="" />
         </button>
 
-        <Modal open={openModalConfig} close={() => (openModalConfig = false)}>
+        <Modal open={openModalConfig} close={() => (openModalConfig = false)} action="configuration">
             <h2>Configurations</h2>
             <div class="configurations">
                 <input type="text" placeholder="Username" />

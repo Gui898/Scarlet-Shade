@@ -2,6 +2,7 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
+import com.server.scarlet_shade.dto.user.VolumeRequest;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.auth.dto.UserResponse;
@@ -74,5 +75,12 @@ public class UserService {
             slotFour);
 
         return userResponse;
-    } 
+    }
+
+    public void updateVolume(VolumeRequest request, User user){
+        user.setSoundtrack(request.soundtrack());
+        user.setSoundEffects(request.soundEffect());
+
+        userRepository.save(user);
+    }
 }

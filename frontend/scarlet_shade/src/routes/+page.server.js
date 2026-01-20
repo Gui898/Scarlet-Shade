@@ -19,9 +19,6 @@ export const actions = {
 				password
 			})
 		});
-		
-		const data = await res.json().catch(() => null);
-		console.log(data);
 
 		if (!res.ok) {
 			return fail(401, {error: 'Invalid Login'});
@@ -44,6 +41,13 @@ export const actions = {
                 maxAge: 259200
             });
         }
+
+		const data = await res.json().catch(() => null);
+		cookies.set("user", JSON.stringify(data), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		});
 
 		throw redirect(303, '/menu');
 	},
@@ -68,9 +72,6 @@ export const actions = {
 			})
 		});
 
-		const data = await res.json().catch(() => null);
-		console.log(data);
-
 		if (!res.ok) {
 			return fail(400, {error: 'Invalid Register'});
 		}
@@ -93,6 +94,13 @@ export const actions = {
                 maxAge: 259200
             });
         }
+
+		const data = await res.json().catch(() => null);
+		cookies.set("user", JSON.stringify(data), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		});
 
 		throw redirect(303, '/menu');
 	}
