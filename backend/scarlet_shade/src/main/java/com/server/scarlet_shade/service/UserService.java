@@ -1,11 +1,16 @@
 package com.server.scarlet_shade.service;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
+import com.server.scarlet_shade.auth.dto.UserResponse;
+import com.server.scarlet_shade.dto.SlotResponse;
 import com.server.scarlet_shade.exception.user.UserConflictException;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.controls.GamepadControls;
 import com.server.scarlet_shade.model.controls.KeyboardControls;
+import com.server.scarlet_shade.model.player.Slot;
 import com.server.scarlet_shade.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -16,9 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
  
     private final UserRepository userRepository;
+    private final SlotService slotService;
 
     @Transactional
-    public void createUser(String username, String email, String password) {
+    public User createUser(String username, String email, String password) {
 
         if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
             throw new UserConflictException();
@@ -36,5 +42,37 @@ public class UserService {
         user.setGamepadControls(gamepadControls);
 
         userRepository.save(user);
+
+        return user;
     }
+
+    public UserResponse getUserResponse(User user) {
+        
+        ArrayList<Slot> slots = slotService.getSlotsByUser(user);
+
+        SlotResponse slotOne = null;
+        SlotResponse slotTwo = null;
+        SlotResponse slotThree = null;
+        SlotResponse slotFour = null;
+
+        for (Slot slot : slots) {
+
+            switch (slot.getNumberSlot()) {
+                case 1 -> slotOne = new SlotResponse(slot.getNumberSlot(), slot.getGameCompleted());
+                case 2 -> slotTwo = new SlotResponse(slot.getNumberSlot(), slot.getGameCompleted());
+                case 3 -> slotThree = new SlotResponse(slot.getNumberSlot(), slot.getGameCompleted());
+                case 4 -> slotFour = new SlotResponse(slot.getNumberSlot(), slot.getGameCompleted());
+            }
+        }
+
+        UserResponse userResponse = new UserResponse(
+            user.getSoundtrack(),
+            user.getSoundEffects(),
+            slotOne, 
+            slotTwo, 
+            slotThree, 
+            slotFour);
+
+        return userResponse;
+    } 
 }

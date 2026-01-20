@@ -19,6 +19,9 @@ export const actions = {
 				password
 			})
 		});
+		
+		const data = await res.json().catch(() => null);
+		console.log(data);
 
 		if (!res.ok) {
 			return fail(401, {error: 'Invalid Login'});
@@ -45,7 +48,7 @@ export const actions = {
 		throw redirect(303, '/menu');
 	},
 
-	register: async ({ request, fetch }) => {
+	register: async ({ request, fetch, cookies }) => {
 
 		const formData = await request.formData();
 
@@ -64,6 +67,9 @@ export const actions = {
 				password
 			})
 		});
+
+		const data = await res.json().catch(() => null);
+		console.log(data);
 
 		if (!res.ok) {
 			return fail(400, {error: 'Invalid Register'});

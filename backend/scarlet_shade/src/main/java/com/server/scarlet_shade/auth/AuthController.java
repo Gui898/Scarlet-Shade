@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.server.scarlet_shade.auth.dto.UserLoginRequest;
 import com.server.scarlet_shade.auth.dto.UserRegisterRequest;
+import com.server.scarlet_shade.auth.dto.UserResponse;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -22,19 +23,21 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@RequestBody @Valid UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse){
+    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse){
 
-        authService.authRegister(userRegisterRequest, httpServletResponse);
+        UserResponse userResponse = 
+            authService.authRegister(userRegisterRequest, httpServletResponse);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<UserResponse> loginUser(@RequestBody @Valid UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
         
-        authService.authLogin(userLoginRequest, httpServletResponse);
+        UserResponse userResponse = 
+            authService.authLogin(userLoginRequest, httpServletResponse);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
     }
 
     @PostMapping("/logout")

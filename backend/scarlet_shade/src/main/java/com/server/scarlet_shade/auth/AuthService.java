@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.auth.dto.UserLoginRequest;
 import com.server.scarlet_shade.auth.dto.UserRegisterRequest;
+import com.server.scarlet_shade.auth.dto.UserResponse;
+import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.security.token.CookieConfiguration;
 import com.server.scarlet_shade.service.UserService;
 
@@ -19,9 +21,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final CookieConfiguration cookieConfig;
 
-    public void authRegister(UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse) {
+    public UserResponse authRegister(UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse) {
 
-        userService.createUser(
+        User user = userService.createUser(
             userRegisterRequest.username(), 
             userRegisterRequest.email(), 
             passwordEncoder.encode(userRegisterRequest.password()));
@@ -31,15 +33,19 @@ public class AuthService {
             userRegisterRequest.password(),
             httpServletResponse
         );
+
+        return userService.getUserResponse(user);
     }
 
-    public void authLogin(UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
-        
-        cookieConfig.authCreateCookie(
+    public UserResponse authLogin(UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
+
+        User user = cookieConfig.authCreateCookie(
             userLoginRequest.username(),
             userLoginRequest.password(),
             httpServletResponse
         );
+
+        return userService.getUserResponse(user);
     }
 
     public void authLogout(HttpServletResponse httpServletResponse) {

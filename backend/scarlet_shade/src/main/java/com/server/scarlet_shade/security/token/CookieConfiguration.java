@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.security.user.UserSecurity;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ public class CookieConfiguration {
     private final AuthenticationManager authenticationManager;
     private final TokenConfiguration tokenConfig;
 
-    public void authCreateCookie(String username, String password, HttpServletResponse httpServletResponse) {
+    public User authCreateCookie(String username, String password, HttpServletResponse httpServletResponse) {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
@@ -41,6 +42,8 @@ public class CookieConfiguration {
             .build();
 
         httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        
+        return userSecurity.getUser();
     }
 
     public void authDeleteCookie(HttpServletResponse httpServletResponse) {
