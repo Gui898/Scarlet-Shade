@@ -9,7 +9,7 @@
     z-index: 5;
 }
 
-.modal {
+.modal form {
 
     display: flex;
     flex-direction: column;
@@ -27,12 +27,6 @@
     min-width: 300px;
     z-index: 10;
 }
-
-form{
-    display: flex;
-    align-items: center;
-}
-
 
 .buttons {
     display: flex;

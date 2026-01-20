@@ -12,6 +12,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.server.scarlet_shade.security.token.JWTUserData;
 import com.server.scarlet_shade.security.token.TokenConfiguration;
+import com.server.scarlet_shade.security.user.UserSecurity;
+import com.server.scarlet_shade.security.user.UserSecurityService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class FilterChainConfiguration extends OncePerRequestFilter {
 
     private final TokenConfiguration tokenConfig;
+    private final UserSecurityService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain filterChain) throws ServletException, IOException {
@@ -39,9 +42,11 @@ public class FilterChainConfiguration extends OncePerRequestFilter {
                 
                 JWTUserData userData = optionalUser.get();
 
+                UserSecurity userDetails = (UserSecurity) userDetailsService.loadUserByUsername(userData.username());
+
                 UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(
-                        userData, null,
+                        userDetails, null,
                         List.of(new SimpleGrantedAuthority("ROLE_USER"))
                     );
 
