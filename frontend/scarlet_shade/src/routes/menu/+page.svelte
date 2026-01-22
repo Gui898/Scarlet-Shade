@@ -16,6 +16,8 @@
     import { onMount } from "svelte";
     import menuSoundtrack from "$assets/soundtrack/menuSoundtrack.mp3";
     import menuEffect from "$assets/soundEffect/windBlow.mp3";
+    import swordCut from "$assets/soundEffect/swordCutHome.mp3";
+    import pop from "$assets/soundEffect/pop.mp3";
 
     import Modal from "./Component.svelte";
 
@@ -80,6 +82,12 @@
     function soundEffectVolume(value) {
         soundEffect.volume = value;
     }
+
+    function playSound(sound){
+        const cutSound = new Audio(sound);
+        cutSound.volume = 0.2;
+        cutSound.play();
+    }
 </script>
 
 <main class="container">
@@ -102,7 +110,7 @@
 
     <div class="icons">
         <!-- Volume button -->
-        <button on:click={() => (openModalVolume = true)}>
+        <button on:click={() => {(openModalVolume = true); playSound(pop)}}>
             <img src={volume} alt="" />
         </button>
 
@@ -137,7 +145,7 @@
         </Modal>
 
         <!-- Controls button -->
-        <button on:click={() => (openModalControls = true)}>
+        <button on:click={() => {(openModalControls = true); playSound(pop)}}>
             <img src={controlsIcon} alt="" />
         </button>
 
@@ -206,7 +214,7 @@
         </Modal>
 
         <!-- Configuration button -->
-        <button on:click={() => (openModalConfig = true)}>
+        <button on:click={() => {(openModalConfig = true); playSound(pop)}}>
             <img src={config} alt="" />
         </button>
 
@@ -227,7 +235,7 @@
 
         <!-- Logout button -->
         <form method="POST" action="?/logout">
-            <button><img src={leave} alt="" /></button>
+            <button on:click={playSound(swordCut)}><img src={leave} alt="" /></button>
         </form>
     </div>
 
