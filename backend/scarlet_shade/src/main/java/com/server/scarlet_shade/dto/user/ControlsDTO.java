@@ -1,6 +1,6 @@
 package com.server.scarlet_shade.dto.user;
 
-public record ControlsRequest(
+public record ControlsDTO(
         String moveUp,
         String moveDown,
         String moveLeft,

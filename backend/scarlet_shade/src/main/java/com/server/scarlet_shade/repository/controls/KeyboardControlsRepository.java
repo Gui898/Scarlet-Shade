@@ -9,5 +9,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface KeyboardControlsRepository extends JpaRepository<KeyboardControls, Long> {
     @Query(value = "SELECT * FROM keyboard_control WHERE id_user = :idUser", nativeQuery = true)
-    public Controls getKeyboardControl(@Param("idUser")long idUser);
+    public KeyboardControls getKeyboardControl(@Param("idUser")long idUser);
 }

@@ -1,5 +1,8 @@
 package com.server.scarlet_shade.service;
 
+import com.server.scarlet_shade.dto.user.ControlsDTO;
+import com.server.scarlet_shade.dto.user.UserControlsResponse;
+import com.server.scarlet_shade.exception.controls.ControlsNotFound;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.controls.Controls;
 import com.server.scarlet_shade.repository.controls.GamepadControlsRepository;
@@ -8,22 +11,55 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 @RequiredArgsConstructor
 public class ControlsService {
 
-    private GamepadControlsRepository gamepadControlsRepository;
-    private KeyboardControlsRepository keyboardControlsRepository;
+    private final GamepadControlsRepository gamepadControlsRepository;
+    private final KeyboardControlsRepository keyboardControlsRepository;
 
     @Transactional
-    public ArrayList<Controls> getControlsByUser(User user){
-        ArrayList<Controls> controls = new ArrayList<>();
-        controls.add(keyboardControlsRepository.getKeyboardControl(user.getId()));
-        controls.add(gamepadControlsRepository.getGamepadControl(user.getId()));
+    public UserControlsResponse getControlsByUser(User user){
+        Controls kc = keyboardControlsRepository.getKeyboardControl(user.getId());
+        Controls gc = gamepadControlsRepository.getGamepadControl(user.getId());
 
-        return controls;
+        if(kc == null || gc == null){
+            throw new ControlsNotFound();
+        }
+
+        ControlsDTO keyboard = new ControlsDTO(kc.getMoveUp(),
+                kc.getMoveDown()
+                , kc.getMoveLeft(),
+                kc.getMoveRight(),
+                kc.getJump(),
+                kc.getDash(),
+                kc.getCrouch(),
+                kc.getAttack(),
+                kc.getSpinAttack(),
+                kc.getEspecialMoveOne(),
+                kc.getEspecialMoveOTwo(),
+                kc.getMenuAccess(),
+                kc.getSelectItem(),
+                kc.getUseItem()
+        );
+
+        ControlsDTO gamepad = new ControlsDTO(gc.getMoveUp(),
+                gc.getMoveDown(),
+                gc.getMoveLeft(),
+                gc.getMoveRight(),
+                gc.getJump(),
+                gc.getDash(),
+                gc.getCrouch(),
+                gc.getAttack(),
+                gc.getSpinAttack(),
+                gc.getEspecialMoveOne(),
+                gc.getEspecialMoveOTwo(),
+                gc.getMenuAccess(),
+                gc.getSelectItem(),
+                gc.getUseItem()
+        );
+
+        return new UserControlsResponse(keyboard, gamepad);
     }
 
 }

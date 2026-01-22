@@ -27,24 +27,9 @@
     let openModalVolume = false;
 
     //Control variables
-    let controls = {
-        moveUp: "W",
-        moveDown: "S",
-        moveLeft: "A",
-        moveRight: "D",
-        interact: "E",
-        sprint: "Shift",
-        inventory: "I",
-        leave: "Esc",
-        dash: "W",
-        crouch: "S",
-        especial1: "A",
-        especial2: "D",
-        talk: "E",
-        xixi: "Shift",
-        bunda: "I",
-        coco: "Esc",
-    };
+    let activeControl = "keyboard"; 
+    let keyboarControl = data.controls.keyboard;
+    let gamepadControl = data.controls.gamepad;
 
     let waiting = null;
 
@@ -53,9 +38,14 @@
         window.addEventListener("keydown", onKeyPress);
     }
 
+    function getActiveControls(){
+        return activeControl === "keyboard" ? keyboarControl : gamepadControl;
+    }
+
     function onKeyPress(event) {
         if (!waiting) return;
 
+        const controls = getActiveControls()
         controls[waiting] = event.key;
         waiting = null;
         window.removeEventListener("keydown", onKeyPress);
@@ -63,7 +53,7 @@
 
     //Soundtrack variables
     let soundtrack;
-    let soundtrackVol = data.soundtrack;
+    let soundtrackVol = data.userData.soundtrack;
     onMount(() => {
         soundtrack = new Audio(menuSoundtrack);
         soundtrack.loop = true;
@@ -73,7 +63,7 @@
 
     //Sound effect variables
     let soundEffect;
-    let soundEffectVol = data.soundEffect;
+    let soundEffectVol = data.userData.soundEffect;
     onMount(() => {
         soundEffect = new Audio(menuEffect);
         soundEffect.loop = true;
@@ -155,17 +145,17 @@
             <div class="controls_box">
                 <h5>Keyboard</h5>
                 <div class="controls_container">
-                    {#each Object.keys(controls) as action, i}
+                    {#each Object.keys(keyboarControl) as action, i}
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div
-                            on:click={() => startRebind(action)}
+                            on:click={() => {activeControl = "keyboard"; startRebind(action);}}
                             class="control_item"
                         >
                             {#if waiting === action}
                                 Pressione...
                             {:else}
-                                {@html `${action}: <br><span class="control_value">${controls[action]}</span>`}
+                                {@html `${action}: <br><span class="control_value">${keyboarControl[action]}</span>`}
                             {/if}
                         </div>
                     {/each}
@@ -173,17 +163,17 @@
 
                 <h5>Gamepad</h5>
                 <div class="controls_container">
-                    {#each Object.keys(controls) as action, i}
+                    {#each Object.keys(gamepadControl) as action, i}
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div
-                            on:click={() => startRebind(action)}
+                            on:click={() => {activeControl = "gamepad"; startRebind(action);}}
                             class="control_item"
                         >
                             {#if waiting === action}
                                 Pressione...
                             {:else}
-                                {@html `${action}: <br><span class="control_value">${controls[action]}</span>`}
+                                {@html `${action}: <br><span class="control_value">${gamepadControl[action]}</span>`}
                             {/if}
                         </div>
                     {/each}

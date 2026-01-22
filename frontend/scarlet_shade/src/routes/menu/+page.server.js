@@ -66,59 +66,73 @@ export const actions = {
         }
     },
 
-    control: async({ request, fetch, cookies }) => {
-        const res = await fetch('http://localhost:8080/auth/?', {
+    // control: async({ request, fetch, cookies }) => {
+    //     const res = await fetch('http://localhost:8080/user/controls', {
 
-            method: 'POST'
-        });
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${cookies.get('access_token')}`
+    //         },
+    //     });
 
-        if(!res.ok){
-            return fail(401, {error: 'Fail Volume Set'});
-        }
+    //     if(!res.ok){
+    //         return fail(401, {error: 'Fail Volume Set'});
+    //     }
 
-        const data = await res.json().catch(() => null);
+    //     const data = await res.json().catch(() => null);
 
-        // cookies.set("user", JSON.stringify(data), {
-        //     path: '/',
-        //     httpOnly: true,
-        //     sameSite: 'lax',
-        // });
+    //     throw redirect(303, '/menu');
+    // },
 
-        throw redirect(303, '/menu');
-    },
+    // configuration: async({ request, fetch, cookies }) => {
+    //     const res = await fetch('http://localhost:8080/auth/?', {
 
-    configuration: async({ request, fetch, cookies }) => {
-        const res = await fetch('http://localhost:8080/auth/?', {
+    //         method: 'POST'
+    //     });
 
-            method: 'POST'
-        });
+    //     if(!res.ok){
+    //         return fail(401, {error: 'Fail Volume Set'});
+    //     }
 
-        if(!res.ok){
-            return fail(401, {error: 'Fail Volume Set'});
-        }
+    //     const data = await res.json().catch(() => null);
 
-        const data = await res.json().catch(() => null);
+    //     cookies.set("user", JSON.stringify(data), {
+    //         path: '/',
+    //         httpOnly: true,
+    //         sameSite: 'lax',
+    //     });
 
-        // cookies.set("user", JSON.stringify(data), {
-        //     path: '/',
-        //     httpOnly: true,
-        //     sameSite: 'lax',
-        // });
-
-        throw redirect(303, '/menu');
-    },
+    //     throw redirect(303, '/menu');
+    // },
 
 
 }
 
-export async function load({ cookies }) {
+export async function load({ fetch, cookies }) {
     const raw = cookies.get('user');
+    const token = cookies.get('access_token');
 
-    if (!raw) {
-        return { data: null };
+    if (!raw || !token) {
+        return {
+            data: null,
+            controls: null 
+        };
     }
 
-    const data = JSON.parse(raw);
+    const userData = JSON.parse(raw);
+    const resControl = await fetch("http://localhost:8080/user/controls", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
-    return data;
+    const controls = await resControl.json().catch(() => null);
+
+    return {
+        userData,
+        controls
+    };
 }
