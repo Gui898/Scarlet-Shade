@@ -1,7 +1,7 @@
 package com.server.scarlet_shade.controller;
 
-import com.server.scarlet_shade.dto.user.ControlsDTO;
-import com.server.scarlet_shade.dto.user.UserControlsResponse;
+import com.server.scarlet_shade.dto.user.controls.UserControlsRequest;
+import com.server.scarlet_shade.dto.user.controls.UserControlsResponse;
 import com.server.scarlet_shade.service.ControlsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +14,6 @@ import com.server.scarlet_shade.security.user.UserSecurity;
 import com.server.scarlet_shade.service.UserService;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -30,6 +28,14 @@ public class UserController {
         User user = userSecurity.getUser();
 
         userService.updateVolume(request, user);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/controls")
+    public ResponseEntity<Void> updateControls(@RequestBody UserControlsRequest request, @AuthenticationPrincipal UserSecurity userSecurity){
+        User user = userSecurity.getUser();
+        controlsService.updateControls(request, user);
+
         return ResponseEntity.noContent().build();
     }
 

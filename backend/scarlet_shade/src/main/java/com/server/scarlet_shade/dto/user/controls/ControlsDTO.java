@@ -1,4 +1,4 @@
-package com.server.scarlet_shade.dto.user;
+package com.server.scarlet_shade.dto.user.controls;
 
 public record ControlsDTO(
         String moveUp,

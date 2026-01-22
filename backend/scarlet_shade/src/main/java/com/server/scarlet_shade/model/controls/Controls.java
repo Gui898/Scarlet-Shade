@@ -57,7 +57,7 @@ public abstract class Controls {
     private String especialMoveOne;
 
     @Column(name = "especial_move_two", nullable = false)
-    private String especialMoveOTwo;
+    private String especialMoveTwo;
 
     @Column(name = "menu_access", nullable = false)
     private String menuAccess;
@@ -72,7 +72,7 @@ public abstract class Controls {
     @JoinColumn(name = "id_user", nullable = false, unique = true)
     private User user;
 
-    public Controls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveOTwo, String menuAccess, String selectItem, String useItem, User user) {
+    public Controls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveTwo, String menuAccess, String selectItem, String useItem, User user) {
         this.moveUp = moveUp;
         this.moveDown = moveDown;
         this.moveLeft = moveLeft;
@@ -83,14 +83,14 @@ public abstract class Controls {
         this.attack = attack;
         this.spinAttack = spinAttack;
         this.especialMoveOne = especialMoveOne;
-        this.especialMoveOTwo = especialMoveOTwo;
+        this.especialMoveTwo = especialMoveTwo;
         this.menuAccess = menuAccess;
         this.selectItem = selectItem;
         this.useItem = useItem;
         this.user = user;
     }
 
-    public Controls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveOTwo, String menuAccess, String selectItem, String useItem) {
+    public Controls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveTwo, String menuAccess, String selectItem, String useItem) {
         this.moveUp = moveUp;
         this.moveDown = moveDown;
         this.moveLeft = moveLeft;
@@ -101,7 +101,7 @@ public abstract class Controls {
         this.attack = attack;
         this.spinAttack = spinAttack;
         this.especialMoveOne = especialMoveOne;
-        this.especialMoveOTwo = especialMoveOTwo;
+        this.especialMoveTwo = especialMoveTwo;
         this.menuAccess = menuAccess;
         this.selectItem = selectItem;
         this.useItem = useItem;

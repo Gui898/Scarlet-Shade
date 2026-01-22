@@ -66,24 +66,29 @@ export const actions = {
         }
     },
 
-    // control: async({ request, fetch, cookies }) => {
-    //     const res = await fetch('http://localhost:8080/user/controls', {
+    control: async({ request, fetch, cookies }) => {
 
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${cookies.get('access_token')}`
-    //         },
-    //     });
+        const formData = await request.formData();
 
-    //     if(!res.ok){
-    //         return fail(401, {error: 'Fail Volume Set'});
-    //     }
+        const keyboard = JSON.parse(formData.get('keyboard'));
+        const gamepad = JSON.parse(formData.get('gamepad'));
 
-    //     const data = await res.json().catch(() => null);
+        const res = await fetch('http://localhost:8080/user/controls', {
 
-    //     throw redirect(303, '/menu');
-    // },
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${cookies.get('access_token')}`
+            },
+            body: JSON.stringify({keyboard, gamepad}) 
+        });
+        
+        if(!res.ok){
+            return fail(401, {error: 'Fail Volume Set'});
+        }
+
+        throw redirect(303, '/menu');
+    },
 
     // configuration: async({ request, fetch, cookies }) => {
     //     const res = await fetch('http://localhost:8080/auth/?', {

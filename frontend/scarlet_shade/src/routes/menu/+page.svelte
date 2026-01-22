@@ -27,7 +27,7 @@
     let openModalVolume = false;
 
     //Control variables
-    let activeControl = "keyboard"; 
+    let activeControl = "keyboard";
     let keyboarControl = data.controls.keyboard;
     let gamepadControl = data.controls.gamepad;
 
@@ -38,15 +38,17 @@
         window.addEventListener("keydown", onKeyPress);
     }
 
-    function getActiveControls(){
+    function getActiveControls() {
         return activeControl === "keyboard" ? keyboarControl : gamepadControl;
     }
 
     function onKeyPress(event) {
+        event.preventDefault();
+
         if (!waiting) return;
 
-        const controls = getActiveControls()
-        controls[waiting] = event.key;
+        const controls = getActiveControls();
+        controls[waiting] = event.code === "Space" ? "SPACE" : event.key.toUpperCase();
         waiting = null;
         window.removeEventListener("keydown", onKeyPress);
     }
@@ -104,7 +106,11 @@
             <img src={volume} alt="" />
         </button>
 
-        <Modal open={openModalVolume} close={() => (openModalVolume = false)} action="volume">
+        <Modal
+            open={openModalVolume}
+            close={() => (openModalVolume = false)}
+            action="volume"
+        >
             <h2>Volume</h2>
             <label for="soundtrack">Soundtrack</label>
             <input
@@ -149,7 +155,10 @@
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div
-                            on:click={() => {activeControl = "keyboard"; startRebind(action);}}
+                            on:click={() => {
+                                activeControl = "keyboard";
+                                startRebind(action);
+                            }}
                             class="control_item"
                         >
                             {#if waiting === action}
@@ -161,13 +170,22 @@
                     {/each}
                 </div>
 
+                <input
+                    type="hidden"
+                    name="keyboard"
+                    value={JSON.stringify(keyboarControl)}
+                />
+
                 <h5>Gamepad</h5>
                 <div class="controls_container">
                     {#each Object.keys(gamepadControl) as action, i}
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div
-                            on:click={() => {activeControl = "gamepad"; startRebind(action);}}
+                            on:click={() => {
+                                activeControl = "gamepad";
+                                startRebind(action);
+                            }}
                             class="control_item"
                         >
                             {#if waiting === action}
@@ -178,6 +196,12 @@
                         </div>
                     {/each}
                 </div>
+
+                <input
+                    type="hidden"
+                    name="gamepad"
+                    value={JSON.stringify(gamepadControl)}
+                />
             </div>
         </Modal>
 
@@ -186,7 +210,11 @@
             <img src={config} alt="" />
         </button>
 
-        <Modal open={openModalConfig} close={() => (openModalConfig = false)} action="configuration">
+        <Modal
+            open={openModalConfig}
+            close={() => (openModalConfig = false)}
+            action="configuration"
+        >
             <h2>Configurations</h2>
             <div class="configurations">
                 <input type="text" placeholder="Username" />

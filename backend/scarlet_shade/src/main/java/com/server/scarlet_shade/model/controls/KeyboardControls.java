@@ -13,8 +13,8 @@ import lombok.Setter;
 @Setter
 public class KeyboardControls extends Controls {
 
-    public KeyboardControls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveOTwo, String menuAccess, String selectItem, String useItem, User user) {
-        super(moveUp, moveDown, moveLeft, moveRight, jump, dash, crouch, attack, spinAttack, especialMoveOne, especialMoveOTwo, menuAccess, selectItem, useItem, user);
+    public KeyboardControls(String moveUp, String moveDown, String moveLeft, String moveRight, String jump, String dash, String crouch, String attack, String spinAttack, String especialMoveOne, String especialMoveTwo, String menuAccess, String selectItem, String useItem, User user) {
+        super(moveUp, moveDown, moveLeft, moveRight, jump, dash, crouch, attack, spinAttack, especialMoveOne, especialMoveTwo, menuAccess, selectItem, useItem, user);
     }
 
     public KeyboardControls() {
