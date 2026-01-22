@@ -9,6 +9,9 @@
     import arrowButton from "$assets/images/arrowButtonImage.png";
     import fogImage from "$assets/textures/fogTexture.png";
 
+    import swordCut from "$assets/soundEffect/swordCutHome.mp3";
+    import gongSound from "$assets/soundEffect/gong.mp3";
+
     let username = "";
     let email = "";
     let password = "";
@@ -28,15 +31,24 @@
 
     function goLogin() {
         screen = "login";
+        playSound(swordCut);
     }
 
     function goRegister() {
         screen = "register";
+        playSound(swordCut);
     }
 
     function back() {
         screen = "options";
     }
+
+    function playSound(sound){
+        const cutSound = new Audio(sound);
+        cutSound.volume = 0.2;
+        cutSound.play();
+    }
+
 </script>
 
 <div class="left_side">
@@ -89,7 +101,7 @@
                     bind:value={password}
                 />
 
-                <button type="submit" class="button">
+                <button type="submit" class="button" onclick={playSound(gongSound)}>
                     <img src={arrowButton} alt="" class="arrow" />
                     Login
                 </button>
@@ -117,7 +129,7 @@
                     bind:value={password}
                 />
 
-                <button type="submit" class="button">
+                <button type="submit" class="button" onclick={playSound(gongSound)}>
                     <img src={arrowButton} alt="" class="arrow" />
                     Register
                 </button>
