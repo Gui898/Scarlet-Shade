@@ -2,6 +2,7 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
+import com.server.scarlet_shade.dto.user.UserRequestResponse;
 import com.server.scarlet_shade.dto.user.VolumeRequest;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +76,25 @@ public class UserService {
             slotFour);
 
         return userResponse;
+    }
+
+    public UserRequestResponse getUserConfigurations(User user) {
+
+        UserRequestResponse response = new UserRequestResponse(
+            user.getUsername(), 
+            user.getEmail(), 
+            user.getPassword()
+        );
+
+        return response;
+    }
+
+    public void updateUser(UserRequestResponse request, User user) {
+        user.setUsername(request.username());
+        user.setEmail(request.email());
+        user.setPassword(request.password());
+
+        userRepository.save(user);
     }
 
     public void updateVolume(VolumeRequest request, User user){

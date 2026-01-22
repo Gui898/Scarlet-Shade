@@ -1,12 +1,12 @@
-package com.server.scarlet_shade.auth.dto;
+package com.server.scarlet_shade.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserRegisterRequest(
-    
+public record UserRequestResponse(
+
     @NotBlank
     @Size(min = 10, max = 20, message = "Username must be between 10 and 20 caracters")
     String username, 

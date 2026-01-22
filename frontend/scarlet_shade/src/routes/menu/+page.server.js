@@ -73,7 +73,7 @@ export const actions = {
         const keyboard = JSON.parse(formData.get('keyboard'));
         const gamepad = JSON.parse(formData.get('gamepad'));
 
-        const res = await fetch('http://localhost:8080/user/controls', {
+        const res = await fetch('http://localhost:8080/control/update', {
 
             method: 'PATCH',
             headers: {
@@ -126,7 +126,7 @@ export async function load({ fetch, cookies }) {
     }
 
     const userData = JSON.parse(raw);
-    const resControl = await fetch("http://localhost:8080/user/controls", {
+    const resControl = await fetch("http://localhost:8080/control/buttons", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

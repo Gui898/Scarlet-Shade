@@ -1,8 +1,9 @@
 package com.server.scarlet_shade.service;
 
-import com.server.scarlet_shade.dto.user.controls.ControlsDTO;
-import com.server.scarlet_shade.dto.user.controls.UserControlsRequest;
-import com.server.scarlet_shade.dto.user.controls.UserControlsResponse;
+import org.springframework.stereotype.Service;
+
+import com.server.scarlet_shade.dto.controls.ControlsAttributes;
+import com.server.scarlet_shade.dto.controls.ControlsRequestResponse;
 import com.server.scarlet_shade.exception.controls.ControlsNotFound;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.controls.Controls;
@@ -10,9 +11,9 @@ import com.server.scarlet_shade.model.controls.GamepadControls;
 import com.server.scarlet_shade.model.controls.KeyboardControls;
 import com.server.scarlet_shade.repository.controls.GamepadControlsRepository;
 import com.server.scarlet_shade.repository.controls.KeyboardControlsRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class ControlsService {
     private final KeyboardControlsRepository keyboardControlsRepository;
 
     @Transactional
-    public UserControlsResponse getControlsByUser(User user){
+    public ControlsRequestResponse getControlsByUser(User user){
         Controls kc = keyboardControlsRepository.getKeyboardControl(user.getId());
         Controls gc = gamepadControlsRepository.getGamepadControl(user.getId());
 
@@ -30,7 +31,7 @@ public class ControlsService {
             throw new ControlsNotFound();
         }
 
-        ControlsDTO keyboard = new ControlsDTO(
+        ControlsAttributes keyboard = new ControlsAttributes(
                 kc.getMoveUp(),
                 kc.getMoveDown(),
                 kc.getMoveLeft(),
@@ -47,7 +48,7 @@ public class ControlsService {
                 kc.getUseItem()
         );
 
-        ControlsDTO gamepad = new ControlsDTO(
+        ControlsAttributes gamepad = new ControlsAttributes(
                 gc.getMoveUp(),
                 gc.getMoveDown(),
                 gc.getMoveLeft(),
@@ -64,52 +65,51 @@ public class ControlsService {
                 gc.getUseItem()
         );
 
-        return new UserControlsResponse(keyboard, gamepad);
+        return new ControlsRequestResponse(keyboard, gamepad);
     }
 
     @Transactional
-    public void updateControls(UserControlsRequest controls, User user){
-        KeyboardControls keyboard = keyboardControlsRepository.getKeyboardControl(user.getId());
+    public void updateControls(ControlsRequestResponse controls, User user){
+        
+        KeyboardControls keyboard = user.getKeyboardControls();
+        GamepadControls gamepad = user.getGamepadControls();
 
-        GamepadControls gamepad = gamepadControlsRepository.getGamepadControl(user.getId());
-
-        KeyboardControls kc = controls.keyboard();
-        GamepadControls gc = controls.gamepad();
+        ControlsAttributes kc = controls.keyboard();
+        ControlsAttributes gc = controls.gamepad();
 
         // Keyboard
-        keyboard.setMoveUp(kc.getMoveUp());
-        keyboard.setMoveDown(kc.getMoveDown());
-        keyboard.setMoveLeft(kc.getMoveLeft());
-        keyboard.setMoveRight(kc.getMoveRight());
-        keyboard.setJump(kc.getJump());
-        keyboard.setDash(kc.getDash());
-        keyboard.setCrouch(kc.getCrouch());
-        keyboard.setAttack(kc.getAttack());
-        keyboard.setSpinAttack(kc.getSpinAttack());
-        keyboard.setEspecialMoveOne(kc.getEspecialMoveOne());
-        keyboard.setEspecialMoveTwo(kc.getEspecialMoveTwo());
-        keyboard.setMenuAccess(kc.getMenuAccess());
-        keyboard.setSelectItem(kc.getSelectItem());
-        keyboard.setUseItem(kc.getUseItem());
+        keyboard.setMoveUp(kc.moveUp());
+        keyboard.setMoveDown(kc.moveDown());
+        keyboard.setMoveLeft(kc.moveLeft());
+        keyboard.setMoveRight(kc.moveRight());
+        keyboard.setJump(kc.jump());
+        keyboard.setDash(kc.dash());
+        keyboard.setCrouch(kc.crouch());
+        keyboard.setAttack(kc.attack());
+        keyboard.setSpinAttack(kc.spinAttack());
+        keyboard.setEspecialMoveOne(kc.especialMoveOne());
+        keyboard.setEspecialMoveTwo(kc.especialMoveTwo());
+        keyboard.setMenuAccess(kc.menuAccess());
+        keyboard.setSelectItem(kc.selectItem());
+        keyboard.setUseItem(kc.useItem());
 
         // Gamepad
-        gamepad.setMoveUp(gc.getMoveUp());
-        gamepad.setMoveDown(gc.getMoveDown());
-        gamepad.setMoveLeft(gc.getMoveLeft());
-        gamepad.setMoveRight(gc.getMoveRight());
-        gamepad.setJump(gc.getJump());
-        gamepad.setDash(gc.getDash());
-        gamepad.setCrouch(gc.getCrouch());
-        gamepad.setAttack(gc.getAttack());
-        gamepad.setSpinAttack(gc.getSpinAttack());
-        gamepad.setEspecialMoveOne(gc.getEspecialMoveOne());
-        gamepad.setEspecialMoveTwo(gc.getEspecialMoveTwo());
-        gamepad.setMenuAccess(gc.getMenuAccess());
-        gamepad.setSelectItem(gc.getSelectItem());
-        gamepad.setUseItem(gc.getUseItem());
+        gamepad.setMoveUp(gc.moveUp());
+        gamepad.setMoveDown(gc.moveDown());
+        gamepad.setMoveLeft(gc.moveLeft());
+        gamepad.setMoveRight(gc.moveRight());
+        gamepad.setJump(gc.jump());
+        gamepad.setDash(gc.dash());
+        gamepad.setCrouch(gc.crouch());
+        gamepad.setAttack(gc.attack());
+        gamepad.setSpinAttack(gc.spinAttack());
+        gamepad.setEspecialMoveOne(gc.especialMoveOne());
+        gamepad.setEspecialMoveTwo(gc.especialMoveTwo());
+        gamepad.setMenuAccess(gc.menuAccess());
+        gamepad.setSelectItem(gc.selectItem());
+        gamepad.setUseItem(gc.useItem());
 
         keyboardControlsRepository.save(keyboard);
         gamepadControlsRepository.save(gamepad);
     }
-
 }
