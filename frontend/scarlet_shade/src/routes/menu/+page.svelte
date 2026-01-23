@@ -30,7 +30,7 @@
 
     //Control variables
     let activeControl = "keyboard";
-    let keyboarControl = data.controls.keyboard;
+    let keyboardControl = data.controls.keyboard;
     let gamepadControl = data.controls.gamepad;
 
     let waiting = null;
@@ -41,7 +41,7 @@
     }
 
     function getActiveControls() {
-        return activeControl === "keyboard" ? keyboarControl : gamepadControl;
+        return activeControl === "keyboard" ? keyboardControl : gamepadControl;
     }
 
     function onKeyPress(event) {
@@ -50,7 +50,15 @@
         if (!waiting) return;
 
         const controls = getActiveControls();
-        controls[waiting] = event.code === "Space" ? "SPACE" : event.key.toUpperCase();
+        controls[waiting] =
+            event.code === "Space" ? "SPACE" : event.key.toUpperCase();
+
+        if (activeControl === "keyboard") {
+            keyboardControl = keyboardControl;
+        } else {
+            gamepadControl = gamepadControl;
+        }
+
         waiting = null;
         window.removeEventListener("keydown", onKeyPress);
     }
@@ -83,7 +91,7 @@
         soundEffect.volume = value;
     }
 
-    function playSound(sound){
+    function playSound(sound) {
         const cutSound = new Audio(sound);
         cutSound.volume = 0.2;
         cutSound.play();
@@ -110,7 +118,12 @@
 
     <div class="icons">
         <!-- Volume button -->
-        <button on:click={() => {(openModalVolume = true); playSound(pop)}}>
+        <button
+            on:click={() => {
+                openModalVolume = true;
+                playSound(pop);
+            }}
+        >
             <img src={volume} alt="" />
         </button>
 
@@ -145,7 +158,12 @@
         </Modal>
 
         <!-- Controls button -->
-        <button on:click={() => {(openModalControls = true); playSound(pop)}}>
+        <button
+            on:click={() => {
+                openModalControls = true;
+                playSound(pop);
+            }}
+        >
             <img src={controlsIcon} alt="" />
         </button>
 
@@ -159,7 +177,7 @@
             <div class="controls_box">
                 <h5>Keyboard</h5>
                 <div class="controls_container">
-                    {#each Object.keys(keyboarControl) as action, i}
+                    {#each Object.keys(keyboardControl) as action, i}
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div
@@ -170,9 +188,9 @@
                             class="control_item"
                         >
                             {#if waiting === action}
-                                Pressione...
+                                Press...
                             {:else}
-                                {@html `${action}: <br><span class="control_value">${keyboarControl[action]}</span>`}
+                                {@html `${action}: <br><span class="control_value">${keyboardControl[action]}</span>`}
                             {/if}
                         </div>
                     {/each}
@@ -181,7 +199,7 @@
                 <input
                     type="hidden"
                     name="keyboard"
-                    value={JSON.stringify(keyboarControl)}
+                    value={JSON.stringify(keyboardControl)}
                 />
 
                 <h5>Gamepad</h5>
@@ -197,7 +215,7 @@
                             class="control_item"
                         >
                             {#if waiting === action}
-                                Pressione...
+                                Press...
                             {:else}
                                 {@html `${action}: <br><span class="control_value">${gamepadControl[action]}</span>`}
                             {/if}
@@ -214,7 +232,12 @@
         </Modal>
 
         <!-- Configuration button -->
-        <button on:click={() => {(openModalConfig = true); playSound(pop)}}>
+        <button
+            on:click={() => {
+                openModalConfig = true;
+                playSound(pop);
+            }}
+        >
             <img src={config} alt="" />
         </button>
 
@@ -235,7 +258,9 @@
 
         <!-- Logout button -->
         <form method="POST" action="?/logout">
-            <button on:click={playSound(swordCut)}><img src={leave} alt="" /></button>
+            <button on:click={playSound(swordCut)}
+                ><img src={leave} alt="" /></button
+            >
         </form>
     </div>
 

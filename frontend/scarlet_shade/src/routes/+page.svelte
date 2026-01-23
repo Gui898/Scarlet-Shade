@@ -11,6 +11,7 @@
 
     import swordCut from "$assets/soundEffect/swordCutHome.mp3";
     import gongSound from "$assets/soundEffect/gong.mp3";
+    import closeEffect from "$assets/soundEffect/close.mp3";
 
     let username = "";
     let email = "";
@@ -53,7 +54,7 @@
 
 <div class="left_side">
     {#if screen !== "options"}
-        <button onclick={back} class="back_arrow"> ← </button>
+        <button onclick={() => {back(); playSound(closeEffect)}} class="back_arrow"> ← </button>
     {/if}
 
     <div class="title">
