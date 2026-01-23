@@ -2,7 +2,7 @@ package com.server.scarlet_shade.auth.dto;
 
 import java.math.BigDecimal;
 
-import com.server.scarlet_shade.dto.SlotResponse;
+import com.server.scarlet_shade.dto.player.slot.SlotResponse;
 
 public record UserResponse (
   

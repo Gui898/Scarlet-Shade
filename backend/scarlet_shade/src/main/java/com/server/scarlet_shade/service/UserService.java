@@ -2,15 +2,14 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
-import com.server.scarlet_shade.dto.user.UserConfigurationResponse;
-import com.server.scarlet_shade.dto.user.UserRequest;
-import com.server.scarlet_shade.dto.user.VolumeRequest;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.auth.dto.UserResponse;
-import com.server.scarlet_shade.dto.SlotResponse;
+import com.server.scarlet_shade.dto.player.slot.SlotResponse;
+import com.server.scarlet_shade.dto.user.UserConfigurationResponse;
+import com.server.scarlet_shade.dto.user.UserRequest;
+import com.server.scarlet_shade.dto.user.VolumeRequest;
 import com.server.scarlet_shade.exception.user.UserConflictException;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.controls.GamepadControls;
@@ -92,6 +91,7 @@ public class UserService {
         return response;
     }
 
+    @Transactional
     public void updateUser(UserRequest request, User user) {
         
         user.setUsername(request.username());
@@ -105,6 +105,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void updateVolume(VolumeRequest request, User user){
         user.setSoundtrack(request.soundtrack());
         user.setSoundEffects(request.soundEffect());

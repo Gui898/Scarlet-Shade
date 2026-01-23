@@ -9,8 +9,6 @@ export const actions = {
 		const username = formData.get('username');
 		const password = formData.get('password');
 
-		console.log(username);
-		console.log(password);
 		const res = await fetch('http://localhost:8080/auth/login', {
 			method: 'POST',
 			headers: {
@@ -61,10 +59,6 @@ export const actions = {
 		const username = formData.get('username');
 		const email = formData.get('email');
 		const password = formData.get('password');
-
-		console.log(username);
-		console.log(password);
-		console.log(email);
 		
 		const res = await fetch('http://localhost:8080/auth/register', {
 			method: 'POST',
