@@ -30,7 +30,7 @@ public class Jade {
     private String nameJade;
 
     @ManyToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     public Jade(String nameJade, Slot slot) {

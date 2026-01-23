@@ -46,7 +46,7 @@ public class Slot {
     private Boolean gameCompleted = false;
 
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
     @OneToOne(mappedBy = "slot", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

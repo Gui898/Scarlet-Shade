@@ -33,11 +33,11 @@ public class UsableItem {
     private Integer numberItem;
 
     @ManyToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     @OneToOne
-    @JoinColumn(name = "id_inventory_item")
+    @JoinColumn(name = "id_inventory_item", nullable = false)
     private InventoryItem inventoryItem;
 
     public UsableItem(Integer numberItem, Slot slot, InventoryItem inventoryItem) {

@@ -35,7 +35,7 @@ public class EquipedItem {
     private String sword;
 
     @OneToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     public EquipedItem(String armor, String sword) {

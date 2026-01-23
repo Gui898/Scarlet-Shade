@@ -13,9 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Getter;
 
 @Entity
 @Table(name = "phases")
@@ -38,7 +38,7 @@ public class Phase {
     private String namePhase;
 
     @ManyToOne
-    @JoinColumn(name = "id_world_progress")
+    @JoinColumn(name = "id_world_progress", nullable = false)
     private WorldProgress worldProgress;
 
     public Phase(StatusPhase statusPhase, String namePhase, WorldProgress worldProgress) {

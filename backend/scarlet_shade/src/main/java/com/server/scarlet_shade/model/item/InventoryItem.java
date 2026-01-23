@@ -43,7 +43,7 @@ public class InventoryItem {
     private String nameItem;
 
     @ManyToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     @OneToOne(mappedBy = "inventoryItem")

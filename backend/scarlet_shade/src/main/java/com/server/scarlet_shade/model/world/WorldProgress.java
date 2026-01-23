@@ -37,7 +37,7 @@ public class WorldProgress {
     private String currentPhase;
 
     @OneToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     @OneToMany(mappedBy = "worldProgress", cascade = CascadeType.REMOVE)

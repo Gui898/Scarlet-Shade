@@ -48,7 +48,7 @@ public class Player {
     private String currentYokai;
 
     @OneToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     public Player(Integer damage, Integer speed, Integer life, Integer maxLife, Integer money, String element, String currentYokai, Slot slot) {

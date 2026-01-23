@@ -39,7 +39,7 @@ public class SideQuest {
     private StatusSideQuest statusSideQuest = StatusSideQuest.PROGRESS;
 
     @ManyToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     public SideQuest(String nameSideQuest, StatusSideQuest statusSideQuest, Slot slot) {

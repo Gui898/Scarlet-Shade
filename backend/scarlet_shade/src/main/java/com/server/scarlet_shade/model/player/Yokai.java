@@ -30,7 +30,7 @@ public class Yokai {
     private String nameYokai;
 
     @ManyToOne
-    @JoinColumn(name = "id_slot")
+    @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
     public Yokai(String nameYokai, Slot slot) {
