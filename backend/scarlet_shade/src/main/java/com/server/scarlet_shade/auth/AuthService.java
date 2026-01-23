@@ -1,5 +1,6 @@
 package com.server.scarlet_shade.auth;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class AuthService {
 
     public UserResponse authRegister(UserRegisterRequest userRegisterRequest, HttpServletResponse httpServletResponse) {
 
+        SecurityContextHolder.clearContext();
+
         User user = userService.createUser(
             userRegisterRequest.username(), 
             userRegisterRequest.email(), 
@@ -39,6 +42,8 @@ public class AuthService {
 
     public UserResponse authLogin(UserLoginRequest userLoginRequest, HttpServletResponse httpServletResponse) {
 
+        SecurityContextHolder.clearContext();
+        
         User user = cookieConfig.authCreateCookie(
             userLoginRequest.username(),
             userLoginRequest.password(),

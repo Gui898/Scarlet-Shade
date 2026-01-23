@@ -59,4 +59,20 @@ public class CookieConfiguration {
 
         httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
+
+    public void refreshCookie(User user, HttpServletResponse httpServletResponse) {
+
+        String token = tokenConfig.generateToken(user);
+        
+        ResponseCookie cookie = ResponseCookie
+            .from("access_token", token)
+            .httpOnly(true)
+            .secure(false)            
+            .sameSite("Lax")     
+            .path("/")
+            .maxAge(expiration)
+            .build();
+
+        httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
 }

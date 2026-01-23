@@ -90,28 +90,51 @@ export const actions = {
         throw redirect(303, '/menu');
     },
 
-    // configuration: async({ request, fetch, cookies }) => {
-    //     const res = await fetch('http://localhost:8080/auth/?', {
+    configuration: async({request, fetch, cookies}) => {
 
-    //         method: 'POST'
-    //     });
+        const formData = await request.formData();
 
-    //     if(!res.ok){
-    //         return fail(401, {error: 'Fail Volume Set'});
-    //     }
+        const username = formData.get("username");
+        const email = formData.get("email");
+        const password = formData.get("password");
 
-    //     const data = await res.json().catch(() => null);
+        const token = cookies.get('access_token');
 
-    //     cookies.set("user", JSON.stringify(data), {
-    //         path: '/',
-    //         httpOnly: true,
-    //         sameSite: 'lax',
-    //     });
+        const res = await fetch("http://localhost:8080/user/update", {
 
-    //     throw redirect(303, '/menu');
-    // },
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${cookies.get('access_token')}`
+            },
+            body: JSON.stringify({username, email, password})
+        });
+
+        if (!res.ok) {
+            return fail(401, {error: 'Fail Volume Set'});
+        }
+
+        const setCookie = res.headers.get('set-cookie');
+
+		const cookiesHeader = res.headers.getSetCookie();
+		const tokenValue = cookiesHeader
+			.find(c => c.includes('access_token='))
+			?.split('access_token=')[1]
+			?.split(';')[0];
 
 
+		if (tokenValue) {
+            cookies.set('access_token', tokenValue, {
+                path: '/',
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: false, 
+                maxAge: 259200
+            });
+        }
+        
+        throw redirect(303, '/menu');
+    }
 }
 
 export async function load({ fetch, cookies }) {
@@ -134,10 +157,20 @@ export async function load({ fetch, cookies }) {
         }
     });
 
+    const resUser = await fetch("http://localhost:8080/user/configurations", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
     const controls = await resControl.json().catch(() => null);
+    const configurations = await resUser.json().catch(() => null);
 
     return {
         userData,
-        controls
+        controls,
+        configurations
     };
 }

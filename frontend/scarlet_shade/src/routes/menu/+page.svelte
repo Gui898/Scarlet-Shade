@@ -225,9 +225,9 @@
         >
             <h2>Configurations</h2>
             <div class="configurations">
-                <input type="text" placeholder="Username" />
-                <input type="text" placeholder="Email" />
-                <input type="text" placeholder="Password" />
+                <input type="text" name="username" placeholder="Username" value="{data.configurations.username}"/>
+                <input type="text" name="email" placeholder="Email" value="{data.configurations.email}" />
+                <input type="text" name="password" placeholder="Password" value=""/>
 
                 <button class="delete"> Delete User </button>
             </div>

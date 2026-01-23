@@ -1,12 +1,11 @@
 package com.server.scarlet_shade.security.filter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -41,16 +40,22 @@ public class FilterChainConfiguration extends OncePerRequestFilter {
             if (optionalUser.isPresent()) {
                 
                 JWTUserData userData = optionalUser.get();
+                try {
 
-                UserSecurity userDetails = (UserSecurity) userDetailsService.loadUserByUsername(userData.username());
+                    UserSecurity userDetails = (UserSecurity) userDetailsService.loadUserByUsername(userData.username());
 
-                UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(
-                        userDetails, null,
-                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
-                    );
+                    UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                            userDetails, null,
+                            userDetails.getAuthorities() 
+                        );
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                } 
+                catch (UsernameNotFoundException e) {
+
+                    SecurityContextHolder.clearContext();
+                }
             }
         }
 

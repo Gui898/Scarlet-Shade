@@ -33,8 +33,10 @@ public class SecurityConfiguration {
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                
                     .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                     .anyRequest().hasRole("USER")
             )
             .addFilterBefore(filterChainConfig, UsernamePasswordAuthenticationFilter.class);

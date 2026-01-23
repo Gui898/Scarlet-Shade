@@ -2,8 +2,11 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
-import com.server.scarlet_shade.dto.user.UserRequestResponse;
+import com.server.scarlet_shade.dto.user.UserConfigurationResponse;
+import com.server.scarlet_shade.dto.user.UserRequest;
 import com.server.scarlet_shade.dto.user.VolumeRequest;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.auth.dto.UserResponse;
@@ -24,6 +27,7 @@ public class UserService {
  
     private final UserRepository userRepository;
     private final SlotService slotService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public User createUser(String username, String email, String password) {
@@ -78,21 +82,25 @@ public class UserService {
         return userResponse;
     }
 
-    public UserRequestResponse getUserConfigurations(User user) {
+    public UserConfigurationResponse getUserConfigurations(User user) {
 
-        UserRequestResponse response = new UserRequestResponse(
+        UserConfigurationResponse response = new UserConfigurationResponse(
             user.getUsername(), 
-            user.getEmail(), 
-            user.getPassword()
+            user.getEmail()
         );
 
         return response;
     }
 
-    public void updateUser(UserRequestResponse request, User user) {
+    public void updateUser(UserRequest request, User user) {
+        
         user.setUsername(request.username());
         user.setEmail(request.email());
-        user.setPassword(request.password());
+        
+        System.out.println(request.password());
+        if (request.password() != null && !request.password().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.password()));
+        }
 
         userRepository.save(user);
     }

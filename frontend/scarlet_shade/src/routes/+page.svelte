@@ -91,17 +91,19 @@
                 <input
                     name="username"
                     type="text"
+                    autocomplete="username"
                     placeholder="Username"
                     bind:value={username}
                 />
                 <input
                     name="password"
                     type="password"
+                    autocomplete="current-password"
                     placeholder="Password"
                     bind:value={password}
                 />
 
-                <button type="submit" class="button" onclick={playSound(gongSound)}>
+                <button type="submit" class="button" onclick={() => playSound(gongSound)}>
                     <img src={arrowButton} alt="" class="arrow" />
                     Login
                 </button>
@@ -129,7 +131,7 @@
                     bind:value={password}
                 />
 
-                <button type="submit" class="button" onclick={playSound(gongSound)}>
+                <button type="submit" class="button" onclick={() => playSound(gongSound)}>
                     <img src={arrowButton} alt="" class="arrow" />
                     Register
                 </button>
