@@ -42,7 +42,7 @@
           <img src={backImg} alt="Back" />
         </button>
 
-        <button type="submit" class="save" on:click={playSound(apply)}>
+        <button type="submit" class="save" on:click={() => playSound(apply)}>
           <img src={okImg} alt="OK"/>
         </button>
       </div>
