@@ -37,8 +37,8 @@ public class SlotController {
         return ResponseEntity.status(HttpStatus.OK).body(slotValues);
     }
 
-    @DeleteMapping("/delete/{numSlot}")
-    public ResponseEntity<Void> deleteSlotByNumberByUser(@RequestParam("id") int numSlot, UserSecurity userSecurity){
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteSlotByNumberByUser(@RequestParam("number") int numSlot, UserSecurity userSecurity){
         User user = userSecurity.getUser();
         slotService.deleteSlotByNumberByUser(user, numSlot);
 
