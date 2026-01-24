@@ -16,7 +16,9 @@ import com.server.scarlet_shade.model.controls.GamepadControls;
 import com.server.scarlet_shade.model.controls.KeyboardControls;
 import com.server.scarlet_shade.model.player.Slot;
 import com.server.scarlet_shade.repository.UserRepository;
+import com.server.scarlet_shade.security.token.CookieConfiguration;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final SlotService slotService;
     private final PasswordEncoder passwordEncoder;
+    private final CookieConfiguration cookieConfiguration;
 
     @Transactional
     public User createUser(String username, String email, String password) {
@@ -112,7 +115,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteUser(User user){
+    @Transactional
+    public void deleteUser(User user, HttpServletResponse httpServletResponse){
         userRepository.delete(user);
+        cookieConfiguration.authDeleteCookie(httpServletResponse);
     }
 }

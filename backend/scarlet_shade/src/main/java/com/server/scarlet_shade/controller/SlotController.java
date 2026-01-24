@@ -3,6 +3,7 @@ package com.server.scarlet_shade.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ public class SlotController {
         return ResponseEntity.status(HttpStatus.CREATED).body(slotValues);
     }
 
-    @PostMapping("/get")
+    @GetMapping("/get")
     public ResponseEntity<SlotValues> getSlot(@RequestParam("number") int numberSlot, @AuthenticationPrincipal UserSecurity userSecurity) {
         User user = userSecurity.getUser();
         

@@ -53,9 +53,9 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal UserSecurity userSecurity){
+    public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal UserSecurity userSecurity, HttpServletResponse httpServletResponse){
         User user = userSecurity.getUser();
-        userService.deleteUser(user);
+        userService.deleteUser(user, httpServletResponse);
 
         return ResponseEntity.noContent().build();
     }
