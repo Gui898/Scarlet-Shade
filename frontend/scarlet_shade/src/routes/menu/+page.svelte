@@ -133,10 +133,11 @@
                         <input type="hidden" name="numberSlot" value="{i + 1}">
                     </form>
                 {/if}                    
-                <form>
+                <form method="POST" action="?/deleteSlot">
                     <button class="trash">
                         <img src={trash} alt="" />
                     </button>
+                    <input type="hidden" name="numberSlot" value="{i + 1}">
                 </form>
             </div>
         {/each}

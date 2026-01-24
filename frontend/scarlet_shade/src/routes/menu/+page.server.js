@@ -17,7 +17,7 @@ export const actions = {
 			return fail(401, {error: 'Fail Logout'});
 		}
 
-        const ALL_COOKIES = ["access_token", "user"];
+        const ALL_COOKIES = ["access_token", "user", "game"];
         for (let i = 0; i < ALL_COOKIES.length; i++) {
             
             cookies.delete(ALL_COOKIES[i], {
@@ -151,7 +151,7 @@ export const actions = {
 			return fail(401, {error: 'Fail Logout'});
 		}
 
-        const ALL_COOKIES = ["access_token", "user"];
+        const ALL_COOKIES = ["access_token", "user", "game"];
         for (let i = 0; i < ALL_COOKIES.length; i++) {
             
             cookies.delete(ALL_COOKIES[i], {
@@ -164,6 +164,7 @@ export const actions = {
 
     createSlot: async({request, fetch, cookies}) => {
         
+        const raw = JSON.parse(cookies.get("user"));
         const formData = await request.formData();
         const numberSlot = Number(formData.get("numberSlot"));
 
@@ -181,7 +182,28 @@ export const actions = {
 		}
 
         const data = await res.json().catch(() => null);
-		console.log(data);
+
+        switch(numberSlot){
+            case 1:
+                raw.slotOne = {numberSlot: data.numberSlot, gameCompleted: data.gameCompleted};
+                break;
+            case 2:
+                raw.slotTwo = {numberSlot: data.numberSlot, gameCompleted: data.gameCompleted};
+                break;
+            case 3:
+                raw.slotThree = {numberSlot: data.numberSlot, gameCompleted: data.gameCompleted};
+                break;
+            case 4:
+                raw.slotFour = {numberSlot: data.numberSlot, gameCompleted: data.gameCompleted};
+                break;
+        }
+
+        cookies.set("user", JSON.stringify(raw), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		});
+
 		cookies.set("game", JSON.stringify(data), {
 			path: '/',
 			httpOnly: true,
@@ -209,7 +231,6 @@ export const actions = {
 		}
 
         const data = await res.json().catch(() => null);
-		console.log(data);
 		cookies.set("game", JSON.stringify(data), {
 			path: '/',
 			httpOnly: true,
@@ -217,6 +238,51 @@ export const actions = {
 		});
 
         throw redirect(303, '/menu/game');
+    },
+
+    deleteSlot: async({request, fetch, cookies}) => {
+        const formData = await request.formData();
+        const raw = JSON.parse(cookies.get("user"));
+
+        const numberSlot = Number(formData.get("numberSlot"));
+        const token = cookies.get("access_token");
+
+        const res = await fetch(`http://localhost:8080/slot/delete?number=${numberSlot}`,{
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+			return fail(401, {error: 'Fail Logout'});
+		}
+
+        switch(numberSlot){
+            case 1:
+                raw.slotOne = null;
+                break;
+            case 2:
+                raw.slotTwo = null;
+                break;
+            case 3:
+                raw.slotThree = null;
+                break;
+            case 4:
+                raw.slotFour = null;
+                break;
+        }
+
+        cookies.set("user", JSON.stringify(raw), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		});
+        
+        cookies.delete("game", {
+            path: '/'
+        });
     }
 }
 
