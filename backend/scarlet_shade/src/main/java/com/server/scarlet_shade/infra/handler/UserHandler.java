@@ -14,7 +14,7 @@ import com.server.scarlet_shade.infra.RestErrorMessage;
 public class UserHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<RestErrorMessage> userNotFoundHandler(UserNotFoundException e){
+    private ResponseEntity<RestErrorMessage> userNotFoundHandler(UserNotFoundException e){
         
         RestErrorMessage message = new RestErrorMessage(
             HttpStatus.NOT_FOUND.value(), 
@@ -25,7 +25,7 @@ public class UserHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UserConflictException.class)
-    public ResponseEntity<RestErrorMessage> userConflictHandler(UserConflictException e){
+    private ResponseEntity<RestErrorMessage> userConflictHandler(UserConflictException e){
         
         RestErrorMessage message = new RestErrorMessage(
             HttpStatus.CONFLICT.value(), 

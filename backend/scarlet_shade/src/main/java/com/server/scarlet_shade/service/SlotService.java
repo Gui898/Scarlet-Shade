@@ -2,6 +2,7 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
+import com.server.scarlet_shade.exception.player.InvalidSlotNumber;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.dto.player.player.PlayerResponse;
@@ -92,5 +93,14 @@ public class SlotService {
 
         ArrayList<Slot> slots = (ArrayList<Slot>) slotRepository.getAllSlot(user.getId());
         return slots;
+    }
+
+    @Transactional
+    public void deleteSlotByNumberByUser(User user, int numberSlot){
+        slotRepository.deleteSlotByNumberByUser(user.getId(), numberSlot);
+
+        if(numberSlot > 4 || numberSlot <= 0){
+            throw new InvalidSlotNumber();
+        }
     }
 }

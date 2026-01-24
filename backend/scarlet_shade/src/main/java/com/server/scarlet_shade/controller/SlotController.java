@@ -3,11 +3,7 @@ package com.server.scarlet_shade.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.server.scarlet_shade.dto.player.slot.SlotValues;
 import com.server.scarlet_shade.model.User;
@@ -39,5 +35,13 @@ public class SlotController {
         SlotValues slotValues = slotService.getSlotByNumber(user, numberSlot);
 
         return ResponseEntity.status(HttpStatus.OK).body(slotValues);
+    }
+
+    @DeleteMapping("/delete/{numSlot}")
+    public ResponseEntity<Void> deleteSlotByNumberByUser(@RequestParam("id") int numSlot, UserSecurity userSecurity){
+        User user = userSecurity.getUser();
+        slotService.deleteSlotByNumberByUser(user, numSlot);
+
+        return ResponseEntity.noContent().build();
     }
 }
