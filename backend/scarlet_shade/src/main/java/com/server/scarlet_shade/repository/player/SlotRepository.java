@@ -15,4 +15,7 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
 
     @Query(value = "SELECT * FROM slot WHERE id_user = :idUser AND number_slot = :numberSlot", nativeQuery = true)
     public Slot getSlot(@Param("idUser") long idUser, @Param("numberSlot") int numberSlot);
+
+    @Query(value = "DELETE FROM slot WHERE id_user = :idUser AND number_slot = :numberSlot", nativeQuery = true)
+    public void deleteSlotByNumberByUser(@Param("idUser") long idUser, @Param("numberSlot") int numberSlot);
 }
