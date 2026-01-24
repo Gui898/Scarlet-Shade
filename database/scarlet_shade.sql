@@ -118,7 +118,7 @@ CREATE TABLE side_quest(
 CREATE TABLE world_progress(
 	id_world_progress BIGINT AUTO_INCREMENT,
     id_slot BIGINT UNIQUE NOT NULL,
-    current_phase VARCHAR(255) NOT NULL,
+    current_phase VARCHAR(255) NOT NULL DEFAULT('CHAPTER_ONE_PHASE_ONE'),
     
     PRIMARY KEY(id_world_progress),
     FOREIGN KEY(id_slot) REFERENCES slot(id_slot)
