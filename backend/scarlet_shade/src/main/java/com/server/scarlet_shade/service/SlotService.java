@@ -109,8 +109,8 @@ public class SlotService {
     }
 
     @Transactional
-    public void deleteSlotByNumberByUser(User user, int numberSlot){
-        slotRepository.deleteSlotByNumberByUser(user.getId(), numberSlot);
+    public void deleteSlotByNumberByUser(Long idUser, int numberSlot){
+        slotRepository.deleteSlotByNumberByUser(idUser, numberSlot);
 
         if(numberSlot > 4 || numberSlot <= 0){
             throw new InvalidSlotNumber();
