@@ -11,6 +11,7 @@ import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.player.Player;
 import com.server.scarlet_shade.model.player.Slot;
 import com.server.scarlet_shade.model.world.WorldProgress;
+import com.server.scarlet_shade.repository.UserRepository;
 import com.server.scarlet_shade.repository.player.SlotRepository;
 
 import jakarta.transaction.Transactional;
@@ -21,9 +22,13 @@ import lombok.RequiredArgsConstructor;
 public class SlotService {
  
     private final SlotRepository slotRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public SlotValues createSlot(User user, int numberSlot) {
+    public SlotValues createSlot(Long idIser, int numberSlot) {
+
+        User user = userRepository.findById(idIser)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
         Slot slot = new Slot(numberSlot, false);
         slot.setUser(user);
@@ -62,9 +67,17 @@ public class SlotService {
     }
 
     @Transactional
-    public SlotValues getSlotByNumber(User user, int numberSlot) {
+    public SlotValues getSlotByNumber(Long idUser, int numberSlot) {
 
-        Slot slot = slotRepository.getSlot(user.getId(), numberSlot);
+        Slot slot = slotRepository.getSlot(idUser, numberSlot);
+
+        String element;
+        if (slot.getPlayer().getElement() == null) {
+            element = null;
+        }
+        else {
+            element = slot.getPlayer().getElement().toString();
+        }
 
         PlayerResponse playerResponse = new PlayerResponse(
             slot.getPlayer().getDamage(), 
@@ -72,7 +85,7 @@ public class SlotService {
             slot.getPlayer().getLife(), 
             slot.getPlayer().getMaxLife(), 
             slot.getPlayer().getMoney(),
-            slot.getPlayer().getElement().toString(),
+            element,
             slot.getPlayer().getCurrentYokai());
         
         WorldProgressResponse worldProgressResponse = new 
@@ -80,7 +93,7 @@ public class SlotService {
         
         SlotValues slotValues = new SlotValues(
             numberSlot, 
-            false, 
+            slot.getGameCompleted(),
             playerResponse,
             worldProgressResponse);
 

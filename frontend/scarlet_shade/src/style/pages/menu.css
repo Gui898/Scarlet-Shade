@@ -94,11 +94,25 @@ h5{
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-image: url("$assets/backgroundImages/finalizedGame.jpg");
-    background-size: cover;
-    background-position: center;
     filter: blur(0.5px);
     transform: scale(1.15);
+}
+
+.completed, .notStarted, .started {
+    background-size: cover;
+    background-position: center;
+}
+
+.completed {
+    background-image: url("$assets/backgroundImages/finalizedGame.jpg");
+}
+
+.notStarted {
+    background-image: url("$assets/backgroundImages/startNewGame.jpg");
+}
+
+.started {
+    background-image: url("$assets/backgroundImages/playingGame.jpg");
 }
 
 .slot_style::after {

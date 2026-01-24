@@ -160,6 +160,63 @@ export const actions = {
         }
         
         throw redirect(303, '/');
+    },
+
+    createSlot: async({request, fetch, cookies}) => {
+        
+        const formData = await request.formData();
+        const numberSlot = Number(formData.get("numberSlot"));
+
+        const token = cookies.get("access_token");
+        const res = await fetch(`http://localhost:8080/slot/create?number=${numberSlot}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+			return fail(401, {error: 'Fail Logout'});
+		}
+
+        const data = await res.json().catch(() => null);
+		console.log(data);
+		cookies.set("game", JSON.stringify(data), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		});
+
+        throw redirect(303, '/menu/game');
+    },
+
+    getSlot: async({request, fetch, cookies}) => {
+
+        const formData = await request.formData();
+        const numberSlot = Number(formData.get("numberSlot"));
+
+        const token = cookies.get("access_token");
+        const res = await fetch(`http://localhost:8080/slot/get?number=${numberSlot}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+			return fail(401, {error: 'Fail Logout'});
+		}
+
+        const data = await res.json().catch(() => null);
+		console.log(data);
+		cookies.set("game", JSON.stringify(data), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		});
+
+        throw redirect(303, '/menu/game');
     }
 }
 

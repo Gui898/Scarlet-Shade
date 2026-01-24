@@ -27,7 +27,7 @@ public class SlotController {
     public ResponseEntity<SlotValues> createSlot(@RequestParam("number") int numberSlot, @AuthenticationPrincipal UserSecurity userSecurity) {
         User user = userSecurity.getUser();
 
-        SlotValues slotValues = slotService.createSlot(user, numberSlot);
+        SlotValues slotValues = slotService.createSlot(user.getId(), numberSlot);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(slotValues);
     }
@@ -36,7 +36,7 @@ public class SlotController {
     public ResponseEntity<SlotValues> getSlot(@RequestParam("number") int numberSlot, @AuthenticationPrincipal UserSecurity userSecurity) {
         User user = userSecurity.getUser();
         
-        SlotValues slotValues = slotService.getSlotByNumber(user, numberSlot);
+        SlotValues slotValues = slotService.getSlotByNumber(user.getId(), numberSlot);
 
         return ResponseEntity.status(HttpStatus.OK).body(slotValues);
     }

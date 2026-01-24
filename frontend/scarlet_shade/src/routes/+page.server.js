@@ -43,6 +43,7 @@ export const actions = {
         }
 
 		const data = await res.json().catch(() => null);
+		console.log(data);
 		cookies.set("user", JSON.stringify(data), {
 			path: '/',
 			httpOnly: true,
@@ -96,6 +97,7 @@ export const actions = {
         }
 
 		const data = await res.json().catch(() => null);
+		console.log(data);
 		cookies.set("user", JSON.stringify(data), {
 			path: '/',
 			httpOnly: true,
