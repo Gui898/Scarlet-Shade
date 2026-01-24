@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.server.scarlet_shade.model.player.Slot;
+import com.server.scarlet_shade.utils.enumerator.PhaseName;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +36,9 @@ public class WorldProgress {
     @Column(name = "id_world_progress")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "current_phase", nullable = false)
-    private String currentPhase;
+    private PhaseName currentPhase = PhaseName.CHAPTER_ONE_PHASE_ONE;
 
     @OneToOne
     @JoinColumn(name = "id_slot", nullable = false)
@@ -43,12 +47,12 @@ public class WorldProgress {
     @OneToMany(mappedBy = "worldProgress", cascade = CascadeType.REMOVE)
     private List<Phase> phases = new ArrayList<>();
 
-    public WorldProgress(String currentPhase, Slot slot) {
+    public WorldProgress(PhaseName currentPhase, Slot slot) {
         this.currentPhase = currentPhase;
         this.slot = slot;
     }
 
-    public WorldProgress(String currentPhase) {
+    public WorldProgress(PhaseName currentPhase) {
         this.currentPhase = currentPhase;
     }
 }

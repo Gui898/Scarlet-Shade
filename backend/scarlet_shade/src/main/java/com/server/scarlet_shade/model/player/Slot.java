@@ -52,7 +52,6 @@ public class Slot {
     @OneToOne(mappedBy = "slot", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private WorldProgress worldProgress;
 
-    // Possibilidade de ter PERSIST por causa do equipamento básico; 
     @OneToOne(mappedBy = "slot", cascade = CascadeType.REMOVE)
     private EquipedItem equipedItem;
 

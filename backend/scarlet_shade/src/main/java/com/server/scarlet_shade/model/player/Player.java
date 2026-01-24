@@ -1,7 +1,11 @@
 package com.server.scarlet_shade.model.player;
 
+import com.server.scarlet_shade.utils.enumerator.ElementPlayer;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,8 +45,9 @@ public class Player {
     @Column(name = "money", nullable = false)
     private Integer money = 0;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "element")
-    private String element;
+    private ElementPlayer element;
 
     @Column(name = "current_yokai")
     private String currentYokai;
@@ -51,7 +56,7 @@ public class Player {
     @JoinColumn(name = "id_slot", nullable = false)
     private Slot slot;
 
-    public Player(Integer damage, Integer speed, Integer life, Integer maxLife, Integer money, String element, String currentYokai, Slot slot) {
+    public Player(Integer damage, Integer speed, Integer life, Integer maxLife, Integer money, ElementPlayer element, String currentYokai, Slot slot) {
         this.damage = damage;
         this.speed = speed;
         this.life = life;
@@ -62,7 +67,7 @@ public class Player {
         this.slot = slot;
     }
 
-    public Player(Integer damage, Integer speed, Integer life, Integer maxLife, Integer money, String element, String currentYokai) {
+    public Player(Integer damage, Integer speed, Integer life, Integer maxLife, Integer money, ElementPlayer element, String currentYokai) {
         this.damage = damage;
         this.speed = speed;
         this.life = life;

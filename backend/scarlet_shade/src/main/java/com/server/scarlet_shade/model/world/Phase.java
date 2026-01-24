@@ -1,5 +1,6 @@
 package com.server.scarlet_shade.model.world;
 
+import com.server.scarlet_shade.utils.enumerator.PhaseName;
 import com.server.scarlet_shade.utils.enumerator.StatusPhase;
 
 import jakarta.persistence.Column;
@@ -34,20 +35,21 @@ public class Phase {
     @Column(name = "status_phase", nullable = false)
     private StatusPhase statusPhase = StatusPhase.DISCOVERED;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "name_phase", nullable = false)
-    private String namePhase;
+    private PhaseName namePhase = PhaseName.CHAPTER_ONE_PHASE_ONE;
 
     @ManyToOne
     @JoinColumn(name = "id_world_progress", nullable = false)
     private WorldProgress worldProgress;
 
-    public Phase(StatusPhase statusPhase, String namePhase, WorldProgress worldProgress) {
+    public Phase(StatusPhase statusPhase, PhaseName namePhase, WorldProgress worldProgress) {
         this.statusPhase = statusPhase;
         this.namePhase = namePhase;
         this.worldProgress = worldProgress;
     }
 
-    public Phase(StatusPhase statusPhase, String namePhase) {
+    public Phase(StatusPhase statusPhase, PhaseName namePhase) {
         this.statusPhase = statusPhase;
         this.namePhase = namePhase;
     }
