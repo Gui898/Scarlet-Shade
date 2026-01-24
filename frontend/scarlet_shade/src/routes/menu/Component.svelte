@@ -1,5 +1,6 @@
 <script>
-  import { enhance } from '$app/forms';
+  import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
   import backImg from "$assets/icons/back.svg";
   import okImg from "$assets/icons/ok.svg";
   import "$style/components/componentStyle.css";
@@ -12,8 +13,8 @@
   export let open = false;
   export let close = () => {};
 
-  function playSound(sound){
-    const effect = new Audio(sound)
+  function playSound(sound) {
+    const effect = new Audio(sound);
     effect.volume = 0.2;
     effect.play();
   }
@@ -25,25 +26,38 @@
   <div class="overlay" on:click={close}></div>
 
   <div class="modal">
-    <form method="POST" action="?/{action}" 
+    <form
+      method="POST"
+      action="?/{action}"
       use:enhance={() => {
         return async ({ result }) => {
-          if (result.type === 'success' || result.type === 'redirect') {
-            close(); 
+          if (result.type === "redirect") {
+            goto(result.location);
+            return;
+          }
+
+          if (result.type === "success") {
+            close();
           }
         };
-      }}>
-      
+      }}
+    >
       <slot></slot>
 
       <div class="buttons">
-        
-        <button type="button" class="close" on:click={() => {close(); playSound(closeEffect)}}>
+        <button
+          type="button"
+          class="close"
+          on:click={() => {
+            close();
+            playSound(closeEffect);
+          }}
+        >
           <img src={backImg} alt="Back" />
         </button>
 
         <button type="submit" class="save" on:click={() => playSound(apply)}>
-          <img src={okImg} alt="OK"/>
+          <img src={okImg} alt="OK" />
         </button>
       </div>
     </form>

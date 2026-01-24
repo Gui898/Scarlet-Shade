@@ -12,6 +12,7 @@
     import controlsIcon from "$assets/icons/controls.svg";
     import volume from "$assets/icons/volume.svg";
     import leave from "$assets/icons/logout.svg";
+    import deleteUser from "$assets/icons/deleteUser.svg";
 
     import { onMount } from "svelte";
     import menuSoundtrack from "$assets/soundtrack/menuSoundtrack.mp3";
@@ -27,6 +28,7 @@
     let openModalConfig = false;
     let openModalControls = false;
     let openModalVolume = false;
+    let openModalDelete = false;
 
     //Control variables
     let activeControl = "keyboard";
@@ -248,19 +250,49 @@
         >
             <h2>Configurations</h2>
             <div class="configurations">
-                <input type="text" name="username" placeholder="Username" value="{data.configurations.username}"/>
-                <input type="text" name="email" placeholder="Email" value="{data.configurations.email}" />
-                <input type="text" name="password" placeholder="Password" value=""/>
-
-                <button class="delete"> Delete User </button>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={data.configurations.username}
+                />
+                <input
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={data.configurations.email}
+                />
+                <input
+                    type="text"
+                    name="password"
+                    placeholder="Password"
+                    value=""
+                />
             </div>
         </Modal>
 
+        <!-- Delete User button -->
+        <button
+            on:click={() => {
+                openModalDelete = true;
+            }}
+        >
+            <img src={deleteUser} alt="" />
+        </button>
+
+        <Modal
+            open={openModalDelete}
+            close={() => (openModalDelete = false)}
+            action="deleteUser"
+        >
+            <h5 class="delete_text">Are you sure you want to delete user?</h5>
+        </Modal>
+
         <!-- Logout button -->
-        <form method="POST" action="?/logout">
-            <button on:click={playSound(swordCut)}
-                ><img src={leave} alt="" /></button
-            >
+        <form method="POST" action="?/logout" class="logout">
+            <button on:click={playSound(swordCut)}>
+                <img src={leave} alt="" />
+            </button>
         </form>
     </div>
 

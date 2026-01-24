@@ -105,7 +105,7 @@ export const actions = {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${cookies.get('access_token')}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({username, email, password})
         });
@@ -134,6 +134,32 @@ export const actions = {
         }
         
         throw redirect(303, '/menu');
+    },
+
+    deleteUser: async({request, fetch, cookies}) => {
+        const token = cookies.get("access_token");
+
+        const res = await fetch("http://localhost:8080/user/delete", {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+			return fail(401, {error: 'Fail Logout'});
+		}
+
+        const ALL_COOKIES = ["access_token", "user"];
+        for (let i = 0; i < ALL_COOKIES.length; i++) {
+            
+            cookies.delete(ALL_COOKIES[i], {
+                path: '/'
+            });
+        }
+        
+        throw redirect(303, '/');
     }
 }
 

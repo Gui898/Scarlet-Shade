@@ -163,6 +163,15 @@ h5{
     transition: transform 0.3s ease-in-out;
 }
 
+.delete_text{
+    color: var(--text-modal-color);
+}
+
+.logout{
+    display: flex;
+    align-items: center;
+}
+
 @media (min-width: 1281px) {
 
     .icons {
@@ -185,8 +194,7 @@ h5{
     }
 
     .icons {
-        gap: 20px;
         position: absolute;
-        bottom: -1%;
+        bottom: 0;
     }
 }

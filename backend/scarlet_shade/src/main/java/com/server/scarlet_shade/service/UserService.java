@@ -96,8 +96,7 @@ public class UserService {
         
         user.setUsername(request.username());
         user.setEmail(request.email());
-        
-        System.out.println(request.password());
+
         if (request.password() != null && !request.password().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.password()));
         }
@@ -110,5 +109,9 @@ public class UserService {
         user.setSoundEffects(request.soundEffect());
 
         userRepository.save(user);
+    }
+
+    public void deleteUser(User user){
+        userRepository.delete(user);
     }
 }
