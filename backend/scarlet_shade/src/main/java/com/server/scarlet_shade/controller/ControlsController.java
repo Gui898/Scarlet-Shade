@@ -15,6 +15,7 @@ import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.security.user.UserSecurity;
 import com.server.scarlet_shade.service.ControlsService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
