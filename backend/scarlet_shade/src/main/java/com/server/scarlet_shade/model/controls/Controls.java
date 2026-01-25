@@ -106,4 +106,21 @@ public abstract class Controls {
         this.selectItem = selectItem;
         this.useItem = useItem;
     }
+
+    public boolean hasNullValues(){
+        return moveUp == null ||
+                moveDown == null ||
+                moveLeft == null ||
+                moveRight == null ||
+                jump == null ||
+                dash == null ||
+                crouch == null ||
+                attack == null ||
+                spinAttack == null ||
+                especialMoveOne == null ||
+                especialMoveTwo == null ||
+                menuAccess == null ||
+                selectItem == null ||
+                useItem == null;
+    }
 }

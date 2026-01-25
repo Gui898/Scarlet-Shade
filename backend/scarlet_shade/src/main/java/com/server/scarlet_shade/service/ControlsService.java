@@ -1,10 +1,12 @@
 package com.server.scarlet_shade.service;
 
+import com.server.scarlet_shade.exception.controls.ControlsNullValuesException;
+import com.server.scarlet_shade.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.dto.controls.ControlsAttributes;
 import com.server.scarlet_shade.dto.controls.ControlsRequestResponse;
-import com.server.scarlet_shade.exception.controls.ControlsNotFound;
+import com.server.scarlet_shade.exception.controls.ControlsNotFoundException;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.controls.Controls;
 import com.server.scarlet_shade.model.controls.GamepadControls;
@@ -24,12 +26,15 @@ public class ControlsService {
 
     @Transactional
     public ControlsRequestResponse getControlsByUser(User user){
+
+        if(user == null){
+            throw new UserNotFoundException();
+        }
+
         Controls kc = keyboardControlsRepository.getKeyboardControl(user.getId());
         Controls gc = gamepadControlsRepository.getGamepadControl(user.getId());
 
-        if(kc == null || gc == null){
-            throw new ControlsNotFound();
-        }
+        verifyControls(kc, gc);
 
         ControlsAttributes keyboard = new ControlsAttributes(
                 kc.getMoveUp(),
@@ -70,9 +75,15 @@ public class ControlsService {
 
     @Transactional
     public void updateControls(ControlsRequestResponse controls, User user){
+
+        if(user == null){
+            throw new UserNotFoundException();
+        }
         
         KeyboardControls keyboard = user.getKeyboardControls();
         GamepadControls gamepad = user.getGamepadControls();
+
+        verifyControls(keyboard, gamepad);
 
         ControlsAttributes kc = controls.keyboard();
         ControlsAttributes gc = controls.gamepad();
@@ -111,5 +122,14 @@ public class ControlsService {
 
         keyboardControlsRepository.save(keyboard);
         gamepadControlsRepository.save(gamepad);
+    }
+
+    public static void verifyControls(Controls keyboard, Controls gamepad){
+        if(keyboard == null || gamepad == null){
+            throw new ControlsNotFoundException();
+        }
+        if(keyboard.hasNullValues() || gamepad.hasNullValues()){
+            throw new ControlsNullValuesException();
+        }
     }
 }
