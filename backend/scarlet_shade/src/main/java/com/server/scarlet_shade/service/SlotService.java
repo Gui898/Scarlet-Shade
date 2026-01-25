@@ -116,10 +116,6 @@ public class SlotService {
 
         ArrayList<Slot> slots = (ArrayList<Slot>) slotRepository.getAllSlot(user.getId());
 
-        if(slots.isEmpty()){
-            throw new SlotNotFoundException();
-        }
-
         return slots;
     }
 

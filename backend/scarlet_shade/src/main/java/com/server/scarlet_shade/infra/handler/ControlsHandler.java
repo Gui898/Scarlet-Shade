@@ -8,14 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.server.scarlet_shade.exception.controls.ControlsNotFound;
-import com.server.scarlet_shade.infra.RestErrorMessage;
-
 @RestControllerAdvice
 public class ControlsHandler {
 
-    @ExceptionHandler(ControlsNotFound.class)
-    public ResponseEntity<RestErrorMessage> controlsNotFound(ControlsNotFound e){
+    @ExceptionHandler(ControlsNotFoundException.class)
+    public ResponseEntity<RestErrorMessage> controlsNotFound(ControlsNotFoundException e){
     
         RestErrorMessage message = new RestErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
