@@ -1,5 +1,6 @@
 package com.server.scarlet_shade.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +25,7 @@ public class ControlsController {
     private final ControlsService controlsService;
 
     @PatchMapping("/update")
-    public ResponseEntity<Void> updateControls(@RequestBody ControlsRequestResponse request, @AuthenticationPrincipal UserSecurity userSecurity){
+    public ResponseEntity<Void> updateControls(@RequestBody @Valid ControlsRequestResponse request, @AuthenticationPrincipal UserSecurity userSecurity){
         User user = userSecurity.getUser();
         controlsService.updateControls(request, user);
 

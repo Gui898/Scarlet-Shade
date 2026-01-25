@@ -1,7 +1,9 @@
 package com.server.scarlet_shade.dto.controls;
 
+import jakarta.validation.constraints.NotNull;
+
 public record ControlsRequestResponse(
         
-    ControlsAttributes keyboard,
-    ControlsAttributes gamepad
+    @NotNull ControlsAttributes keyboard,
+    @NotNull ControlsAttributes gamepad
 ) {}
