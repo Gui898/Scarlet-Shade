@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.server.scarlet_shade.exception.user.UserConflictException;
 import com.server.scarlet_shade.exception.user.UserNotFoundException;
 import com.server.scarlet_shade.infra.RestErrorMessage;
 
@@ -14,7 +13,7 @@ import com.server.scarlet_shade.infra.RestErrorMessage;
 public class UserHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    private ResponseEntity<RestErrorMessage> userNotFoundHandler(UserNotFoundException e){
+    public ResponseEntity<RestErrorMessage> userNotFoundHandler(UserNotFoundException e){
         
         RestErrorMessage message = new RestErrorMessage(
             HttpStatus.NOT_FOUND.value(), 
@@ -24,14 +23,4 @@ public class UserHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserConflictException.class)
-    private ResponseEntity<RestErrorMessage> userConflictHandler(UserConflictException e){
-        
-        RestErrorMessage message = new RestErrorMessage(
-            HttpStatus.CONFLICT.value(), 
-            HttpStatus.CONFLICT, 
-            e.getMessage());
-        
-        return new ResponseEntity<>(message, HttpStatus.CONFLICT);
-    }
 }

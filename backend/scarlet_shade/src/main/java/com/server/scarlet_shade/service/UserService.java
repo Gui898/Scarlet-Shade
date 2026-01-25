@@ -2,6 +2,7 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.server.scarlet_shade.dto.player.slot.SlotResponse;
 import com.server.scarlet_shade.dto.user.UserConfigurationResponse;
 import com.server.scarlet_shade.dto.user.UserRequest;
 import com.server.scarlet_shade.dto.user.VolumeRequest;
+import com.server.scarlet_shade.exception.ServerException;
 import com.server.scarlet_shade.exception.user.UserConflictException;
 import com.server.scarlet_shade.model.User;
 import com.server.scarlet_shade.model.controls.GamepadControls;
@@ -34,7 +36,7 @@ public class UserService {
     @Transactional
     public User createUser(String username, String email, String password) {
 
-        if (userRepository.existsByUsername(username) || userRepository.existsByEmail(email)) {
+        if (userRepository.existsByUsernameOrEmail(username, email)) {
             throw new UserConflictException();
         }
 
@@ -49,13 +51,18 @@ public class UserService {
         user.setKeyboardControls(keyboardControls);
         user.setGamepadControls(gamepadControls);
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        }
+        catch (DataAccessException e) {
+            throw new ServerException(e);
+        }
 
         return user;
     }
 
     public UserResponse getUserResponse(User user) {
-        
+
         ArrayList<Slot> slots = slotService.getSlotsByUser(user);
 
         SlotResponse slotOne = null;
@@ -97,6 +104,10 @@ public class UserService {
     @Transactional
     public void updateUser(UserRequest request, User user) {
         
+        if (userRepository.existsByUsernameOrEmailAndIdNot(user.getUsername(), user.getEmail())) {
+            throw new UserConflictException();
+        }
+
         user.setUsername(request.username());
         user.setEmail(request.email());
 
@@ -104,20 +115,38 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(request.password()));
         }
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        }
+        catch (DataAccessException e) {
+            throw new ServerException(e);
+        }
     }
 
     @Transactional
-    public void updateVolume(VolumeRequest request, User user){
+    public void updateVolume(VolumeRequest request, User user) {
+
         user.setSoundtrack(request.soundtrack());
         user.setSoundEffects(request.soundEffect());
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        }
+        catch (DataAccessException e) {
+            throw new ServerException(e);
+        }
     }
 
     @Transactional
     public void deleteUser(User user, HttpServletResponse httpServletResponse){
-        userRepository.delete(user);
+
+        try {
+            userRepository.deleteById(user.getId());
+        }
+        catch (DataAccessException e) {
+            throw new ServerException(e);
+        }
+        
         cookieConfiguration.authDeleteCookie(httpServletResponse);
     }
 }

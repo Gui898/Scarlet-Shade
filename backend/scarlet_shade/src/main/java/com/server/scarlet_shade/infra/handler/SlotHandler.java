@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class SlotHandler {
 
     @ExceptionHandler(InvalidSlotNumber.class)
-    private ResponseEntity<RestErrorMessage> invalidSlotNumber(InvalidSlotNumber e){
+    public ResponseEntity<RestErrorMessage> invalidSlotNumber(InvalidSlotNumber e){
         RestErrorMessage message = new RestErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST,

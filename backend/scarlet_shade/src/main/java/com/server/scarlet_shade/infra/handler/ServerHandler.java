@@ -5,20 +5,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.server.scarlet_shade.exception.controls.ControlsNotFound;
+import com.server.scarlet_shade.exception.ServerException;
 import com.server.scarlet_shade.infra.RestErrorMessage;
 
 @RestControllerAdvice
-public class ControlsHandler {
+public class ServerHandler {
+    
+    @ExceptionHandler(ServerException.class)
+    public ResponseEntity<RestErrorMessage> serverError(ServerException e) {
 
-    @ExceptionHandler(ControlsNotFound.class)
-    public ResponseEntity<RestErrorMessage> controlsNotFound(ControlsNotFound e){
         RestErrorMessage message = new RestErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND,
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
                 e.getMessage()
         );
-        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
-    }
 
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
