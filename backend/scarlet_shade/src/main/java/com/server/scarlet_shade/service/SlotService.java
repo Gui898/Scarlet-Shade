@@ -110,10 +110,6 @@ public class SlotService {
     @Transactional
     public ArrayList<Slot> getSlotsByUser(User user) {
 
-        if(user == null){
-            throw new UserNotFoundException();
-        }
-
         ArrayList<Slot> slots = (ArrayList<Slot>) slotRepository.getAllSlot(user.getId());
 
         return slots;

@@ -1,7 +1,6 @@
 package com.server.scarlet_shade.service;
 
 import com.server.scarlet_shade.exception.controls.ControlsNullValuesException;
-import com.server.scarlet_shade.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.dto.controls.ControlsAttributes;
@@ -26,10 +25,6 @@ public class ControlsService {
 
     @Transactional
     public ControlsRequestResponse getControlsByUser(User user){
-
-        if(user == null){
-            throw new UserNotFoundException();
-        }
 
         Controls kc = keyboardControlsRepository.getKeyboardControl(user.getId());
         Controls gc = gamepadControlsRepository.getGamepadControl(user.getId());
@@ -74,11 +69,7 @@ public class ControlsService {
     }
 
     @Transactional
-    public void updateControls(ControlsRequestResponse controls, User user){
-
-        if(user == null){
-            throw new UserNotFoundException();
-        }
+    public void updateControls(ControlsRequestResponse controls, User user) {
         
         KeyboardControls keyboard = user.getKeyboardControls();
         GamepadControls gamepad = user.getGamepadControls();
