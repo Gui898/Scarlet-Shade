@@ -13,8 +13,17 @@ export const actions = {
             }
         }) 
 
-		if (!res.ok) {
-			return fail(401, {error: 'Fail Logout'});
+		if (res === 401) {
+			return fail(401, {error: 'Unauthorized Logout'});
+		}
+		else if (res === 403) {
+			return fail(403, {error: 'Unauthorized Logout'});
+		}
+		else if (res === 500) {
+			return fail(500, {error: 'Server Error'});
+		}
+		else if (!res.ok) {
+			return fail(500, {error: 'Invalid Logout'});
 		}
 
         const ALL_COOKIES = ["access_token", "user", "game"];
@@ -147,8 +156,17 @@ export const actions = {
             }
         });
 
-        if (!res.ok) {
-			return fail(401, {error: 'Fail Logout'});
+        if (res === 401) {
+			return fail(401, {error: 'Unauthorized Delete User'});
+		}
+		else if (res === 403) {
+			return fail(403, {error: 'Unauthorized Delete user'});
+		}
+		else if (res === 500) {
+			return fail(500, {error: 'Server Error'});
+		}
+		else if (!res.ok) {
+			return fail(500, {error: 'Invalid Logout'});
 		}
 
         const ALL_COOKIES = ["access_token", "user", "game"];
@@ -313,6 +331,25 @@ export async function load({ fetch, cookies }) {
             'Authorization': `Bearer ${token}`
         }
     });
+
+    if (resControl === 400) {
+        return fail(400, {error: 'Bad Controls Values'});
+    }
+	else if (resControl === 401 || resUser === 401) {
+		return fail(401, {error: 'Unauthorized Token'});
+	}
+    else if (resControl === 403 || resUser === 403) {
+		return fail(403, {error: 'Unauthorized Token'});
+	}
+    else if (resControl === 404) {
+        return fail(404, {error: 'Controls Not Found'});
+    }
+	else if (resControl === 500|| resUser === 500) {
+		return fail(401, {error: 'Server Error'});
+	}
+	else if (!resControl.ok || !resUser.ok) {
+		return fail(500, {error: 'Invalid Menu Access'});
+	}
 
     const controls = await resControl.json().catch(() => null);
     const configurations = await resUser.json().catch(() => null);

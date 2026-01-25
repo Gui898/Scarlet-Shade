@@ -20,8 +20,17 @@ export const actions = {
 			})
 		});
 
-		if (!res.ok) {
-			return fail(401, {error: 'Invalid Login'});
+		if (res === 400) {
+			return fail(400, {error: 'Bad Values inserted'});
+		}
+		else if (res === 401) {
+			return fail(401, {error: 'Unauthorized Login'});
+		}
+		else if (res === 500) {
+			return fail(500, {error: 'Server Error'});
+		}
+		else if (!res.ok) {
+			return fail(500, {error: 'Invalid Login'});
 		}
 
 		const setCookie = res.headers.get('set-cookie');
@@ -72,8 +81,17 @@ export const actions = {
 			})
 		});
 
-		if (!res.ok) {
-			return fail(400, {error: 'Invalid Register'});
+		if (res === 400) {
+			return fail(400, {error: 'Bad Values inserted'});
+		}
+		else if (res === 409) {
+			return fail(409, {error: 'Conflict Values on Register'});
+		}
+		else if (res === 500) {
+			return fail(500, {error: 'Server Error'});
+		}
+		else if (!res.ok) {
+			return fail(500, {error: 'Invalid Login'});
 		}
 
 		const setCookie = res.headers.get('set-cookie');
