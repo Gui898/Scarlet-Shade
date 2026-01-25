@@ -3,7 +3,13 @@ package com.server.scarlet_shade.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.server.scarlet_shade.dto.user.UserConfigurationResponse;
 import com.server.scarlet_shade.dto.user.UserRequest;
@@ -26,7 +32,7 @@ public class UserController {
     private final CookieConfiguration cookieConfiguration;
  
     @PatchMapping("/volume")
-    public ResponseEntity<Void> updateVolume(@RequestBody VolumeRequest request, @AuthenticationPrincipal UserSecurity userSecurity){
+    public ResponseEntity<Void> updateVolume(@RequestBody @Valid VolumeRequest request, @AuthenticationPrincipal UserSecurity userSecurity){
         User user = userSecurity.getUser();
 
         userService.updateVolume(request, user);
