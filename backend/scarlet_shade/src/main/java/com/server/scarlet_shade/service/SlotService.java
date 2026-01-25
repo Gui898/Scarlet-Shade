@@ -2,7 +2,9 @@ package com.server.scarlet_shade.service;
 
 import java.util.ArrayList;
 
-import com.server.scarlet_shade.exception.player.InvalidSlotNumber;
+import com.server.scarlet_shade.exception.player.slot.InvalidSlotNumberException;
+import com.server.scarlet_shade.exception.player.slot.SlotNotFoundException;
+import com.server.scarlet_shade.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.server.scarlet_shade.dto.player.player.PlayerResponse;
@@ -26,10 +28,12 @@ public class SlotService {
     private final UserRepository userRepository;
 
     @Transactional
-    public SlotValues createSlot(Long idIser, int numberSlot) {
+    public SlotValues createSlot(Long idUser, int numberSlot) {
 
-        User user = userRepository.findById(idIser)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(idUser)
+            .orElseThrow(UserNotFoundException::new);
+
+        verifyNumberSlot(numberSlot);
 
         Slot slot = new Slot(numberSlot, false);
         slot.setUser(user);
@@ -57,20 +61,24 @@ public class SlotService {
         
         WorldProgressResponse worldProgressResponse = new 
             WorldProgressResponse(worldProgress.getCurrentPhase().toString());
-        
-        SlotValues slotValues = new SlotValues(
-            numberSlot, 
-            false, 
+
+        return new SlotValues(
+            numberSlot,
+            false,
             playerResponse,
             worldProgressResponse);
-
-        return slotValues;
     }
 
     @Transactional
     public SlotValues getSlotByNumber(Long idUser, int numberSlot) {
 
+        verifyNumberSlot(numberSlot);
+
         Slot slot = slotRepository.getSlot(idUser, numberSlot);
+
+        if(slot == null){
+            throw new SlotNotFoundException();
+        }
 
         String element;
         if (slot.getPlayer().getElement() == null) {
@@ -91,30 +99,41 @@ public class SlotService {
         
         WorldProgressResponse worldProgressResponse = new 
             WorldProgressResponse(slot.getWorldProgress().getCurrentPhase().toString());
-        
-        SlotValues slotValues = new SlotValues(
-            numberSlot, 
+
+        return new SlotValues(
+            numberSlot,
             slot.getGameCompleted(),
             playerResponse,
             worldProgressResponse);
-
-        return slotValues;
     }
 
     @Transactional
     public ArrayList<Slot> getSlotsByUser(User user) {
 
+        if(user == null){
+            throw new UserNotFoundException();
+        }
+
         ArrayList<Slot> slots = (ArrayList<Slot>) slotRepository.getAllSlot(user.getId());
+
+        if(slots.isEmpty()){
+            throw new SlotNotFoundException();
+        }
+
         return slots;
     }
 
     @Transactional
     public void deleteSlotByNumberByUser(Long idUser, int numberSlot){
+        verifyNumberSlot(numberSlot);
+
         Slot slot = slotRepository.getSlot(idUser, numberSlot);
         slotRepository.delete(slot);
+    }
 
+    public static void verifyNumberSlot(int numberSlot){
         if(numberSlot > 4 || numberSlot <= 0){
-            throw new InvalidSlotNumber();
+            throw new InvalidSlotNumberException();
         }
     }
 }
