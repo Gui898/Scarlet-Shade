@@ -8,7 +8,8 @@ const config = {
     alias: {
       $script: path.resolve('./src/script'),
       $style: path.resolve('./src/style'),
-      $assets: path.resolve('./src/assets')
+      $assets: path.resolve('./src/assets'),
+      $lib: path.resolve('./src/lib')
     }
   }
 };

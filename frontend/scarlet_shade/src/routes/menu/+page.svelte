@@ -1,9 +1,5 @@
 <script>
     import "$style/pages/menu.css";
-    import "$style/components/fogStyle.css";
-    import "$style/components/configurationStyle.css";
-    import "$style/components/controlStyle.css";
-    import "$style/components/volumeStyle.css";
 
     import arrowButton from "$assets/images/arrowButtonImage.png";
     import fogImage from "$assets/textures/fogTexture.png";
@@ -20,50 +16,25 @@
     import swordCut from "$assets/soundEffect/swordCutHome.mp3";
     import pop from "$assets/soundEffect/pop.mp3";
 
-    import Modal from "./Component.svelte";
+    import Fog from "$lib/Fog.svelte";
+    import Slots from "$lib/enter/Slots.svelte";
+    import Volume from "$lib/options/Volume.svelte";
+    import Controls from "$lib/options/Controls.svelte";
+    import Configurations from "$lib/options/Configurations.svelte";
+    import DeleteUser from "$lib/options/DeleteUser.svelte";
 
     export let data;
 
-    //Modal variables
-    let openModalConfig = false;
-    let openModalControls = false;
-    let openModalVolume = false;
-    let openModalDelete = false;
+    //Component variables
+    let openComponentConfig = false;
+    let openComponentControls = false;
+    let openComponentVolume = false;
+    let openComponentDelete = false;
 
     //Control variables
-    let activeControl = "keyboard";
     let keyboardControl = data.controls.keyboard;
     let gamepadControl = data.controls.gamepad;
     let slots = [data.userData.slotOne, data.userData.slotTwo, data.userData.slotThree, data.userData.slotFour];
-    let waiting = null;
-
-    function startRebind(action) {
-        waiting = action;
-        window.addEventListener("keydown", onKeyPress);
-    }
-
-    function getActiveControls() {
-        return activeControl === "keyboard" ? keyboardControl : gamepadControl;
-    }
-
-    function onKeyPress(event) {
-        event.preventDefault();
-
-        if (!waiting) return;
-
-        const controls = getActiveControls();
-        controls[waiting] =
-            event.code === "Space" ? "SPACE" : event.key.toUpperCase();
-
-        if (activeControl === "keyboard") {
-            keyboardControl = keyboardControl;
-        } else {
-            gamepadControl = gamepadControl;
-        }
-
-        waiting = null;
-        window.removeEventListener("keydown", onKeyPress);
-    }
 
     //Soundtrack variables
     let soundtrack;
@@ -85,243 +56,80 @@
         soundEffect.play();
     });
 
-    function soundtrackVolume(value) {
-        soundtrack.volume = value;
-    }
-
-    function soundEffectVolume(value) {
-        soundEffect.volume = value;
-    }
-
-    function playSound(sound) {
+    function playSound(sound, soundEffect = 0.3) {
         const cutSound = new Audio(sound);
-        cutSound.volume = 0.2;
+        cutSound.volume = soundEffect;
         cutSound.play();
     }
 </script>
 
 <main class="container">
+    
     <div class="title">
         <h1>Scarlet Shade</h1>
     </div>
 
     <div class="slots">
-        {#each Array(4) as slot, i}
-            <div class="slot_container">
-                
-                <h4 class="slot_title">Slot {i + 1}</h4>
-                    
-                {#if slots[i] != null && slots[i].gameCompleted} 
-                    <form method="POST" action="?/getSlot">  
-                        <!-- svelte-ignore a11y_consider_explicit_label -->
-                        <button class="slot_style completed"></button>
-
-                        <input type="hidden" name="numberSlot" value="{i + 1}">
-                    </form>
-                {:else if slots[i] != null}
-                    <form method="POST" action="?/getSlot">  
-                        <!-- svelte-ignore a11y_consider_explicit_label -->
-                        <button class="slot_style started"></button>
-
-                        <input type="hidden" name="numberSlot" value="{i + 1}">
-                    </form>
-                {:else}
-                    <form method="POST" action="?/createSlot">  
-                        <!-- svelte-ignore a11y_consider_explicit_label -->
-                        <button class="slot_style notStarted"></button>
-
-                        <input type="hidden" name="numberSlot" value="{i + 1}">
-                    </form>
-                {/if}                    
-                <form method="POST" action="?/deleteSlot">
-                    <button class="trash">
-                        <img src={trash} alt="" />
-                    </button>
-                    <input type="hidden" name="numberSlot" value="{i + 1}">
-                </form>
-            </div>
-        {/each}
+        <Slots slots={slots} trash="{trash}"></Slots>
     </div>
 
     <div class="icons">
-        <!-- Volume button -->
-        <button
-            on:click={() => {
-                openModalVolume = true;
-                playSound(pop);
-            }}
-        >
+        
+        <button on:click={() => {openComponentVolume = true; playSound(pop, soundEffectVol);}}>
             <img src={volume} alt="" />
         </button>
 
-        <Modal
-            open={openModalVolume}
-            close={() => (openModalVolume = false)}
-            action="volume"
-        >
-            <h2>Volume</h2>
-            <label for="soundtrack">Soundtrack</label>
-            <input
-                type="range"
-                name="soundtrack"
-                id="soundtrack"
-                min="0"
-                max="1"
-                step="0.01"
-                bind:value={soundtrackVol}
-                on:input={() => soundtrackVolume(soundtrackVol)}
-            />
-            <label for="sound_effect">Sound Effect</label>
-            <input
-                type="range"
-                name="sound_effect"
-                id="sound_effect"
-                min="0"
-                max="1"
-                step="0.01"
-                bind:value={soundEffectVol}
-                on:input={() => soundEffectVolume(soundEffectVol)}
-            />
-        </Modal>
-
-        <!-- Controls button -->
-        <button
-            on:click={() => {
-                openModalControls = true;
-                playSound(pop);
-            }}
-        >
+        <button on:click={() => {openComponentControls = true; playSound(pop, soundEffectVol);}}>
             <img src={controlsIcon} alt="" />
         </button>
 
-        <Modal
-            open={openModalControls}
-            close={() => (openModalControls = false)}
-            action="control"
-        >
-            <h2>Controls</h2>
-
-            <div class="controls_box">
-                <h5>Keyboard</h5>
-                <div class="controls_container">
-                    {#each Object.keys(keyboardControl) as action, i}
-                        <!-- svelte-ignore a11y_click_events_have_key_events -->
-                        <!-- svelte-ignore a11y_no_static_element_interactions -->
-                        <div
-                            on:click={() => {
-                                activeControl = "keyboard";
-                                startRebind(action);
-                            }}
-                            class="control_item"
-                        >
-                            {#if waiting === action}
-                                Press...
-                            {:else}
-                                {@html `${action}: <br><span class="control_value">${keyboardControl[action]}</span>`}
-                            {/if}
-                        </div>
-                    {/each}
-                </div>
-
-                <input
-                    type="hidden"
-                    name="keyboard"
-                    value={JSON.stringify(keyboardControl)}
-                />
-
-                <h5>Gamepad</h5>
-                <div class="controls_container">
-                    {#each Object.keys(gamepadControl) as action, i}
-                        <!-- svelte-ignore a11y_click_events_have_key_events -->
-                        <!-- svelte-ignore a11y_no_static_element_interactions -->
-                        <div
-                            on:click={() => {
-                                activeControl = "gamepad";
-                                startRebind(action);
-                            }}
-                            class="control_item"
-                        >
-                            {#if waiting === action}
-                                Press...
-                            {:else}
-                                {@html `${action}: <br><span class="control_value">${gamepadControl[action]}</span>`}
-                            {/if}
-                        </div>
-                    {/each}
-                </div>
-
-                <input
-                    type="hidden"
-                    name="gamepad"
-                    value={JSON.stringify(gamepadControl)}
-                />
-            </div>
-        </Modal>
-
-        <!-- Configuration button -->
-        <button
-            on:click={() => {
-                openModalConfig = true;
-                playSound(pop);
-            }}
-        >
+        <button on:click={() => {openComponentConfig = true; playSound(pop, soundEffectVol);}}>
             <img src={config} alt="" />
         </button>
 
-        <Modal
-            open={openModalConfig}
-            close={() => (openModalConfig = false)}
-            action="configuration"
-        >
-            <h2>Configurations</h2>
-            <div class="configurations">
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={data.configurations.username}
-                />
-                <input
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    value={data.configurations.email}
-                />
-                <input
-                    type="text"
-                    name="password"
-                    placeholder="Password"
-                    value=""
-                />
-            </div>
-        </Modal>
-
-        <!-- Delete User button -->
-        <button
-            on:click={() => {
-                openModalDelete = true;
-            }}
-        >
+        <button on:click={() => {openComponentDelete = true;}}>
             <img src={deleteUser} alt="" />
         </button>
 
-        <Modal
-            open={openModalDelete}
-            close={() => (openModalDelete = false)}
-            action="deleteUser"
-        >
-            <h5 class="delete_text">Are you sure you want to delete user?</h5>
-        </Modal>
-
-        <!-- Logout button -->
         <form method="POST" action="?/logout" class="logout">
-            <button on:click={playSound(swordCut)}>
+            
+            <button on:click={() => playSound(swordCut, soundEffectVol)}>
                 <img src={leave} alt="" />
             </button>
         </form>
     </div>
 
-    {#each Array(5) as fog, i}
-        <img src={fogImage} alt="" class="fog" style="--i:{i + 1}" />
-    {/each}
+    {#if openComponentVolume}
+        <Volume
+            close={() => (openComponentVolume = false)}
+            soundtrack={soundtrack}
+            soundtrackVol={soundtrackVol}
+            soundEffect={soundEffect}
+            soundEffectVol={soundEffectVol}>
+        </Volume>
+    {/if}
+
+    {#if openComponentControls}
+        <Controls
+            close={() => (openComponentControls = false)}
+            keyboardControl={keyboardControl}
+            gamepadControl={gamepadControl}>
+        </Controls>
+    {/if}
+
+    {#if openComponentConfig}
+        <Configurations
+            close={() => (openComponentConfig = false)}
+            username={data.configurations.username}
+            email={data.configurations.email}>
+        </Configurations>
+    {/if}
+
+    {#if openComponentDelete}
+        <DeleteUser
+            close={() => (openComponentDelete = false)}>
+        </DeleteUser>
+    {/if}
+    
+    <Fog></Fog>
 </main>
