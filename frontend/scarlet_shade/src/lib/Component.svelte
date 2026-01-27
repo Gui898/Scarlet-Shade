@@ -11,14 +11,10 @@
     import apply from "$assets/soundEffect/apply.mp3";
     import closeEffect from "$assets/soundEffect/close.mp3";
 
+    import { playSound } from "$script/utils/playSound.js";
+    
     export let action = "";
     export let close = () => {};
-    
-    function playSound(sound) {
-        const effect = new Audio(sound);
-        effect.volume = 0.3;
-        effect.play();
-    }
 
     function enhanceMethod(result) {
         

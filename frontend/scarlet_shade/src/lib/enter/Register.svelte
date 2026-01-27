@@ -4,11 +4,13 @@
     import "$style/components/buttonStyle.css";
 
     import arrowButton from "$assets/images/arrowButtonImage.png";
+    import gongSound from "$assets/soundEffect/gong.mp3";
     
+    import { playSound } from "$script/utils/playSound.js";
+
     export let username;
     export let email;
     export let password;
-    export let playSound = () => {};
 </script>
 
 <form method="POST" action="?/register" class="options register">
@@ -32,7 +34,7 @@
         bind:value={password}
     />
 
-    <button type="submit" class="button" onclick={() => playSound()}>
+    <button type="submit" class="button" onclick={() => playSound(gongSound)}>
         <img src={arrowButton} alt="" class="arrow" />
         Register
     </button>

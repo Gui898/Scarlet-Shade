@@ -6,9 +6,10 @@
     import arrowButton from "$assets/images/arrowButtonImage.png";
     import gongSound from "$assets/soundEffect/gong.mp3";
     
+    import { playSound } from "$script/utils/playSound.js";
+
     export let username;
     export let password;
-    export let playSound = () => {};
 
     function fadeScale(node, { delay = 0, duration = 400, start = 0.6 }) {
         return {
@@ -44,7 +45,7 @@
         bind:value={password}
     />
 
-    <button type="submit" class="button" onclick={() => playSound()}>
+    <button type="submit" class="button" onclick={() => playSound(gongSound)}>
         <img src={arrowButton} alt="" class="arrow" />
         Login
     </button>

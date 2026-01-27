@@ -22,21 +22,17 @@
     import Controls from "$lib/options/Controls.svelte";
     import Configurations from "$lib/options/Configurations.svelte";
     import DeleteUser from "$lib/options/DeleteUser.svelte";
+    
+    import { playSound } from "$script/utils/playSound.js";
 
     export let data;
 
-    //Component variables
-    let openComponentConfig = false;
-    let openComponentControls = false;
-    let openComponentVolume = false;
-    let openComponentDelete = false;
+    let activeModal = null;
 
-    //Control variables
     let keyboardControl = data.controls.keyboard;
     let gamepadControl = data.controls.gamepad;
     let slots = [data.userData.slotOne, data.userData.slotTwo, data.userData.slotThree, data.userData.slotFour];
 
-    //Soundtrack variables
     let soundtrack;
     let soundtrackVol = data.userData.soundtrack;
     onMount(() => {
@@ -46,7 +42,6 @@
         soundtrack.play();
     });
 
-    //Sound effect variables
     let soundEffect;
     let soundEffectVol = data.userData.soundEffect;
     onMount(() => {
@@ -55,12 +50,6 @@
         soundEffect.volume = soundEffectVol;
         soundEffect.play();
     });
-
-    function playSound(sound, soundEffect = 0.3) {
-        const cutSound = new Audio(sound);
-        cutSound.volume = soundEffect;
-        cutSound.play();
-    }
 </script>
 
 <main class="container">
@@ -75,19 +64,19 @@
 
     <div class="icons">
         
-        <button on:click={() => {openComponentVolume = true; playSound(pop, soundEffectVol);}}>
+        <button on:click={() => {activeModal = "volume"; playSound(pop, soundEffectVol);}}>
             <img src={volume} alt="" />
         </button>
 
-        <button on:click={() => {openComponentControls = true; playSound(pop, soundEffectVol);}}>
+        <button on:click={() => {activeModal = "controls" ; playSound(pop, soundEffectVol);}}>
             <img src={controlsIcon} alt="" />
         </button>
 
-        <button on:click={() => {openComponentConfig = true; playSound(pop, soundEffectVol);}}>
+        <button on:click={() => {activeModal = "configuration"; playSound(pop, soundEffectVol);}}>
             <img src={config} alt="" />
         </button>
 
-        <button on:click={() => {openComponentDelete = true;}}>
+        <button on:click={() => {activeModal = "delete";}}>
             <img src={deleteUser} alt="" />
         </button>
 
@@ -99,9 +88,9 @@
         </form>
     </div>
 
-    {#if openComponentVolume}
+    {#if activeModal === "volume"}
         <Volume
-            close={() => (openComponentVolume = false)}
+            close={() => (activeModal = null)}
             soundtrack={soundtrack}
             soundtrackVol={soundtrackVol}
             soundEffect={soundEffect}
@@ -109,25 +98,25 @@
         </Volume>
     {/if}
 
-    {#if openComponentControls}
+    {#if activeModal === "controls"}
         <Controls
-            close={() => (openComponentControls = false)}
+            close={() => (activeModal = null)}
             keyboardControl={keyboardControl}
             gamepadControl={gamepadControl}>
         </Controls>
     {/if}
 
-    {#if openComponentConfig}
+    {#if activeModal === "configuration"}
         <Configurations
-            close={() => (openComponentConfig = false)}
+            close={() => (activeModal = null)}
             username={data.configurations.username}
             email={data.configurations.email}>
         </Configurations>
     {/if}
 
-    {#if openComponentDelete}
+    {#if activeModal === "delete"}
         <DeleteUser
-            close={() => (openComponentDelete = false)}>
+            close={() => (activeModal = null)}>
         </DeleteUser>
     {/if}
     

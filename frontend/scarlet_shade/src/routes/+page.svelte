@@ -3,7 +3,6 @@
     import "$style/components/buttonStyle.css";
 
     import arrowButton from "$assets/images/arrowButtonImage.png";
-    import gongSound from "$assets/soundEffect/gong.mp3";
 
     import swordCut from "$assets/soundEffect/swordCutHome.mp3";
     import closeEffect from "$assets/soundEffect/close.mp3";
@@ -13,6 +12,8 @@
     import Samurai from "$lib/enter/Samurai.svelte";
     import Fog from "$lib/Fog.svelte";
 
+    import { playSound } from "$script/utils/playSound.js";
+    
     let username = "";
     let email = "";
     let password = "";
@@ -32,15 +33,10 @@
     function back() {
         screen = "options";
     }
-
-    function playSound(sound){
-        const cutSound = new Audio(sound);
-        cutSound.volume = 0.3;
-        cutSound.play();
-    }
 </script>
 
 <div class="left_side">
+    
     {#if screen !== "options"}
         <button onclick={() => {back(); playSound(closeEffect)}} class="back_arrow"> ← </button>
     {/if}
@@ -50,7 +46,9 @@
     </div>
 
     <div class="content_area">
+
         <div class="options buttons">
+
             <button
                 class="button"
                 class:button_offscreen={screen !== "options"}
@@ -72,21 +70,12 @@
 
         {#if screen === "login"}
             
-            <Login 
-                username="{username}" 
-                password="{password}"
-                playSound={() => playSound(gongSound)}> 
-            </Login>
+            <Login username="{username}" password="{password}"></Login>
         {/if}
 
         {#if screen === "register"}
             
-            <Register 
-                username="{username}" 
-                email="{email}"
-                password="{password}"
-                playSound={() => playSound(gongSound)}> 
-            </Register>
+            <Register username="{username}" email="{email}" password="{password}"></Register>
         {/if}
     </div>
 </div>
