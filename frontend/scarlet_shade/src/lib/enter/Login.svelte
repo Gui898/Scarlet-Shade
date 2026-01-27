@@ -7,6 +7,7 @@
     import gongSound from "$assets/soundEffect/gong.mp3";
     
     import { playSound } from "$script/utils/playSound.js";
+    import Warning from "../Warning.svelte";
 
     export let username;
     export let password;
@@ -23,6 +24,7 @@
     }
 </script>
 
+<Warning></Warning>
 <form
     transition:fadeScale={{ duration: 400, delay: 600 }}
     method="POST"

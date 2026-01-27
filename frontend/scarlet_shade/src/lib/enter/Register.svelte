@@ -5,7 +5,8 @@
 
     import arrowButton from "$assets/images/arrowButtonImage.png";
     import gongSound from "$assets/soundEffect/gong.mp3";
-    
+    import Warning from "../Warning.svelte";
+
     import { playSound } from "$script/utils/playSound.js";
 
     export let username;
@@ -13,6 +14,7 @@
     export let password;
 </script>
 
+<Warning></Warning>
 <form method="POST" action="?/register" class="options register">
     
     <input
