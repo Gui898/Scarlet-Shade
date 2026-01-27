@@ -125,8 +125,6 @@ export const actions = {
         else if (!res.ok) {
             return fail(500, { error: 'Cannot Update Controls' });
         }
-
-        throw redirect(303, '/menu');
     },
 
     configuration: async ({ request, fetch, cookies }) => {
@@ -186,8 +184,6 @@ export const actions = {
                 maxAge: 259200
             });
         }
-
-        throw redirect(303, '/menu');
     },
 
     deleteUser: async ({ request, fetch, cookies }) => {

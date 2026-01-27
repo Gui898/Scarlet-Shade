@@ -14,5 +14,4 @@ public class ScarletShadeApplication {
 			.initializers(new DotEnvInitializer())
 			.run(args);
 	}
-	
 }

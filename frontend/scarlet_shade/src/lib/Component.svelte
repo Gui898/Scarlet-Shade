@@ -3,7 +3,6 @@
     import "$style/components/componentStyle.css";
 
     import { enhance } from "$app/forms";
-    import { goto } from "$app/navigation";
 
     import backImg from "$assets/icons/back.svg";
     import okImg from "$assets/icons/ok.svg";
@@ -19,14 +18,13 @@
     function enhanceMethod(result) {
         
         if (result.type === "redirect") {
-            goto(result.location);
+            window.location.href = result.location;
             return;
         }
         if (result.type === "success") {
             close();
         }
     }
-
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
