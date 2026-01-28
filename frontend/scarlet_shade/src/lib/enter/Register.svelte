@@ -12,6 +12,20 @@
     export let username;
     export let email;
     export let password;
+
+    const usernameRegex = /^[a-zA-Z0-9._-]{8,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/; 
+
+    let wrongUsername = false;
+    let wrongEmail = false;
+    let wrongPassword = false;
+
+    function verifyRegex(regex, value, variable){
+        if(!regex.test(value)){
+            variable = true;
+        }
+    }
 </script>
 
 <Warning></Warning>
@@ -41,3 +55,17 @@
         Register
     </button>
 </form>
+
+{#if wrongUsername}
+    <Warning>
+        <h6>The name should be between 10 and 20 characters long</h6>
+    </Warning>
+{/if}
+
+{#if wrongEmail}
+    <Warning><h6>The name must have</h6></Warning>
+{/if}
+
+{#if wrongPassword}
+    <Warning><h6>The password should be 8 characters long, at least 1 capital letter and 1 lowercase letter</h6></Warning>
+{/if}

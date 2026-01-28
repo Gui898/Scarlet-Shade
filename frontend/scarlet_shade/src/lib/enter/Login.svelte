@@ -12,6 +12,8 @@
     export let username;
     export let password;
 
+    let wrongLogin = false;
+
     function fadeScale(node, { delay = 0, duration = 400, start = 0.6 }) {
         return {
             delay,
@@ -24,7 +26,6 @@
     }
 </script>
 
-<Warning></Warning>
 <form
     transition:fadeScale={{ duration: 400, delay: 600 }}
     method="POST"
@@ -52,3 +53,7 @@
         Login
     </button>
 </form>
+
+{#if wrongLogin}
+    <Warning><h6>Incorrect username or passwrod</h6></Warning>
+{/if}

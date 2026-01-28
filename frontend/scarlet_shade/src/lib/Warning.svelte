@@ -1,5 +1,9 @@
 <script>
-    
+
+    import "$style/components/warning.css"
+
 </script>
 
-<h6>CCCCUUUUUUUU</h6>
+<div class="modal">
+    <slot></slot>
+</div>

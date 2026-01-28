@@ -1,0 +1,26 @@
+@import url("../style.css");
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    text-align: center;
+    font-size: 2rem;
+    font-family: var(--text-input-family);
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 12px;
+    z-index: 10;
+    height: auto;
+    max-width: 370px;
+}
+
+h6{
+    margin: 0;
+    animation: pulse 1.5s linear infinite;
+}
