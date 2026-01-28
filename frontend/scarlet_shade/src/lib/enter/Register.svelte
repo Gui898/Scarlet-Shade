@@ -15,11 +15,11 @@
 
     const usernameRegex = /^[a-zA-Z0-9._-]{8,}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/; 
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/; 
 
-    let wrongUsername = false;
-    let wrongEmail = false;
-    let wrongPassword = false;
+    $: wrongUsername = username.length > 0 && !usernameRegex.test(username);;
+    $: wrongEmail = email.length > 0 && !emailRegex.test(email);
+    $: wrongPassword = password.length > 0 && !passwordRegex.test(password);
 
     function verifyRegex(regex, value, variable){
         if(!regex.test(value)){
@@ -63,7 +63,7 @@
 {/if}
 
 {#if wrongEmail}
-    <Warning><h6>The name must have</h6></Warning>
+    <Warning><h6>The email must be in the correct format</h6></Warning>
 {/if}
 
 {#if wrongPassword}

@@ -1,5 +1,4 @@
 <script>
-
     import "$style/pages/homeStyle.css";
     import "$style/components/buttonStyle.css";
 
