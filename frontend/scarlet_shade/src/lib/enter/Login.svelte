@@ -13,6 +13,8 @@
 
     let wrongLogin = false;
 
+    $: isFormValid = username.length == 0 || password.length == 0;
+
     function fadeScale(node, { delay = 0, duration = 400, start = 0.6 }) {
         return {
             delay,
@@ -47,7 +49,7 @@
         bind:value={password}
     />
 
-    <button type="submit" class="button" onclick={() => playSound(gongSound)}>
+    <button type="submit" class="button" onclick={() => playSound(gongSound)} disabled={isFormValid}>
         <img src={arrowButton} alt="" class="arrow" />
         Login
     </button>

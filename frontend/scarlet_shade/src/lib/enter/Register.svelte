@@ -17,15 +17,17 @@
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/; 
 
-    $: wrongUsername = username.length > 0 && !usernameRegex.test(username);;
+    $: wrongUsername = username.length > 0 && !usernameRegex.test(username);
     $: wrongEmail = email.length > 0 && !emailRegex.test(email);
     $: wrongPassword = password.length > 0 && !passwordRegex.test(password);
 
-    function verifyRegex(regex, value, variable){
-        if(!regex.test(value)){
-            variable = true;
-        }
-    }
+    $: isFormValid = wrongPassword ||
+                     wrongEmail ||
+                     wrongUsername ||
+                     username.length == 0 ||
+                     email.length == 0 ||
+                     password.length == 0;
+
 </script>
 
 <Warning></Warning>
@@ -50,8 +52,8 @@
         bind:value={password}
     />
 
-    <button type="submit" class="button" onclick={() => playSound(gongSound)}>
-        <img src={arrowButton} alt="" class="arrow" />
+    <button type="submit" class="button" onclick={() => playSound(gongSound)} disabled={isFormValid}>
+        <img src={arrowButton} alt="" class="arrow"/>
         Register
     </button>
 </form>

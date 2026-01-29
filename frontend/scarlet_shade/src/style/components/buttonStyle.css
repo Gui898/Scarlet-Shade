@@ -59,3 +59,10 @@
   --tx: 5000px;
   --t: 2s;
 }
+
+.button:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
