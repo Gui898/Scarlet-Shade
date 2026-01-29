@@ -33,3 +33,15 @@ body {
     font-family: var(--text-family);
     height: 100vh;
 }
+
+@keyframes pulse{
+    0%{
+        scale: 1;
+    }
+    50%{
+        scale: 1.15;
+    }
+    100%{
+        scale: 1;
+    }
+}
