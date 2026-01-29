@@ -29,12 +29,12 @@
 
     let activeModal = null;
 
-    let keyboardControl = data.controls.keyboard;
-    let gamepadControl = data.controls.gamepad;
-    let slots = [data.userData.slotOne, data.userData.slotTwo, data.userData.slotThree, data.userData.slotFour];
+    let keyboardControl = data.controlData.keyboard;
+    let gamepadControl = data.controlData.gamepad;
+    let slots = [data.user.slotOne, data.user.slotTwo, data.user.slotThree, data.user.slotFour];
 
     let soundtrack;
-    let soundtrackVol = data.userData.soundtrack;
+    let soundtrackVol = data.user.soundtrack;
     onMount(() => {
         soundtrack = new Audio(menuSoundtrack);
         soundtrack.loop = true;
@@ -43,7 +43,7 @@
     });
 
     let soundEffect;
-    let soundEffectVol = data.userData.soundEffect;
+    let soundEffectVol = data.user.soundEffect;
     onMount(() => {
         soundEffect = new Audio(menuEffect);
         soundEffect.loop = true;
@@ -109,8 +109,8 @@
     {#if activeModal === "configuration"}
         <Configurations
             close={() => (activeModal = null)}
-            username={data.configurations.username}
-            email={data.configurations.email}>
+            username={data.userData.username}
+            email={data.userData.email}>
         </Configurations>
     {/if}
 

@@ -1,4 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { api } from '$script/server/apiClient.js';
+import { setCookies } from '$script/server/apiCookies.js';
+import { ENDPOINTS } from '$script/server/endpoints.js';
 
 export const actions = {
 
@@ -9,56 +12,27 @@ export const actions = {
 		const username = formData.get('username');
 		const password = formData.get('password');
 
-		const res = await fetch('http://localhost:8080/auth/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				username,
-				password
-			})
-		});
+		try {
+			const {data, res} = await api.post(
+				fetch, 
+				ENDPOINTS.auth.login, 
+				{username, password},
+				cookies
+			);
 
-		if (res === 400) {
-			return fail(400, {error: 'Bad Values inserted'});
+			setCookies.token(cookies, res);
+			setCookies.user(cookies, data);
+
+			throw redirect(303, '/menu');
 		}
-		else if (res === 401) {
-			return fail(401, {error: 'Unauthorized Login'});
+		catch(e) {
+
+			if (e.status === 303) {
+				throw e;
+			} 
+
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
 		}
-		else if (res === 500) {
-			return fail(500, {error: 'Server Error'});
-		}
-		else if (!res.ok) {
-			return fail(500, {error: 'Invalid Login'});
-		}
-
-		const setCookie = res.headers.get('set-cookie');
-		
-		const cookiesHeader = res.headers.getSetCookie(); 
-		const tokenValue = cookiesHeader
-			.find(c => c.includes('access_token='))
-			?.split('access_token=')[1]
-			?.split(';')[0];
-
-		if (tokenValue) {
-            cookies.set('access_token', tokenValue, {
-                path: '/',
-                httpOnly: true,
-                sameSite: 'lax',
-                secure: false, 
-                maxAge: 259200
-            });
-        }
-
-		const data = await res.json().catch(() => null);
-		cookies.set("user", JSON.stringify(data), {
-			path: '/',
-			httpOnly: true,
-			sameSite: 'lax',
-		});
-
-		throw redirect(303, '/menu');
 	},
 
 	register: async ({ request, fetch, cookies }) => {
@@ -69,57 +43,27 @@ export const actions = {
 		const email = formData.get('email');
 		const password = formData.get('password');
 		
-		const res = await fetch('http://localhost:8080/auth/register', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				username,
-				email,
-				password
-			})
-		});
+		try {
 
-		if (res === 400) {
-			return fail(400, {error: 'Bad Values inserted'});
+			const {data, res} = await api.post(
+				fetch,
+				ENDPOINTS.auth.register,
+				{username, email, password},
+				cookies
+			);
+
+			setCookies.token(cookies, res);
+			setCookies.user(cookies, data);
+
+			throw redirect(303, '/menu');
 		}
-		else if (res === 409) {
-			return fail(409, {error: 'Conflict Values on Register'});
+		catch(e) {
+
+			if (e.status === 303) {
+				throw e;
+			} 
+
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
 		}
-		else if (res === 500) {
-			return fail(500, {error: 'Server Error'});
-		}
-		else if (!res.ok) {
-			return fail(500, {error: 'Invalid Login'});
-		}
-
-		const setCookie = res.headers.get('set-cookie');
-
-		const cookiesHeader = res.headers.getSetCookie();
-		const tokenValue = cookiesHeader
-			.find(c => c.includes('access_token='))
-			?.split('access_token=')[1]
-			?.split(';')[0];
-
-
-		if (tokenValue) {
-            cookies.set('access_token', tokenValue, {
-                path: '/',
-                httpOnly: true,
-                sameSite: 'lax',
-                secure: false, 
-                maxAge: 259200
-            });
-        }
-
-		const data = await res.json().catch(() => null);
-		cookies.set("user", JSON.stringify(data), {
-			path: '/',
-			httpOnly: true,
-			sameSite: 'lax',
-		});
-
-		throw redirect(303, '/menu');
 	}
 };

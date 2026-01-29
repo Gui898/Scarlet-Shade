@@ -1,40 +1,46 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { api } from '$script/server/apiClient.js';
+import { setCookies } from '$script/server/apiCookies.js';
+import { ENDPOINTS } from '$script/server/endpoints.js';
 
 export const actions = {
 
-    logout: async ({ request, fetch, cookies }) => {
+    logout: async ({ fetch, cookies }) => {
 
-        const token = cookies.get('access_token');
+        try {
+            await api.post(fetch, ENDPOINTS.auth.logout, null, cookies);
 
-        const res = await fetch('http://localhost:8080/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+            setCookies.clear(cookies);
 
-        if (res === 401) {
-            return fail(401, { error: 'Unauthorized Logout' });
+            throw redirect(303, '/');
         }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Logout' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Invalid Logout' });
-        }
+        catch (e) {
 
-        const ALL_COOKIES = ["access_token", "user", "game"];
-        for (let i = 0; i < ALL_COOKIES.length; i++) {
+            if (e.status === 303) {
+				throw e;
+			} 
 
-            cookies.delete(ALL_COOKIES[i], {
-                path: '/'
-            });
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
         }
+    },
 
-        throw redirect(303, '/');
+    deleteUser: async ({ fetch, cookies }) => {
+
+        try {
+            await api.delete(fetch, ENDPOINTS.user.delete, cookies);
+
+            setCookies.clear(cookies);
+
+            throw redirect(303, '/');
+        }
+        catch (e) {
+            
+            if (e.status === 303) {
+				throw e;
+			} 
+
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+        }
     },
 
     volume: async ({ request, fetch, cookies }) => {
@@ -44,49 +50,29 @@ export const actions = {
         const soundtrack = Number(formData.get('soundtrack'));
         const soundEffect = Number(formData.get('sound_effect'));
 
-        const token = cookies.get('access_token');
+        try {
+            await api.patch(
+                fetch,
+                ENDPOINTS.user.volume,
+                {soundtrack, soundEffect},
+                cookies
+            );
 
-        const res = await fetch('http://localhost:8080/user/volume', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                soundtrack,
-                soundEffect
-            })
-        });
+            const rawUser = cookies.get("user");
+            let user = JSON.parse(rawUser);
 
-        const rawUser = cookies.get("user");
-        let user = JSON.parse(rawUser);
+            user.soundtrack = soundtrack;
+            user.soundEffect = soundEffect;
 
-        user.soundtrack = soundtrack;
-        user.soundEffect = soundEffect;
+            setCookies.user(cookies, user);
+        }
+        catch (e) {
+            
+            if (e.status === 303) {
+				throw e;
+			} 
 
-        cookies.set('user', JSON.stringify(user), {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'lax'
-        });
-
-        if (res === 400) {
-            return fail(400, { error: 'Bad Request' });
-        }
-        else if (res === 401) {
-            return fail(401, { error: 'Unauthorized Token' });
-        }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Token' });
-        }
-        else if (res === 404) {
-            return fail(404, { error: 'User Not Found' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Cannot Update Volume' });
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
         }
     },
 
@@ -97,33 +83,21 @@ export const actions = {
         const keyboard = JSON.parse(formData.get('keyboard'));
         const gamepad = JSON.parse(formData.get('gamepad'));
 
-        const res = await fetch('http://localhost:8080/control/update', {
+        try {
+            await api.patch(
+                fetch,
+                ENDPOINTS.control.update,
+                {keyboard, gamepad},
+                cookies
+            );
+        }
+        catch (e) {
 
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${cookies.get('access_token')}`
-            },
-            body: JSON.stringify({ keyboard, gamepad })
-        });
+            if (e.status === 303) {
+				throw e;
+			} 
 
-        if (res === 400) {
-            return fail(400, { error: 'Bad Request' });
-        }
-        else if (res === 401) {
-            return fail(401, { error: 'Unauthorized Token' });
-        }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Token' });
-        }
-        else if (res === 404) {
-            return fail(404, { error: 'Control Not Found' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Cannot Update Controls' });
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
         }
     },
 
@@ -135,302 +109,159 @@ export const actions = {
         const email = formData.get("email");
         const password = formData.get("password");
 
-        const token = cookies.get('access_token');
+        try {
+            const {data, res} = await api.put(
+                fetch,
+                ENDPOINTS.user.update,
+                {username, email, password},
+                cookies
+            );
 
-        const res = await fetch("http://localhost:8080/user/update", {
-
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ username, email, password })
-        });
-
-        if (res === 400) {
-            return fail(400, { error: 'Bad Request' });
+            setCookies.token(cookies, res);
         }
-        else if (res === 401) {
-            return fail(401, { error: 'Unauthorized Token' });
-        }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Token' });
-        }
-        else if (res === 404) {
-            return fail(404, { error: 'User Not Found' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Cannot Edit This User' });
-        }
+        catch (e) {
+            if (e.status === 303) {
+				throw e;
+			} 
 
-        const setCookie = res.headers.get('set-cookie');
-
-        const cookiesHeader = res.headers.getSetCookie();
-        const tokenValue = cookiesHeader
-            .find(c => c.includes('access_token='))
-            ?.split('access_token=')[1]
-            ?.split(';')[0];
-
-
-        if (tokenValue) {
-            cookies.set('access_token', tokenValue, {
-                path: '/',
-                httpOnly: true,
-                sameSite: 'lax',
-                secure: false,
-                maxAge: 259200
-            });
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
         }
-    },
-
-    deleteUser: async ({ request, fetch, cookies }) => {
-        const token = cookies.get("access_token");
-
-        const res = await fetch("http://localhost:8080/user/delete", {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (res === 401) {
-            return fail(401, { error: 'Unauthorized Delete User' });
-        }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Delete user' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Invalid Logout' });
-        }
-
-        const ALL_COOKIES = ["access_token", "user", "game"];
-        for (let i = 0; i < ALL_COOKIES.length; i++) {
-
-            cookies.delete(ALL_COOKIES[i], {
-                path: '/'
-            });
-        }
-
-        throw redirect(303, '/');
     },
 
     createSlot: async ({ request, fetch, cookies }) => {
 
-        const raw = JSON.parse(cookies.get("user"));
         const formData = await request.formData();
-        const numberSlot = Number(formData.get("numberSlot"));
 
-        const token = cookies.get("access_token");
-        const res = await fetch(`http://localhost:8080/slot/create?number=${numberSlot}`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+        const numberSlot = formData.get("numberSlot");
+
+        try {
+            const {data, res} = await api.post(
+                fetch,
+                ENDPOINTS.slot.create + numberSlot,
+                null,
+                cookies
+            );
+
+            const user = JSON.parse(cookies.get("user"));
+
+            switch (Number(numberSlot)) {
+                case 1:
+                    user.slotOne = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
+                    break;
+                case 2:
+                    user.slotTwo = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
+                    break;
+                case 3:
+                    user.slotThree = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
+                    break;
+                case 4:
+                    user.slotFour = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
+                    break;
             }
-        });
 
-        if (res === 400) {
-            return fail(400, { error: 'Bad Request' });
-        }
-        else if (res === 401) {
-            return fail(401, { error: 'Unauthorized Token' });
-        }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Token' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Cannot Create a Slot' });
-        }
+            setCookies.user(cookies, user);
+            setCookies.game(cookies, data);
 
-        const data = await res.json().catch(() => null);
-
-        switch (numberSlot) {
-            case 1:
-                raw.slotOne = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
-                break;
-            case 2:
-                raw.slotTwo = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
-                break;
-            case 3:
-                raw.slotThree = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
-                break;
-            case 4:
-                raw.slotFour = { numberSlot: data.numberSlot, gameCompleted: data.gameCompleted };
-                break;
+            throw redirect(303, '/menu/game');
         }
+        catch (e) {
 
-        cookies.set("user", JSON.stringify(raw), {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'lax',
-        });
+            if (e.status === 303) {
+				throw e;
+			} 
 
-        cookies.set("game", JSON.stringify(data), {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'lax',
-        });
-
-        throw redirect(303, '/menu/game');
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+        }
     },
 
     getSlot: async ({ request, fetch, cookies }) => {
 
         const formData = await request.formData();
-        const numberSlot = Number(formData.get("numberSlot"));
+        
+        const numberSlot = formData.get("numberSlot");
 
-        const token = cookies.get("access_token");
-        const res = await fetch(`http://localhost:8080/slot/get?number=${numberSlot}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        try {
 
-        if (res === 404) {
-            return fail(404, { error: 'Slot Not Found' });
+            const {data, res} = await api.get(
+                fetch,
+                ENDPOINTS.slot.get + numberSlot,
+                cookies
+            );
+
+            setCookies.game(cookies, data);
+
+            throw redirect(303, '/menu/game');
         }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Cannot Get Slot' });
-        }
+        catch (e) {
 
-        const data = await res.json().catch(() => null);
-        cookies.set("game", JSON.stringify(data), {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'lax',
-        });
+            if (e.status === 303) {
+				throw e;
+			} 
 
-        throw redirect(303, '/menu/game');
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+        }
     },
 
     deleteSlot: async ({ request, fetch, cookies }) => {
+        
         const formData = await request.formData();
-        const raw = JSON.parse(cookies.get("user"));
 
-        const numberSlot = Number(formData.get("numberSlot"));
-        const token = cookies.get("access_token");
+        const numberSlot = formData.get("numberSlot");
 
-        const res = await fetch(`http://localhost:8080/slot/delete?number=${numberSlot}`, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+        try {
+            const {data, res} = await api.delete(
+                fetch,
+                ENDPOINTS.slot.delete + numberSlot,
+                cookies
+            );
+
+            const user = JSON.parse(cookies.get("user"));
+                
+            switch (Number(numberSlot)) {
+                case 1:
+                    user.slotOne = null;
+                    break;
+                case 2:
+                    user.slotTwo = null;
+                    break;
+                case 3:
+                    user.slotThree = null;
+                    break;
+                case 4:
+                    user.slotFour = null;
+                    break;
             }
-        });
 
-        if (res === 400) {
-            return fail(400, { error: 'Bad Request' });
+            setCookies.user(cookies, user);
+            cookies.delete("game", {path: '/'});
         }
-        else if (res === 401) {
-            return fail(401, { error: 'Unauthorized Token' });
-        }
-        else if (res === 403) {
-            return fail(403, { error: 'Unauthorized Token' });
-        }
-        else if (res === 404) {
-            return fail(404, { error: 'Slot Not Found' });
-        }
-        else if (res === 500) {
-            return fail(500, { error: 'Server Error' });
-        }
-        else if (!res.ok) {
-            return fail(500, { error: 'Cannot Delete' });
-        }
+        catch (e) {
+            
+            if (e.status === 303) {
+				throw e;
+			} 
 
-        switch (numberSlot) {
-            case 1:
-                raw.slotOne = null;
-                break;
-            case 2:
-                raw.slotTwo = null;
-                break;
-            case 3:
-                raw.slotThree = null;
-                break;
-            case 4:
-                raw.slotFour = null;
-                break;
+        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
         }
-
-        cookies.set("user", JSON.stringify(raw), {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'lax',
-        });
-
-        cookies.delete("game", {
-            path: '/'
-        });
     }
 }
 
 export async function load({ fetch, cookies }) {
-    const raw = cookies.get('user');
-    const token = cookies.get('access_token');
 
-    if (!raw || !token) {
-        return {
-            data: null,
-            controls: null
-        };
-    }
+    try {
+        const {data: controlData, res: controlRes} = await api.get(fetch, ENDPOINTS.control.get, cookies);
+        const {data: userData, res: userRes} = await api.get(fetch, ENDPOINTS.user.get, cookies);
 
-    const userData = JSON.parse(raw);
-    const resControl = await fetch("http://localhost:8080/control/buttons", {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    });
+        const user = JSON.parse(cookies.get('user'));
 
-    const resUser = await fetch("http://localhost:8080/user/configurations", {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    });
+        return {user, controlData, userData};
+    }
+    catch (e) {
 
-    if (resControl === 400) {
-        return fail(400, { error: 'Bad Controls Values' });
-    }
-    else if (resControl === 401 || resUser === 401) {
-        return fail(401, { error: 'Unauthorized Token' });
-    }
-    else if (resControl === 403 || resUser === 403) {
-        return fail(403, { error: 'Unauthorized Token' });
-    }
-    else if (resControl === 404) {
-        return fail(404, { error: 'Controls Not Found' });
-    }
-    else if (resControl === 500 || resUser === 500) {
-        return fail(500, { error: 'Server Error' });
-    }
-    else if (!resControl.ok || !resUser.ok) {
-        return fail(500, { error: 'Invalid Menu Access' });
-    }
+        if (e.status === 303) {
+			throw e;
+		} 
 
-    const controls = await resControl.json().catch(() => null);
-    const configurations = await resUser.json().catch(() => null);
-
-    return {
-        userData,
-        controls,
-        configurations
-    };
+        return fail(e.status || 500, { error: e.error || 'Connection Error' });
+    }
 }
