@@ -15,13 +15,14 @@
     export let action = "";
     export let close = () => {};
 
-    function enhanceMethod(result) {
+    async function enhanceMethod(result, update) {
         
         if (result.type === "redirect") {
             window.location.href = result.location;
             return;
         }
         if (result.type === "success") {
+            await update();
             close();
         }
     }
@@ -37,7 +38,7 @@
         method="POST"
         action="?/{action}"
         use:enhance={action
-            ? () => async ({ result }) => enhanceMethod(result) : undefined}
+            ? () => async ({ result, update }) => enhanceMethod(result, update) : undefined}
     >
 
         <slot></slot>

@@ -103,8 +103,12 @@ public class UserService {
 
     @Transactional
     public void updateUser(UserRequest request, User user) {
-        
-        if (userRepository.existsByUsernameOrEmailAndIdNot(user.getUsername(), user.getEmail(), user.getId())) {
+
+        if (userRepository.existsByUsernameOrEmailAndIdNot(
+                request.username(),
+                request.email(),
+                user.getId()
+        )) {
             throw new UserConflictException();
         }
 
