@@ -31,7 +31,10 @@ export const actions = {
 				throw e;
 			} 
 
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+        	return fail(e.status || 500, { 
+				error: true,
+                form: "login",
+                message: "Incorrect username or password" });
 		}
 	},
 
@@ -63,7 +66,10 @@ export const actions = {
 				throw e;
 			} 
 
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+        	return fail(e.status || 500, { 
+				error: true,
+                form: "register",
+                message: "Username or email already exists" });
 		}
 	}
 };

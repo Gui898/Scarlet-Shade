@@ -7,10 +7,13 @@
     import Warning from "../Warning.svelte";
 
     import { playSound } from "$script/utils/playSound.js";
+    import { enhance } from "$app/forms";
 
     export let username;
     export let email;
     export let password;
+
+    export let form;
 
     const usernameRegex = /^[a-zA-Z0-9._-]{8,}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,7 +41,7 @@
 </script>
 
 <Warning></Warning>
-<form method="POST" action="?/register" class="options register">
+<form method="POST" action="?/register" class="options register" use:enhance>
     <input
         name="username"
         type="text"
@@ -67,6 +70,12 @@
 {#if warningMessage}
     <Warning>
         <h6>{warningMessage}</h6>
+    </Warning>
+{/if}
+
+{#if form?.error && form?.form == "register"}
+    <Warning>
+        <h6>{form.message}</h6>
     </Warning>
 {/if}
 

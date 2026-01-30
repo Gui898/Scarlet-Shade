@@ -18,6 +18,8 @@
     let email = "";
     let password = "";
 
+    export let form;
+
     let screen = "options";
 
     function goLogin() {
@@ -70,12 +72,12 @@
 
         {#if screen === "login"}
             
-            <Login username="{username}" password="{password}"></Login>
+            <Login {form} username="{username}" password="{password}"></Login>
         {/if}
 
         {#if screen === "register"}
             
-            <Register username="{username}" email="{email}" password="{password}"></Register>
+            <Register {form} username="{username}" email="{email}" password="{password}"></Register>
         {/if}
     </div>
 </div>

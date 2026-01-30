@@ -6,12 +6,13 @@
     import gongSound from "$assets/soundEffect/gong.mp3";
     
     import { playSound } from "$script/utils/playSound.js";
+    import { enhance } from "$app/forms";
     import Warning from "../Warning.svelte";
 
-    export let username;
-    export let password;
+    export let username = '';
+    export let password = '';
 
-    let wrongLogin = false;
+    export let form;
 
     $: isFormValid = username.length == 0 || password.length == 0;
 
@@ -32,6 +33,7 @@
     method="POST"
     action="?/login"
     class="options login"
+    use:enhance
 >
     <input
         name="username"
@@ -55,6 +57,6 @@
     </button>
 </form>
 
-{#if wrongLogin}
-    <Warning><h6>Incorrect username or passwrod</h6></Warning>
+{#if form?.error && form?.form == "login"}
+    <Warning><h6>{form.message}</h6></Warning>
 {/if}
