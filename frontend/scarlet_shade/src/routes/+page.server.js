@@ -1,7 +1,8 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { api } from '$script/server/apiClient.js';
 import { setCookies } from '$script/server/apiCookies.js';
 import { ENDPOINTS } from '$script/server/endpoints.js';
+import { errorHandler } from '$script/server/errorHandler.js';
 
 export const actions = {
 
@@ -26,15 +27,16 @@ export const actions = {
 			throw redirect(303, '/menu');
 		}
 		catch(e) {
-
 			if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { 
-				error: true,
-                form: "login",
-                message: "Incorrect username or password" });
+			else if (e.status === 401 || e.status === 403) {
+				return fail(e.status, { 
+					error: true,
+					form: "login",
+					message: "Incorrect username or password" });
+			}
+			errorHandler(e);
 		}
 	},
 
@@ -47,7 +49,6 @@ export const actions = {
 		const password = formData.get('password');
 		
 		try {
-
 			const {data, res} = await api.post(
 				fetch,
 				ENDPOINTS.auth.register,
@@ -61,15 +62,16 @@ export const actions = {
 			throw redirect(303, '/menu');
 		}
 		catch(e) {
-
 			if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { 
-				error: true,
-                form: "register",
-                message: "Username or email already exists" });
+			else if (e.status === 409 || e.status === 400) {
+				return fail(e.status, { 
+					error: true,
+					form: "register",
+					message: "Username or email already exists" });
+			}	
+			errorHandler(e);
 		}
 	}
 };

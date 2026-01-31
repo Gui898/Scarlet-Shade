@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { api } from '$script/server/apiClient.js';
 import { setCookies } from '$script/server/apiCookies.js';
 import { ENDPOINTS } from '$script/server/endpoints.js';
@@ -15,12 +15,13 @@ export const actions = {
             throw redirect(303, '/');
         }
         catch (e) {
-
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     },
 
@@ -34,12 +35,13 @@ export const actions = {
             throw redirect(303, '/');
         }
         catch (e) {
-            
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     },
 
@@ -67,12 +69,13 @@ export const actions = {
             setCookies.user(cookies, user);
         }
         catch (e) {
-            
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     },
 
@@ -92,12 +95,13 @@ export const actions = {
             );
         }
         catch (e) {
-
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     },
 
@@ -123,8 +127,13 @@ export const actions = {
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            else if (e.status === 400 || e.status === 409) {
+                // I will do the fail later...
+            }
+            errorHandler(e);
         }
     },
 
@@ -165,12 +174,13 @@ export const actions = {
             throw redirect(303, '/menu/game');
         }
         catch (e) {
-
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     },
 
@@ -197,8 +207,10 @@ export const actions = {
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     },
 
@@ -236,12 +248,13 @@ export const actions = {
             cookies.delete("game", {path: '/'});
         }
         catch (e) {
-            
             if (e.status === 303) {
 				throw e;
 			} 
-
-        	return fail(e.status || 500, { error: e.error || 'Connection Error' });
+            else if (e.status === 403) {
+                throw redirect(303, '/');    
+            }
+            errorHandler(e);
         }
     }
 }
@@ -257,11 +270,12 @@ export async function load({ fetch, cookies }) {
         return {user, controlData, userData};
     }
     catch (e) {
-
         if (e.status === 303) {
 			throw e;
 		} 
-
-        return fail(e.status || 500, { error: e.error || 'Connection Error' });
+        else if (e.status === 403) {
+            throw redirect(303, '/');    
+        }
+        errorHandler(e);
     }
 }

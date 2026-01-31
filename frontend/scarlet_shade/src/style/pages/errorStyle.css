@@ -1,0 +1,48 @@
+@import url("../style.css");
+
+.error-page {
+    min-height: 100vh;
+    min-width: 100vh;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 2rem;
+
+    text-align: center;
+    padding: 2rem;
+}
+
+.back_arrow {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+
+    background-color: transparent;
+    border: none;
+
+    color: var(--text-color);
+    text-shadow: var(--text-shadow);
+
+    cursor: pointer;
+}
+
+.title_error {
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-weight: 900;
+    text-shadow: var(--text-shadow);
+}
+
+.message_error {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    max-width: 40rem;
+    opacity: 0.85;
+}
+
+.error_image {
+    width: min(28rem, 80vw);
+}
