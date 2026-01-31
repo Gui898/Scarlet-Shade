@@ -1,6 +1,6 @@
 @import url("../style.css");
 
-.modal {
+.modal_error {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -20,7 +20,25 @@
     max-width: 370px;
 }
 
+.modal_error.inline {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    align-items: center;
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+}
+
 h6{
     margin: 0;
     animation: pulse 1.5s linear infinite;
+}
+
+.modal_error.inline h6 {
+    animation: none;
 }

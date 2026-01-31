@@ -1,5 +1,9 @@
 @import url("../style.css");
 
+.warning-slot {
+    min-height: 25px;
+}
+
 .configurations {
     width: 100%;
     display: flex;
