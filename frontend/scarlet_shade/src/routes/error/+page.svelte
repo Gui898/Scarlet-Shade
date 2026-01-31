@@ -4,7 +4,9 @@
 
     import { page } from '$app/stores';
 
-    import samurai from "$assets/images/samurai/SamuraiErrorImage.png"
+    import samurai from "$assets/images/samurai/SamuraiErrorImage.png";
+    import closeEffect from "$assets/soundEffect/close.mp3";
+
     import { playSound } from "$script/utils/playSound.js";
 
     import Fog from '$lib/Fog.svelte';
@@ -13,13 +15,14 @@
     $: message = $page.url.searchParams.get('message') ?? 'Unexpected error';
 
     function back() {
-        
+        playSound(closeEffect);
+        history.back();
     }
 </script>
 
 <div class="error-page">
 
-    <button class="back_arrow" onclick={() => history.back()}> ← </button>
+    <button class="back_arrow" onclick={() => back()}> ← </button>
 
     <h1 class="title_error">Error {status}</h1>
 

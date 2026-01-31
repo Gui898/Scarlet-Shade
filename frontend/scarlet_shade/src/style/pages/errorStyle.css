@@ -1,48 +1,65 @@
 @import url("../style.css");
 
-.error-page {
+body {
+    background-image: var(--inital-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    overflow: hidden;
+
     min-height: 100vh;
-    min-width: 100vh;
+}
+
+.error-page {
+    height: 100vh;
+    width: 100%;
     
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    gap: 2rem;
-
     text-align: center;
-    padding: 2rem;
+    padding: 0;
+    gap: 0;
 }
 
 .back_arrow {
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-
+    top: -0.2em;
+    left: 0.2em;
+    font-size: 5rem;
     background-color: transparent;
     border: none;
-
     color: var(--text-color);
     text-shadow: var(--text-shadow);
-
     cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.back_arrow:hover {
+    transform: scale(1.5);
+    color: var(--carmin-color);
+}
+
+.title_error, .message_error, .error_image {
+    margin: 0 !important;
 }
 
 .title_error {
-    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-size: 8rem;
     font-weight: 900;
-    text-shadow: var(--text-shadow);
+    color: var(--carmin-color);
 }
 
 .message_error {
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-size: 1.4rem;
     max-width: 40rem;
     opacity: 0.85;
 }
 
 .error_image {
-    width: min(28rem, 80vw);
+    width: 20rem;
+    height: auto;
 }

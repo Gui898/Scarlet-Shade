@@ -2,6 +2,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { api } from '$script/server/apiClient.js';
 import { setCookies } from '$script/server/apiCookies.js';
 import { ENDPOINTS } from '$script/server/endpoints.js';
+import { errorHandler } from '$script/server/errorHandler.js';
 
 export const actions = {
 
@@ -21,7 +22,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -41,7 +42,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -75,7 +76,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -101,7 +102,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -133,7 +134,7 @@ export const actions = {
             else if (e.status === 400 || e.status === 409) {
                 // I will do the fail later...
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -180,7 +181,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -210,7 +211,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     },
 
@@ -254,7 +255,7 @@ export const actions = {
             else if (e.status === 403) {
                 throw redirect(303, '/');    
             }
-            errorHandler(e);
+            errorHandler(e, cookies);
         }
     }
 }
@@ -276,6 +277,6 @@ export async function load({ fetch, cookies }) {
         else if (e.status === 403) {
             throw redirect(303, '/');    
         }
-        errorHandler(e);
+        errorHandler(e, cookies);
     }
 }

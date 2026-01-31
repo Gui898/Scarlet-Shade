@@ -36,7 +36,7 @@ export const actions = {
 					form: "login",
 					message: "Incorrect username or password" });
 			}
-			errorHandler(e);
+			errorHandler(e, cookies);
 		}
 	},
 
@@ -71,7 +71,7 @@ export const actions = {
 					form: "register",
 					message: "Username or email already exists" });
 			}	
-			errorHandler(e);
+			errorHandler(e, cookies);
 		}
 	}
 };
