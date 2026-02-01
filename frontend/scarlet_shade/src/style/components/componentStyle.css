@@ -64,6 +64,12 @@
     transform: scale(1.5);
 }
 
+.save:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
 .modal img {
     padding: 0 !important;
 }

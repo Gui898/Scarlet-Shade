@@ -61,8 +61,7 @@ export const actions = {
                 cookies
             );
 
-            const rawUser = cookies.get("user");
-            let user = JSON.parse(rawUser);
+            let user = JSON.parse(cookies.get("user"));
 
             user.soundtrack = soundtrack;
             user.soundEffect = soundEffect;
@@ -132,7 +131,10 @@ export const actions = {
                 throw redirect(303, '/');    
             }
             else if (e.status === 400 || e.status === 409) {
-                // I will do the fail later...
+                return fail(e.status, { 
+					error: true,
+					form: "configuration",
+					message: "Username or email invalid" });
             }
             errorHandler(e, cookies);
         }

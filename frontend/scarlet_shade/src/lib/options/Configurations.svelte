@@ -1,5 +1,8 @@
 <script>
     
+    import { page } from '$app/stores';
+    import { onDestroy } from "svelte";
+
     import "$style/components/configurationStyle.css";
 
     import Component from "../Component.svelte";
@@ -14,6 +17,7 @@
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
+    $: serverError = $page.form?.form === "configuration" ? $page.form.message : null;
     $: wrongUsername = username.length > 0 && !usernameRegex.test(username);
     $: wrongEmail = email.length > 0 && !emailRegex.test(email);
     $: wrongPassword = password.length > 0 && !passwordRegex.test(password);
@@ -24,18 +28,18 @@
         ? "The email must be in the correct format"
         : wrongPassword
         ? "The password must be at least 8 characters, with uppercase and lowercase letters"
-        : null;
+        : serverError;
 
-    $: isFormValid =
-        wrongPassword ||
-        wrongEmail ||
-        wrongUsername ||
-        username.length == 0 ||
-        email.length == 0 ||
-        password.length == 0;
+    $: isEmpty = username.length === 0 || email.length === 0;
+
+    $: isButtonDisabled = wrongUsername || wrongEmail || wrongPassword || isEmpty;
+
+    onDestroy(() => {
+        if ($page.form) $page.form = null;
+    });
 </script>
 
-<Component close={close} action="configuration">
+<Component close={close} action="configuration" disabled={isButtonDisabled}>
     
     <h2>Configurations</h2>
     
@@ -62,7 +66,7 @@
             bind:value={email}/>
                 
         <input
-            type="text"
+            type="password"
             name="password"
             placeholder="Password"
             bind:value={password}/>       

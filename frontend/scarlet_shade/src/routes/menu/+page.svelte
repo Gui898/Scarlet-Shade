@@ -22,7 +22,7 @@
     import Controls from "$lib/options/Controls.svelte";
     import Configurations from "$lib/options/Configurations.svelte";
     import DeleteUser from "$lib/options/DeleteUser.svelte";
-    
+
     import { playSound } from "$script/utils/playSound.js";
 
     export let data;
@@ -31,57 +31,83 @@
 
     let keyboardControl = data.controlData.keyboard;
     let gamepadControl = data.controlData.gamepad;
-    let slots = [data.user.slotOne, data.user.slotTwo, data.user.slotThree, data.user.slotFour];
+    let slots = [
+        data.user.slotOne,
+        data.user.slotTwo,
+        data.user.slotThree,
+        data.user.slotFour,
+    ];
 
     let soundtrack;
     let soundtrackVol = data.user.soundtrack;
     onMount(() => {
-        soundtrack = new Audio(menuSoundtrack);
-        soundtrack.loop = true;
-        soundtrack.volume = soundtrackVol;
-        soundtrack.play();
+        if (!soundtrack) {
+            soundtrack = new Audio(menuSoundtrack);
+            soundtrack.loop = true;
+            soundtrack.volume = soundtrackVol;
+            soundtrack.play()
+        }
     });
 
     let soundEffect;
     let soundEffectVol = data.user.soundEffect;
     onMount(() => {
-        soundEffect = new Audio(menuEffect);
-        soundEffect.loop = true;
-        soundEffect.volume = soundEffectVol;
-        soundEffect.play();
+        if (!soundEffect) {
+            soundEffect = new Audio(menuEffect);
+            soundEffect.loop = true;
+            soundEffect.volume = soundEffectVol;
+            soundEffect.play();
+        }
     });
 </script>
 
 <main class="container">
-    
     <div class="title">
         <h1>Scarlet Shade</h1>
     </div>
 
     <div class="slots">
-        <Slots slots={slots} trash="{trash}"></Slots>
+        <Slots {slots} {trash}></Slots>
     </div>
 
     <div class="icons">
-        
-        <button on:click={() => {activeModal = "volume"; playSound(pop, soundEffectVol);}}>
+        <button
+            on:click={() => {
+                activeModal = "volume";
+                playSound(pop, soundEffectVol);
+            }}
+        >
             <img src={volume} alt="" />
         </button>
 
-        <button on:click={() => {activeModal = "controls" ; playSound(pop, soundEffectVol);}}>
+        <button
+            on:click={() => {
+                activeModal = "controls";
+                playSound(pop, soundEffectVol);
+            }}
+        >
             <img src={controlsIcon} alt="" />
         </button>
 
-        <button on:click={() => {activeModal = "configuration"; playSound(pop, soundEffectVol);}}>
+        <button
+            on:click={() => {
+                activeModal = "configuration";
+                playSound(pop, soundEffectVol);
+            }}
+        >
             <img src={config} alt="" />
         </button>
 
-        <button on:click={() => {activeModal = "delete";}}>
+        <button
+            on:click={() => {
+                activeModal = "delete";
+                playSound(pop, soundEffectVol);
+            }}
+        >
             <img src={deleteUser} alt="" />
         </button>
 
         <form method="POST" action="?/logout" class="logout">
-            
             <button on:click={() => playSound(swordCut, soundEffectVol)}>
                 <img src={leave} alt="" />
             </button>
@@ -91,34 +117,32 @@
     {#if activeModal === "volume"}
         <Volume
             close={() => (activeModal = null)}
-            soundtrack={soundtrack}
-            soundtrackVol={soundtrackVol}
-            soundEffect={soundEffect}
-            soundEffectVol={soundEffectVol}>
-        </Volume>
+            {soundtrack}
+            bind:soundtrackVol={soundtrackVol}
+            {soundEffect}
+            bind:soundEffectVol={soundEffectVol}
+        ></Volume>
     {/if}
 
     {#if activeModal === "controls"}
         <Controls
             close={() => (activeModal = null)}
-            keyboardControl={keyboardControl}
-            gamepadControl={gamepadControl}>
-        </Controls>
+            {keyboardControl}
+            {gamepadControl}
+        ></Controls>
     {/if}
 
     {#if activeModal === "configuration"}
         <Configurations
             close={() => (activeModal = null)}
             username={data.userData.username}
-            email={data.userData.email}>
-        </Configurations>
+            email={data.userData.email}
+        ></Configurations>
     {/if}
 
     {#if activeModal === "delete"}
-        <DeleteUser
-            close={() => (activeModal = null)}>
-        </DeleteUser>
+        <DeleteUser close={() => (activeModal = null)}></DeleteUser>
     {/if}
-    
+
     <Fog></Fog>
 </main>

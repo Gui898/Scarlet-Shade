@@ -30,7 +30,7 @@ export const actions = {
 			if (e.status === 303) {
 				throw e;
 			} 
-			else if (e.status === 401 || e.status === 403) {
+			else if (e.status === 401 || e.status === 403 || e.status === 400) {
 				return fail(e.status, { 
 					error: true,
 					form: "login",
