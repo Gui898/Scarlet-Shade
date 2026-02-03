@@ -63,3 +63,11 @@ body {
     width: 20rem;
     height: auto;
 }
+
+@media (max-width: 1280px) {
+
+    .error_image{
+        width: 18rem;
+        height: auto;
+    }
+}
