@@ -22,10 +22,10 @@ export function startGame(canvas) {
 
     inputManager = new InputManager(canvas);
 
-    EntityManager.init(new Player(100, 100, 100, 100), new Camera(canvas, 0, 0));
+    EntityManager.init(new Player(100, 100, 100, 100, 15), new Camera(canvas, 0, 0));
 
-    EntityManager.addEntity(new Enemy(100, 100, 600, 300));
-    EntityManager.addEntity(new Enemy(100, 100, 6000, 100));
+    EntityManager.addEntity(new Enemy(100, 100, 600, 300, 15));
+    EntityManager.addEntity(new Enemy(100, 100, 6000, 100, 15));
 
     gameloop(canvas, ctx);
 }

@@ -4,10 +4,9 @@ export class Enemy extends GameObject{
 
     speed;
 
-    //Put speed HERE BABUINO
-    constructor(width, height, posX, posY){
+    constructor(width, height, posX, posY, speed){
         super(width, height, posX, posY);
-        this.speed = 15;
+        this.speed = speed;
     }
 
     draw(ctx) {
@@ -18,5 +17,4 @@ export class Enemy extends GameObject{
 
         // ctx.restore();
     }
-
 }
