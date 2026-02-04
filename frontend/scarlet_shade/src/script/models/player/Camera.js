@@ -1,4 +1,5 @@
 import { GameObject } from "../GameObject";
+import { lerp } from "../../utils/mathFunctions.js";
 
 export class Camera extends GameObject{
 
@@ -10,11 +11,6 @@ export class Camera extends GameObject{
         this.canvas = canvas;
     }
 
-    // a = currentPosition, b = targetPosition, t = smoothness
-    lerp(a, b, t){
-        return a + (b-a) * t
-    } 
-
     updateCamera(player) {
         const targetX =
             player.position.x + player.width / 2 - this.width / 2;
@@ -22,8 +18,8 @@ export class Camera extends GameObject{
         const targetY =
             player.position.y + player.height / 2 - this.height / 2;
 
-        this.position.x = this.lerp(this.position.x, targetX, this.smoothness);
-        this.position.y = this.lerp(this.position.y, targetY, this.smoothness);
+        this.position.x = lerp(this.position.x, targetX, this.smoothness);
+        this.position.y = lerp(this.position.y, targetY, this.smoothness);
     }
 
     draw(ctx){
