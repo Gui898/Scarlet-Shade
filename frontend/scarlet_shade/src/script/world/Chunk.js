@@ -1,4 +1,5 @@
-const CHUNK_SIZE = 16;
+import { CHUNK_SIZE } from "../utils/constants.js";
+
 
 class Chunk {
     

@@ -31,5 +31,7 @@ export class District {
         return this.chunks.get(this.getKey(chunkX, chunkY));
     }
 
-    generateChunk(chunk) {}
+    generateChunk(chunk) {
+        throw new Error("generateChunk must be implemented");
+    }
 }
