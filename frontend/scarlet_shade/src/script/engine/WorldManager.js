@@ -66,6 +66,13 @@ export class WorldManager {
     }
 
     changeDistrict() {
-
+        const nextDistrict = this.districts[targetDistrictName];
+    
+        if (nextDistrict) {
+            this.currentDistrict = nextDistrict;
+            
+            player.position.x = spawnPoint.x;
+            player.position.y = spawnPoint.y;
+        }
     }
 }

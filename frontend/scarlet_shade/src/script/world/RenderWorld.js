@@ -20,9 +20,10 @@ export class RenderWorld {
 
         // 3. Desenhar os tiles de cada chunk
         for (const chunk of visibleChunks) {
-            this.drawChunk(ctx, chunk, camera);
+            this.drawChunk(ctx, chunk);
         }
     }
+    
     getVisibleChunks(district, camera) {
         const chunksToRender = [];
         const chunkSizePx = CHUNK_SIZE * TILE_SIZE;
@@ -44,7 +45,7 @@ export class RenderWorld {
         return chunksToRender;
     }
 
-    drawChunk(ctx, chunk, camera) {
+    drawChunk(ctx, chunk) {
         for (let y = 0; y < CHUNK_SIZE; y++) {
             for (let x = 0; x < CHUNK_SIZE; x++) {
                 const tileId = chunk.getTile(x, y);
@@ -57,10 +58,6 @@ export class RenderWorld {
                 // Cálculo da posição no mundo (absoluta)
                 const worldX = (chunk.position.x * CHUNK_SIZE + x) * TILE_SIZE;
                 const worldY = (chunk.position.y * CHUNK_SIZE + y) * TILE_SIZE;
-
-                // Cálculo da posição na tela (relativa à câmera)
-                const screenX = worldX - camera.position.x;
-                const screenY = worldY - camera.position.y;
 
                 // Desenhar o quadrado
                 ctx.fillStyle = color;

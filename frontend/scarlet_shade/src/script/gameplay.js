@@ -5,8 +5,12 @@ import { GameObject } from "./models/GameObject.js";
 import { InputManager } from "./engine/InputManager.js";
 import { onMount } from "svelte";
 import { EntityManager } from "./engine/EntityManager.js";
+import { WorldManager } from "./engine/WorldManager.js";
+import { RenderWorld } from "./world/RenderWorld.js";
 
 let inputManager;
+let worldManager;
+let renderWorld;
 
 export function startGame(canvas) {
 
@@ -21,6 +25,8 @@ export function startGame(canvas) {
     const ctx = canvas.getContext("2d");
 
     inputManager = new InputManager(canvas);
+    worldManager = new WorldManager();
+    renderWorld = new RenderWorld();
 
     EntityManager.init(new Player(100, 100, 100, 100, 15), new Camera(canvas, 0, 0));
 
@@ -33,14 +39,19 @@ export function startGame(canvas) {
 const gameloop = (canvas, ctx) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const player = EntityManager.entities.player;
+    const camera = EntityManager.entities.camera;
+
+    camera.updateCamera(player);
+    worldManager.checkConnection(player);
+    inputManager.applyInputs(player);
     
-    EntityManager.entities.camera.updateCamera(EntityManager.entities.player);
     ctx.save();
     
     EntityManager.drawEntities(ctx);
-
+    renderWorld.render(ctx, worldManager, camera);
+    
     ctx.restore();
-    inputManager.applyInputs(EntityManager.entities.player);
 
     requestAnimationFrame(() => gameloop(canvas, ctx));
 }
