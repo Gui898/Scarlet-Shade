@@ -1,7 +1,7 @@
 import { CHUNK_SIZE } from "../utils/constants.js";
 
 
-class Chunk {
+export class Chunk {
     
     position;
     tiles;

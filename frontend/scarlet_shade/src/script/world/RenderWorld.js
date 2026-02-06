@@ -20,7 +20,7 @@ export class RenderWorld {
 
         // 3. Desenhar os tiles de cada chunk
         for (const chunk of visibleChunks) {
-            this.drawChunk(ctx, chunk);
+            this.drawChunk(ctx, chunk, camera);
         }
     }
     
@@ -37,15 +37,14 @@ export class RenderWorld {
         // Percorrer esse intervalo e buscar no Map do Distrito
         for (let cx = startX; cx <= endX; cx++) {
             for (let cy = startY; cy <= endY; cy++) {
-                if (district.hasChunk(cx, cy)) {
-                    chunksToRender.push(district.getChunk(cx, cy));
-                }
+                // Always request the chunk via `getChunk` so it will be generated if missing
+                chunksToRender.push(district.getChunk(cx, cy));
             }
         }
         return chunksToRender;
     }
 
-    drawChunk(ctx, chunk) {
+    drawChunk(ctx, chunk, camera) {
         for (let y = 0; y < CHUNK_SIZE; y++) {
             for (let x = 0; x < CHUNK_SIZE; x++) {
                 const tileId = chunk.getTile(x, y);
@@ -59,14 +58,13 @@ export class RenderWorld {
                 const worldX = (chunk.position.x * CHUNK_SIZE + x) * TILE_SIZE;
                 const worldY = (chunk.position.y * CHUNK_SIZE + y) * TILE_SIZE;
 
+                // Converter para coordenadas de tela (relativas à câmera)
+                const screenX = worldX - (camera?.position?.x || 0);
+                const screenY = worldY - (camera?.position?.y || 0);
+
                 // Desenhar o quadrado
                 ctx.fillStyle = color;
-                ctx.fillRect(
-                    screenX,
-                    screenY,
-                    TILE_SIZE,
-                    TILE_SIZE
-                );
+                ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE);
             }
         }
     }

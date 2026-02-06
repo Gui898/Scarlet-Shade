@@ -1,5 +1,5 @@
 import { District } from "../District.js";
-import { CHUNK_SIZE } from "../utils/constants.js";
+import { CHUNK_SIZE } from "../../utils/constants.js";
 
 export class CherryBlossomDistrict extends District {
 
@@ -17,7 +17,7 @@ export class CherryBlossomDistrict extends District {
                 // Exemplo de Lógica:
                 // Se for o chunk (0,0), vamos fazer um padrão de tabuleiro
                 if (cx === 0 && cy === 0) {
-                    chunk.setTile(x, y, (x + y) % 2 === 0 ? 1 : 4);
+                    chunk.setTile(x, y, (x + y) % 2 === 0 ? 1 : 3);
                 } else {
                     // Outros chunks são apenas grama
                     chunk.setTile(x, y, 1);

@@ -28,7 +28,7 @@ export function startGame(canvas) {
     worldManager = new WorldManager();
     renderWorld = new RenderWorld();
 
-    EntityManager.init(new Player(100, 100, 100, 100, 15), new Camera(canvas, 0, 0));
+    EntityManager.init(new Player(100, 100, 100, 100, 3), new Camera(canvas, 0, 0));
 
     EntityManager.addEntity(new Enemy(100, 100, 600, 300, 15));
     EntityManager.addEntity(new Enemy(100, 100, 6000, 100, 15));
@@ -48,8 +48,8 @@ const gameloop = (canvas, ctx) => {
     
     ctx.save();
     
-    EntityManager.drawEntities(ctx);
     renderWorld.render(ctx, worldManager, camera);
+    EntityManager.drawEntities(ctx);
     
     ctx.restore();
 

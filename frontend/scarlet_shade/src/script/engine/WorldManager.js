@@ -8,11 +8,10 @@ export class WorldManager {
     connections;
 
     constructor() {
+        const cherryBlossomDistrict = new CherryBlossomDistrict();
 
-        cherryBlossomDistrict = new CherryBlossomDistrict();
-        
         this.districts = {
-            cherryBlossomDistrict: cherryBlossomDistrict
+            "Cherry Blossom District": cherryBlossomDistrict
         };
 
         this.currentDistrict = cherryBlossomDistrict;
@@ -42,15 +41,14 @@ export class WorldManager {
         if (!activeConnections) return;
 
         for (const connection of activeConnections) {
-            
-            rectangleOne = {
+            const rectangleOne = {
                 x: player.position.x,
                 y: player.position.y,
                 width: player.width,
                 height: player.height
             };
 
-            rectangleTwo = {
+            const rectangleTwo = {
                 x: connection.area.x,
                 y: connection.area.y,
                 width: connection.area.width,
@@ -66,13 +64,18 @@ export class WorldManager {
     }
 
     changeDistrict() {
+        // Expect: changeDistrict(targetDistrictName, spawnPoint, player)
+        const [targetDistrictName, spawnPoint, player] = arguments;
+
         const nextDistrict = this.districts[targetDistrictName];
-    
+
         if (nextDistrict) {
             this.currentDistrict = nextDistrict;
-            
-            player.position.x = spawnPoint.x;
-            player.position.y = spawnPoint.y;
+
+            if (player && spawnPoint) {
+                player.position.x = spawnPoint.x;
+                player.position.y = spawnPoint.y;
+            }
         }
     }
 }

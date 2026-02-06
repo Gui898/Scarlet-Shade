@@ -1,3 +1,5 @@
+import { Chunk } from "./Chunk.js";
+
 export class District {
     
     name;
@@ -20,7 +22,6 @@ export class District {
     getChunk(chunkX, chunkY) {
         
         if (!this.hasChunk(chunkX, chunkY)) {
-            
             const chunk = new Chunk(chunkX, chunkY);
 
             this.generateChunk(chunk);
