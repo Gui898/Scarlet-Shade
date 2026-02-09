@@ -8,20 +8,15 @@ const TILE_COLORS = {
 
 export class RenderWorld {
 
-    render(ctx, worldManager, camera) {
-
+    renderLayer(ctx, worldManager, camera, layerName) {
+        
         const district = worldManager.currentDistrict;
-        if (!district) {
-            return;
-        }
-
-        ctx.clearRect(0, 0, camera.width, camera.height);
 
         const visibleChunks = this.getVisibleChunks(district, camera);
 
         for (const chunk of visibleChunks) {
             
-            this.drawChunk(ctx, chunk, camera);
+            this.drawChunkLayer(ctx, chunk, layerName);
         }
     }
     
@@ -46,26 +41,23 @@ export class RenderWorld {
         return chunksToRender;
     }
 
-    drawChunk(ctx, chunk, camera) {
+    drawChunkLayer(ctx, chunk, layerName) { 
 
         for (let y = 0; y < CHUNK_SIZE; y++) {
-
+            
             for (let x = 0; x < CHUNK_SIZE; x++) {
-
-                const tileId = chunk.getTile(x, y);
+                
+                const tileId = chunk.getTile(layerName, x, y);
 
                 if (tileId === 0) {
                     continue;
-                } 
+                }
 
                 const worldX = (chunk.position.x * CHUNK_SIZE + x) * TILE_SIZE;
                 const worldY = (chunk.position.y * CHUNK_SIZE + y) * TILE_SIZE;
-
-                const screenX = worldX - (camera.position.x || 0);
-                const screenY = worldY - (camera.position.y || 0);
-
+    
                 ctx.fillStyle = TILE_COLORS[tileId] || "#000000";
-                ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE);
+                ctx.fillRect(worldX, worldY, TILE_SIZE, TILE_SIZE);
             }
         }
     }

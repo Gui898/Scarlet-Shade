@@ -1,5 +1,6 @@
 import { CherryBlossomDistrict } from "../world/districts/CherryBlossomDistrict.js";
-import { CollisionManager } from "./CollisionManager.js";
+import { TILE_SIZE, CHUNK_SIZE } from "../utils/constants.js";
+import { tileIndexCollision, rectangleIntersectionCollision } from "../utils/collisionFunctions.js";
 
 export class WorldManager {
      
@@ -17,7 +18,6 @@ export class WorldManager {
         this.currentDistrict = cherryBlossomDistrict;
         this.connections = new Map();
     }
-
 
     // Method to add the connections on the World; 
     // Probably replaced on the future;
@@ -55,7 +55,7 @@ export class WorldManager {
                 height: connection.area.height
             };
 
-            if (CollisionManager.rectangleIntersectionCollision(rectangleOne, rectangleTwo)) {
+            if (rectangleIntersectionCollision(rectangleOne, rectangleTwo)) {
                 
                 this.changeDistrict(connection.targetDistrict, connection.spawn, player);
                 break;
@@ -77,5 +77,25 @@ export class WorldManager {
                 player.position.y = spawnPoint.y;
             }
         }
+    }
+
+    getTileAt(worldX, worldY, layerName) {
+        
+        const { chunkX, chunkY, localX, localY } = tileIndexCollision(
+            worldX, 
+            worldY, 
+            TILE_SIZE, 
+            CHUNK_SIZE
+        );
+
+        const district = this.currentDistrict;
+
+        if (district.hasChunk(chunkX, chunkY)) {
+
+            const chunk = district.getChunk(chunkX, chunkY);
+            return chunk.getTile(layerName, localX, localY);
+        }
+        
+        return 0;
     }
 }

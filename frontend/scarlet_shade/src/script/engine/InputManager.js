@@ -50,19 +50,23 @@ export class InputManager{
         }
     }
 
-    applyInputs(player) {
+    applyInputs(player, worldManager) {
 
         if (this.keys.left) {
-            player.moveLeft();
+
+            player.moveLeft(worldManager);
         }
         if (this.keys.right) {
-            player.moveRight();
+
+            player.moveRight(worldManager);
         } 
         if (this.keys.up) {
-            player.moveUp();
+
+            player.moveUp(worldManager);
         } 
         if (this.keys.down) {
-            player.moveDown();
+
+            player.moveDown(worldManager);
         }
     }
 

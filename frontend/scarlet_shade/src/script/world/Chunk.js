@@ -3,7 +3,7 @@ import { CHUNK_SIZE } from "../utils/constants.js";
 export class Chunk {
     
     position;
-    tiles;
+    layers;
     
     constructor(chunkX, chunky) {
         
@@ -12,16 +12,18 @@ export class Chunk {
             y: chunky
         }
 
-        this.tiles = Array.from({ length: CHUNK_SIZE }, () =>
-            new Array(CHUNK_SIZE).fill(0)
-        );
+        this.layers = {
+            ground: Array.from({ length: CHUNK_SIZE }, () => new Array(CHUNK_SIZE).fill(0)),
+            collision: Array.from({ length: CHUNK_SIZE }, () => new Array(CHUNK_SIZE).fill(0)),
+            overhead: Array.from({ length: CHUNK_SIZE }, () => new Array(CHUNK_SIZE).fill(0))
+        };
     }
 
-    getTile(x, y) {
-        return this.tiles[y][x];
+    getTile(layerName, x, y) {
+        return this.layers[layerName][y][x];
     }
 
-    setTile(x, y, id) {
-        this.tiles[y][x] = id;
+    setTile(layerName, x, y, id) {
+        this.layers[layerName][y][x] = id;
     }
 }

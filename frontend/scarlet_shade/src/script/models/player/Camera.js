@@ -23,6 +23,6 @@ export class Camera extends GameObject{
     }
 
     draw(ctx){
-        ctx.translate(-this.position.x, -this.position.y);
+        ctx.translate(Math.floor(-this.position.x), Math.floor(-this.position.y));
     }
 }

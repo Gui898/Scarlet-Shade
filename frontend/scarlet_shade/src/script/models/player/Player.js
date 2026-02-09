@@ -1,27 +1,53 @@
 import { GameObject } from "../GameObject";
+import { CollisionManager } from "../../engine/CollisionManager.js";
 
 export class Player extends GameObject{
     
     speed;
 
     constructor(width, height, posX, posY, speed){
+
         super(width, height, posX, posY);
+        
         this.speed = speed;
     }
 
-    moveUp(){
-        this.position.y -= this.speed;
+    moveUp(worldManager){
+        
+        const nextY = this.position.y - this.speed;
+
+        if (!CollisionManager.checkMapCollision(this.position.x, nextY, this.width, this.height, worldManager)) {
+            
+            this.position.y = nextY;
+        }
     }
 
-    moveDown(){
-        this.position.y += this.speed;
+    moveDown(worldManager){
+        
+        const nextY = this.position.y + this.speed;
+
+        if (!CollisionManager.checkMapCollision(this.position.x, nextY, this.width, this.height, worldManager)) {
+            
+            this.position.y = nextY;
+        }
     }
 
-    moveLeft(){
-        this.position.x -= this.speed;
+    moveLeft(worldManager){
+        
+        const nextX = this.position.x - this.speed;
+
+        if (!CollisionManager.checkMapCollision(nextX, this.position.y, this.width, this.height, worldManager)) {
+            
+            this.position.x = nextX;
+        }
     }
 
-    moveRight(){
-        this.position.x += this.speed;
+    moveRight(worldManager){
+        
+        const nextX = this.position.x + this.speed;
+        
+        if (!CollisionManager.checkMapCollision(nextX, this.position.y, this.width, this.height, worldManager)) {
+            this.position.x = nextX;
+        }
     }
 }

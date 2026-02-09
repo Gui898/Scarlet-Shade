@@ -1,13 +1,21 @@
 export class CollisionManager {
 
-    static rectangleIntersectionCollision(rectangleOne, rectangleTwo) {
+    static checkMapCollision(x, y, width, height, worldManager) {
 
-        if (rectangleOne.x < rectangleTwo.x + rectangleTwo.width &&
-            rectangleOne.x + rectangleOne.width > rectangleTwo.x &&
-            rectangleOne.y < rectangleTwo.y + rectangleTwo.height &&
-            rectangleOne.y + rectangleOne.height > rectangleTwo.y) {
+        const points = [
+            { x: x + 2, y: y + 2 },
+            { x: x + width - 2, y: y + 2 },
+            { x: x + 2, y: y + height - 2 },
+            { x: x + width - 2, y: y + height - 2 }
+        ];
+
+        for (let point of points) {
+
+            const tileId = worldManager.getTileAt(point.x, point.y, "collision");
             
-            return true;
+            if (tileId > 0) {
+                return true;
+            } 
         }
         return false;
     }

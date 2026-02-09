@@ -15,15 +15,19 @@ export class CherryBlossomDistrict extends District {
         for (let y = 0; y < CHUNK_SIZE; y++) {
             for (let x = 0; x < CHUNK_SIZE; x++) {
 
+                chunk.setTile("ground", x, y, 1);
+
+                // 2. APENAS no chunk (0,0) colocamos um "telhado" rosa
                 if (chunkX === 0 && chunkY === 0) {
-                    chunk.setTile(x, y, (x + y) % 2 === 0 ? 1 : 3);
-                } 
-                else {
-                    chunk.setTile(x, y, 1);
+                    // Vamos colocar overhead apenas em uma parte para você ver a diferença
+                    if (x > 5 && y > 5) {
+                        chunk.setTile("overhead", x, y, 3); 
+                    }
                 }
 
+                // 3. Colocamos uma parede azul para testar a camada de colisão
                 if (x === 8 && chunkX === 0) {
-                    chunk.setTile(x, y, 2);
+                    chunk.setTile("collision", x, y, 2);
                 }
             }
         }

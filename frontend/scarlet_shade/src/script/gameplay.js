@@ -37,6 +37,7 @@ export function startGame(canvas) {
 }
 
 const gameloop = (canvas, ctx) => {
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const player = EntityManager.entities.player;
@@ -44,12 +45,11 @@ const gameloop = (canvas, ctx) => {
 
     camera.updateCamera(player);
     worldManager.checkConnection(player);
-    inputManager.applyInputs(player);
+    inputManager.applyInputs(player, worldManager);
     
     ctx.save();
     
-    renderWorld.render(ctx, worldManager, camera);
-    EntityManager.drawEntities(ctx);
+    EntityManager.drawEntities(ctx, renderWorld, worldManager);
     
     ctx.restore();
 
