@@ -1,6 +1,5 @@
 import { CHUNK_SIZE } from "../utils/constants.js";
 
-
 export class Chunk {
     
     position;
