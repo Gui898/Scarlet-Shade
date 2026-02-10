@@ -4,31 +4,42 @@ import { CHUNK_SIZE } from "../../utils/constants.js";
 export class CherryBlossomDistrict extends District {
 
     constructor() {
-        super("Cherry Blossom District");
+        super("Cherry Blossom District", "/maps/CherryBlossomDistrict.json");
     }
 
     generateChunk(chunk) {
-        
         const chunkX = chunk.position.x;
         const chunkY = chunk.position.y;
 
+        const layers = ["ground", "colision", "overhead"];
+
         for (let y = 0; y < CHUNK_SIZE; y++) {
             for (let x = 0; x < CHUNK_SIZE; x++) {
+                const globalX = (chunkX * CHUNK_SIZE) + x;
+                const globalY = (chunkY * CHUNK_SIZE) + y;
 
-                chunk.setTile("ground", x, y, 1);
+                if (globalX >= this.mapJson.worldGridWidth || globalY >= this.mapJson.worldGridHeight) {
+                    continue;
+                }
 
-                // 2. APENAS no chunk (0,0) colocamos um "telhado" rosa
-                if (chunkX === 0 && chunkY === 0) {
-                    // Vamos colocar overhead apenas em uma parte para você ver a diferença
-                    if (x > 5 && y > 5) {
-                        chunk.setTile("overhead", x, y, 3); 
+                const tileIndex = (globalY * this.mapJson.worldGridWidth) + globalX;
+
+                layers.forEach(layerName => {
+                    // --- AQUI ENTRA A PROTEÇÃO ---
+                    const layerData = this.mapJson.data[layerName];
+
+                    // Verificamos: 
+                    // 1. Se a camada existe no JSON (layerData)
+                    // 2. Se o ID do tile não é zero (vazio)
+                    if (layerData && layerData[tileIndex] !== undefined) {
+                        const tileId = layerData[tileIndex];
+
+                        if (tileId !== 0) {
+                            chunk.setTile(layerName, x, y, tileId);
+                        }
                     }
-                }
-
-                // 3. Colocamos uma parede azul para testar a camada de colisão
-                if (x === 8 && chunkX === 0) {
-                    chunk.setTile("collision", x, y, 2);
-                }
+                    // -----------------------------
+                });
             }
         }
     }

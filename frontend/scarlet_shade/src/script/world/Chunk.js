@@ -1,29 +1,34 @@
 import { CHUNK_SIZE } from "../utils/constants.js";
 
 export class Chunk {
-    
-    position;
-    layers;
-    
-    constructor(chunkX, chunky) {
-        
-        this.position = {
-            x: chunkX,
-            y: chunky
-        }
-
+    constructor(x, y) {
+        this.position = { x, y };
         this.layers = {
-            ground: Array.from({ length: CHUNK_SIZE }, () => new Array(CHUNK_SIZE).fill(0)),
-            collision: Array.from({ length: CHUNK_SIZE }, () => new Array(CHUNK_SIZE).fill(0)),
-            overhead: Array.from({ length: CHUNK_SIZE }, () => new Array(CHUNK_SIZE).fill(0))
+            ground: this.createEmptyGrid(),
+            colision: this.createEmptyGrid(),
+            overhead: this.createEmptyGrid()
         };
     }
 
-    getTile(layerName, x, y) {
-        return this.layers[layerName][y][x];
+    createEmptyGrid() {
+        // Cria uma matriz CHUNK_SIZE x CHUNK_SIZE preenchida com 0
+        return Array.from({ length: CHUNK_SIZE }, () => 
+            new Array(CHUNK_SIZE).fill(0)
+        );
     }
 
-    setTile(layerName, x, y, id) {
-        this.layers[layerName][y][x] = id;
+    setTile(layerName, x, y, tileId) {
+        if (this.layers[layerName]) {
+            this.layers[layerName][y][x] = tileId;
+        } else {
+            console.warn(`Camada ${layerName} não existe no Chunk.`);
+        }
+    }
+
+    getTile(layerName, x, y) {
+        if (this.layers[layerName]) {
+            return this.layers[layerName][y][x];
+        }
+        return 0;
     }
 }

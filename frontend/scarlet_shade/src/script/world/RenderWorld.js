@@ -9,19 +9,18 @@ const TILE_COLORS = {
 export class RenderWorld {
 
     renderLayer(ctx, worldManager, camera, layerName) {
-        
+
         const district = worldManager.currentDistrict;
 
         const visibleChunks = this.getVisibleChunks(district, camera);
 
         for (const chunk of visibleChunks) {
-            
+
             this.drawChunkLayer(ctx, chunk, layerName);
         }
     }
-    
+
     getVisibleChunks(district, camera) {
-        
         const chunksToRender = [];
         const chunkSizePx = CHUNK_SIZE * TILE_SIZE;
 
@@ -31,22 +30,22 @@ export class RenderWorld {
         const endChunkY = Math.floor((camera.position.y + camera.height) / chunkSizePx);
 
         for (let chunkX = startChunkX; chunkX <= endChunkX; chunkX++) {
-            
             for (let chunkY = startChunkY; chunkY <= endChunkY; chunkY++) {
-
-                chunksToRender.push(district.getChunk(chunkX, chunkY));
+                const chunk = district.getChunk(chunkX, chunkY);
+                if (chunk) { // Só adiciona se o chunk existir/estiver carregado
+                    chunksToRender.push(chunk);
+                }
             }
         }
-
         return chunksToRender;
     }
 
-    drawChunkLayer(ctx, chunk, layerName) { 
+    drawChunkLayer(ctx, chunk, layerName) {
 
         for (let y = 0; y < CHUNK_SIZE; y++) {
-            
+
             for (let x = 0; x < CHUNK_SIZE; x++) {
-                
+
                 const tileId = chunk.getTile(layerName, x, y);
 
                 if (tileId === 0) {
@@ -55,7 +54,7 @@ export class RenderWorld {
 
                 const worldX = (chunk.position.x * CHUNK_SIZE + x) * TILE_SIZE;
                 const worldY = (chunk.position.y * CHUNK_SIZE + y) * TILE_SIZE;
-    
+
                 ctx.fillStyle = TILE_COLORS[tileId] || "#000000";
                 ctx.fillRect(worldX, worldY, TILE_SIZE, TILE_SIZE);
             }
