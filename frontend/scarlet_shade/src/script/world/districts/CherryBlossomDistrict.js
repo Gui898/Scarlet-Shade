@@ -11,7 +11,7 @@ export class CherryBlossomDistrict extends District {
         const chunkX = chunk.position.x;
         const chunkY = chunk.position.y;
 
-        const layers = ["ground", "colision", "overhead"];
+        const layers = ["ground", "collision", "overhead"];
 
         for (let y = 0; y < CHUNK_SIZE; y++) {
             for (let x = 0; x < CHUNK_SIZE; x++) {

@@ -5,7 +5,7 @@ export class Chunk {
         this.position = { x, y };
         this.layers = {
             ground: this.createEmptyGrid(),
-            colision: this.createEmptyGrid(),
+            collision: this.createEmptyGrid(),
             overhead: this.createEmptyGrid()
         };
     }

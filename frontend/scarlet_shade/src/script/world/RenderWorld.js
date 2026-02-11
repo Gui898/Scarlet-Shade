@@ -1,9 +1,22 @@
 import { CHUNK_SIZE, TILE_SIZE } from "../utils/constants.js";
 
 const TILE_COLORS = {
-    1: "green",
-    2: "blue",
-    3: "red"
+    ground: {
+        1: "#96FF37",
+        2: "#F4C4A4",
+        3: "#9E7166"
+    },
+    collision: {
+        3: "#E74BA1",
+        4: "#FF3838",
+        5: "#39ACDE",
+        6: "#626669",
+        7: "#9A4835",
+        8: "#A22633"
+    },
+    overhead: {
+        3: "#A22633"
+    }
 };
 
 export class RenderWorld {
@@ -41,22 +54,21 @@ export class RenderWorld {
     }
 
     drawChunkLayer(ctx, chunk, layerName) {
-
         for (let y = 0; y < CHUNK_SIZE; y++) {
-
             for (let x = 0; x < CHUNK_SIZE; x++) {
 
                 const tileId = chunk.getTile(layerName, x, y);
 
-                if (tileId === 0) {
-                    continue;
-                }
+                if (tileId === 0) continue;
 
                 const worldX = (chunk.position.x * CHUNK_SIZE + x) * TILE_SIZE;
                 const worldY = (chunk.position.y * CHUNK_SIZE + y) * TILE_SIZE;
 
-                ctx.fillStyle = TILE_COLORS[tileId] || "#000000";
-                ctx.fillRect(worldX, worldY, TILE_SIZE, TILE_SIZE);
+                // Busca a cor dentro da camada específica
+                const layerColors = TILE_COLORS[layerName];
+                ctx.fillStyle = (layerColors && layerColors[tileId]) ? layerColors[tileId] : "#000000";
+
+                ctx.fillRect(worldX, worldY, TILE_SIZE + 1, TILE_SIZE + 1);
             }
         }
     }
