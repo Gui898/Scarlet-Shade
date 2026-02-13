@@ -1,5 +1,6 @@
 import { GameObject } from "../GameObject";
 import { CollisionManager } from "../../engine/CollisionManager.js";
+import { euclideanDistance } from "../../utils/mathFunctions.js";
 
 export class Player extends GameObject{
     
@@ -12,42 +13,47 @@ export class Player extends GameObject{
         this.speed = speed;
     }
 
-    moveUp(worldManager){
-        
-        const nextY = this.position.y - this.speed;
+    attemptMove(deltaX, deltaY, worldManager) {
 
-        if (!CollisionManager.checkMapCollision(this.position.x, nextY, this.width, this.height, worldManager)) {
-            
-            this.position.y = nextY;
+        const steps = Math.ceil(euclideanDistance(deltaX, deltaY));
+        
+        const stepX = deltaX / steps;
+        const stepY = deltaY / steps;
+
+        for (let i = 0; i < steps; i++) {
+
+            const nextX = this.position.x + stepX;
+            const nextY = this.position.y + stepY;
+
+            if (!CollisionManager.checkMapCollision(nextX, nextY, this.width, this.height, worldManager)) {
+                
+                this.position.x = nextX;
+                this.position.y = nextY;
+            } 
+            else {
+                
+                break;
+            }
         }
     }
 
-    moveDown(worldManager){
-        
-        const nextY = this.position.y + this.speed;
+    moveUp(worldManager) {
 
-        if (!CollisionManager.checkMapCollision(this.position.x, nextY, this.width, this.height, worldManager)) {
-            
-            this.position.y = nextY;
-        }
+        this.attemptMove(0, -this.speed, worldManager);
     }
 
-    moveLeft(worldManager){
-        
-        const nextX = this.position.x - this.speed;
+    moveDown(worldManager) {
 
-        if (!CollisionManager.checkMapCollision(nextX, this.position.y, this.width, this.height, worldManager)) {
-            
-            this.position.x = nextX;
-        }
+        this.attemptMove(0, this.speed, worldManager);
     }
 
-    moveRight(worldManager){
-        
-        const nextX = this.position.x + this.speed;
-        
-        if (!CollisionManager.checkMapCollision(nextX, this.position.y, this.width, this.height, worldManager)) {
-            this.position.x = nextX;
-        }
+    moveLeft(worldManager) {
+
+        this.attemptMove(-this.speed, 0, worldManager);
+    }
+
+    moveRight(worldManager) {
+
+        this.attemptMove(this.speed, 0, worldManager);
     }
 }

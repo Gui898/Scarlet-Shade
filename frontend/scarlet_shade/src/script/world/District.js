@@ -5,21 +5,30 @@ export class District {
     name;
     chunks;
     mapJson;
+    atlasJson;
     isLoaded = false;
 
-    constructor(name, mapJson) {
+    constructor(name, mapJson, atlasJson) {
+
         this.name = name;
         this.chunks = new Map();
-        this.loadMap(mapJson);
+        this.loadMap(mapJson, atlasJson);
     }
 
-    async loadMap(mapPath) {
+    async loadMap(mapPath, atlasPath) {
+
         try {
-            const response = await fetch(mapPath);
-            this.mapJson = await response.json();
+
+            const responseMap = await fetch(mapPath);
+            const responseAtlas = await fetch(atlasPath);
+
+            this.mapJson = await responseMap.json();
+            this.atlasJson = await responseAtlas.json();
             this.isLoaded = true;
-        } catch (error) {
-            console.error("Erro ao carregar o mapa:", error);
+        } 
+        catch (error) {
+
+            console.error("Error Loading Map or Atlas:", error);
         }
     }
 
@@ -33,7 +42,9 @@ export class District {
 
     getChunk(chunkX, chunkY) {
 
-        if (!this.isLoaded || chunkX < 0 || chunkY < 0) return null;
+        if (!this.isLoaded) {
+            return null;
+        }
 
         if (!this.hasChunk(chunkX, chunkY)) {
             const chunk = new Chunk(chunkX, chunkY);
@@ -47,6 +58,7 @@ export class District {
     }
 
     generateChunk(chunk) {
+
         throw new Error("generateChunk must be implemented");
     }
 }

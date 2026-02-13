@@ -1,31 +1,7 @@
 {
 	"worldGridWidth": 70,
 	"worldGridHeight": 58,
-	"layers": [
-		{
-			"identifier": "overhead",
-			"intGridValues": [{ "value": 3, "color": "#A22633"}]
-		},
-		{
-			"identifier": "collision",
-			"intGridValues": [
-				{"value": 3, "color": "#E74BA1"},
-				{"value": 4, "color": "#FF3838"},
-				{"value": 5, "color": "#39ACDE"},
-				{"value": 6, "color": "#626669"},
-				{"value": 7, "color": "#9A4835"},
-				{"value": 8, "color": "#A22633"}
-			]
-		},
-		{
-			"identifier": "ground",
-			"intGridValues": [
-				{"value": 1, "color": "#96FF37"},
-				{"value": 2, "color": "#F4C4A4"},
-				{"value": 3, "color": "#9E7166"}
-			]
-		}
-	], 
+	
 	"data": {
 		"overhead": [
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

@@ -6,3 +6,8 @@ export function lerp(a, b, t) {
     }
     return a + (b - a) * t
 }
+
+export function euclideanDistance(a, b) {
+
+    return Math.sqrt(a * a + b * b)
+}

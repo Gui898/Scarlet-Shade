@@ -1,7 +1,9 @@
 export class CollisionManager {
     static checkMapCollision(x, y, width, height, worldManager) {
-        // Proteção: se o mapa não carregou, não permite mover (ou ignora colisão)
-        if (!worldManager.currentDistrict || !worldManager.currentDistrict.isLoaded) return false;
+
+        if (!worldManager.currentDistrict || !worldManager.currentDistrict.isLoaded) {
+            return false;
+        }
 
         const points = [
             { x: x + 1, y: y + 1 },
